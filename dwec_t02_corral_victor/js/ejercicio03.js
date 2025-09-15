@@ -4,18 +4,16 @@ let correctYear = false;
 let respuesta;
 let continuar = true;
 
-preguntarYear();
-
-while (continuar) {
+do {
+    preguntarYear();
     respuesta = prompt("¿Quieres comprobar un año? S o N: ")
     if (respuesta == "S" || respuesta == "s"){
         preguntarYear();
     } else {
         continuar = false;
     }
-}
 
-
+} while (condition);
 
 
 
@@ -53,12 +51,22 @@ function comprobarYear(year){
 function esBisiesto(year){
     if (year%400 == 0){
         alert("Es bisiesto");
-    } else if (year%100 == 0 && year%400 != 0){
+    } else if (year%100 == 0){
         alert("No es bisiesto");
     } else if (year%4 == 0){
         alert("Es bisiesto");
     } else {
         alert("No es bisiesto")
     }
+
+    /*
+        SOLUCION RESUMIDA
+
+    if (year%400== 0 || year%100 != 0 && year%4 == 0){
+        alert("Es bisiesto");
+    } else {
+        alert("No es bisiesto");
+    }
+        */
 
 }
