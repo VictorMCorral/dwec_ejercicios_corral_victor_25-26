@@ -20,8 +20,9 @@ while (continuar) {
 
 
 function preguntarYear(){
+    correctYear = false;
     while (!correctYear) {
-        year = prompt("Introduce un año entre 0 y 2025: ")
+        year = Number(prompt("Introduce un año entre 0 y 2025: "));
         correctYear = comprobarYear(year);
         if (!correctYear){
             alert("El año no es correcto");
@@ -36,7 +37,10 @@ function preguntarYear(){
 
 function comprobarYear(year){
     let esCorrecto;
-    if (year >= 0 && year <= 2025){
+    let dateActual = new Date();
+    let yearActual = dateActual.getFullYear();
+    console.log(yearActual);
+    if (year >= 0 && year <= yearActual){
         esCorrecto = true;
         console.log("Es correcto")
     } else {
@@ -47,11 +51,11 @@ function comprobarYear(year){
 }
 
 function esBisiesto(year){
-    if (year%4 == 0){
+    if (year%400 == 0){
         alert("Es bisiesto");
     } else if (year%100 == 0 && year%400 != 0){
         alert("No es bisiesto");
-    } else if (year%400 == 0){
+    } else if (year%4 == 0){
         alert("Es bisiesto");
     } else {
         alert("No es bisiesto")
