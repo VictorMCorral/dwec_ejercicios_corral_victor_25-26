@@ -15,13 +15,15 @@ let num2 = Number(prompt("Introduce otro numero entero: "))
 let contador = 0;
 let menor = calcular_menor(num1, num2);
 let mayor = calcular_mayor(num1, num2);
-
+const numeros = [];
 
 for (let i = menor; i < mayor; i++){
-    console.log(i)
+    numeros[i] = i
+    //console.log(i)
     contador ++
 }
 console.log("Hay " + contador + " entre " + menor + " y " + mayor);
+console.table(numeros);
 
 
 
