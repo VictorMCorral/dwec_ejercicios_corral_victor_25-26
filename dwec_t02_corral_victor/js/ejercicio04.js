@@ -1,37 +1,19 @@
 console.log("T02 - Ejercicio 03");
 let year = "";
 let correctYear = false;
-let respuesta;
-let continuar = true;
 
-preguntarYear();
 
-while (continuar) {
-    respuesta = prompt("¿Quieres comprobar un año? S o N: ")
-    if (respuesta == "S" || respuesta == "s"){
-        preguntarYear();
+while (!correctYear) {
+    year = prompt("Introduce un año entre 0 y 2025: ")
+    correctYear = comprobarYear(year);
+    if (!correctYear){
+        alert("El año no es correcto");
     } else {
-        continuar = false;
+        esBisiesto(year);
     }
-}
-
-
-
-
-
-function preguntarYear(){
-    while (!correctYear) {
-        year = prompt("Introduce un año entre 0 y 2025: ")
-        correctYear = comprobarYear(year);
-        if (!correctYear){
-            alert("El año no es correcto");
-        } else {
-            esBisiesto(year);
-        } 
-    }
+    
 
 }
-
 
 
 function comprobarYear(year){

@@ -8,9 +8,8 @@ while (isNaN(num)){
     if (isNaN(num)){
         alert("No has introducido un numero")
     } else {
-        num = Number(num);
+        num = parseInt(num);
     }
-
 }
 
 

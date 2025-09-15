@@ -1,21 +1,23 @@
 console.log("T02 - Ejercicio 01");
 
 let contenido = "";
+let calificacion; 
+
 
 let num1 = Number(prompt('Introduce la primera nota: '));
 contenido += "Nota 1: " + num1 + "<br>";
-console.log(num1);
+console.log("Nota 1:" + num1);
 
 let num2 = Number(prompt('Introduce la Segunda nota: '));
 contenido += "Nota 2: " + num2 + "<br>";
-console.log(num2);
+console.log("Nota 2: " + num2);
 
 let num3 = Number(prompt('Introduce la tercera nota: '));
 contenido += "Nota 3: " + num3 + "<br>";
-console.log(num3);
+console.log("Nota 3: " + num3);
 
-let result = (num1 + num2 + num3)/3;
-let calificacion; 
+let result = (num1 + num2 + num3) / 3;
+
 
 if (result < 5 && result > 0) {
     calificacion = "SUSPENSO";
