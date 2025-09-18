@@ -9,26 +9,32 @@ Recuerda: El factorial de un número n es el producto de todos los números natu
 Contempla qué debe ocurrir si el número es 0 o 1 y qué debe ocurrir si el número es negativo.
 */
 let num1;
-
+let factorial;
 
 do {
     num1 = Number(prompt("Introduce un numero: "));
-    if (num1 <= 0) {
-        alert("El numero es 0 o negativo, no se puede calcular el factorial.")
+    if (num1 < 0) {
+        alert("El numero es negativo, no se puede calcular el factorial.")
     } else if (!Number.isInteger(num1)){
         alert("No has introducido un numero.")
     }
 
-} while (num1 <= 0 || !Number.isInteger(num1));
+} while (num1 < 0 || !Number.isInteger(num1));
 
-let factorial = calcularFactorial(num1);
+
+
+if (num1 == 0){
+    factorial = 1; 
+} else {
+    factorial = calcularFactorial(num1);
+}
 
 alert("El factorial de " + num1 + " es " + factorial);
 
 
 function calcularFactorial(num1) {
     let resultado = num1;
-    let auxnum1 = num1;
+
     for (let i = num1; i > 0; i--){
         if (i > 1) {
             console.log(resultado + " x " + (i-1) );
