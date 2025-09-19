@@ -34,7 +34,7 @@ do {
         (turnoTrabajado.toLowerCase() == "t" ||
             turnoTrabajado.toLowerCase() == "m" ||
             turnoTrabajado.toLowerCase() == "n")) {
-                p1 = new Person(nombre, horasTrabajadas, turnoTrabajado);
+                p1 = new Person(nombre, horasTrabajadas, turnoTrabajado.toLowerCase());
                 p1.calcularSalario();
                 trabajadores.push(p1);
     } else {
