@@ -31,18 +31,30 @@ do {
     horasTrabajadas = prompt("Introduce las horas trabajadas: ");
     turnoTrabajado = prompt("Introduce el turno realizado:\nMañanas (m), Tardes (t) o Noches (n): ")
 
-    p1 = new Person(nombre, horasTrabajadas, turnoTrabajado);
-    p1.calcularSalario();
-    trabajadores.push(p1);
+    if (Number.isInteger(horasTrabajadas) ||
+        (turnoTrabajado.toLowerCase == "t" ||
+            turnoTrabajado.toLowerCase == "m" ||
+            turnoTrabajado.toLowerCase == "n")) {
+                p1 = new Person(nombre, horasTrabajadas, turnoTrabajado);
+                p1.calcularSalario();
+                trabajadores.push(p1);
+    } else {
+        alert("Los datos introducidos son erroneos");
+    }
+
 
 } while (confirm("¿Quieres agregar otro trabajador?"));
 
-for (let i = 0; i< trabajadores.length; i++){
+for (let i = 0; i < trabajadores.length; i++) {
     salariosTotal += trabajadores[i].salario;
 }
 
-console.log("Los salarios totales abonados son: " + salariosTotal);
-console.table(trabajadores);
+console.log("Los salarios totales abonados son: " + salariosTotal.toFixed(2));
+for (let i = 0; i < trabajadores.length; i++) {
+    console.log(trabajadores[i].nombre + " tiene un salario de: " + trabajadores[i].salario.toFixed(2));
+}
+
+//console.table(trabajadores);
 
 
 
@@ -50,9 +62,9 @@ function Person(nombre, horasTrabajadas, turno) {
     this.nombre = nombre;
     this.horasTrabajadas = horasTrabajadas;
     this.turno = turno;
-    this.salario 
-    
-    this.calcularSalario = function (){
+    this.salario;
+
+    this.calcularSalario = function () {
         if (turno == "m") {
             this.salario = this.horasTrabajadas * 45;
         } else if (turno == "t") {
@@ -61,12 +73,16 @@ function Person(nombre, horasTrabajadas, turno) {
             this.salario = this.horasTrabajadas * 50;
         }
 
+        this.salario = parseFloat(this.salario.toFixed(2));
+
         if (this.salario < 600) {
             this.salario -= this.salario * 0.08;
         } else if (this.salario >= 600 && this.salario <= 1000) {
             this.salario -= this.salario * 0.10;
         } else if (this.salario > 1000) {
-            this.salario -= this.salario * 0.08;
+            this.salario -= this.salario * 0.12;
         }
+
+
     }
 }

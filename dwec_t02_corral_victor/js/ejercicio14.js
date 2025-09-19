@@ -9,7 +9,7 @@ let num1;
 
 do {
     num1 = prompt("Introduce un numero entero: ");
-} while (isNaN(num1));
+} while (isNaN(num1) || num1 <= 0);
 
 
 if (esAbundante(num1)){
