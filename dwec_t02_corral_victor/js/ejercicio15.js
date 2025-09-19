@@ -18,7 +18,6 @@ Antes de finalizar la aplicación mostrará el importe total de salarios abonado
 El script se escribirá usando tantas funciones como sea posible con el fin de poder reutilizar la máxima cantidad de código en un futuro.
 */
 
-let salir = false;
 let p1;
 let nombre;
 let horasTrabajadas;
@@ -32,9 +31,9 @@ do {
     turnoTrabajado = prompt("Introduce el turno realizado:\nMañanas (m), Tardes (t) o Noches (n): ")
 
     if (Number.isInteger(horasTrabajadas) ||
-        (turnoTrabajado.toLowerCase == "t" ||
-            turnoTrabajado.toLowerCase == "m" ||
-            turnoTrabajado.toLowerCase == "n")) {
+        (turnoTrabajado.toLowerCase() == "t" ||
+            turnoTrabajado.toLowerCase() == "m" ||
+            turnoTrabajado.toLowerCase() == "n")) {
                 p1 = new Person(nombre, horasTrabajadas, turnoTrabajado);
                 p1.calcularSalario();
                 trabajadores.push(p1);
