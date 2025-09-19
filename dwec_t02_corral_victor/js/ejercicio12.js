@@ -6,7 +6,7 @@ En primer lugar se calculará el interés simple.
 
 Después se preguntará al usuario si quiere calcular el interés compuesto. En ese caso, le mostrará el interés compuesto.
 
-Todos los resultados se mostrarán con 2 decimales usando toFixed.
+To_dos los resultados se mostrarán con 2 decimales usando toFixed.
 
 Se tiene que comprobar si el usuario ha introducido un número real válido. En el caso contrario, se le volverá a pedir el número hasta que lo introduzca correctamente.
 
