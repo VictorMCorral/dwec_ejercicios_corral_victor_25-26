@@ -7,6 +7,16 @@ No puedes usar patrones.
 */
 
 
+let textoIntroducido = prompt("Introduce una cadena de texto: ");
+
+let texto = textoIntroducido.toLowerCase(textoIntroducido).split(" ");
+
+console.log("Has introducido \"" + textoLimpio + "\"");
+
+console.log("Tu cadena tiene la siguiente cantidad de palabras: " + texto.length)
+
+
+/* Version compleja agregando varios separadores sin expresiones regulares
 let texto = prompt("Introduce una cadena de texto: ");
 let separadores = [",", ";", "?", "¿", ".", ":"]; //He tenido que quitar el " " porque agregaba al array ""
 
@@ -24,7 +34,8 @@ console.log(partes);
 
 let textoLimpio = "";
 
-//Los bucles anidados forEach dan error con los espacios, por eso lo limpio aqui abajo
+/*Los bucles anidados forEach dan error con los espacios, por eso lo limpio aqui abajo*/
+/*
 for (let i = 0; i< partes.length; i++){
     textoLimpio = textoLimpio.concat(partes[i]);
 }
@@ -34,4 +45,4 @@ textoLimpio = textoLimpio.split(" ");
 console.log(textoLimpio);
 
 console.log("Tu cadena tiene la siguiente cantidad de palabras: " + textoLimpio.length);
-
+*/
