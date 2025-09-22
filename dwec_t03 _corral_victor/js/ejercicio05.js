@@ -1,4 +1,4 @@
-console.log("T03 - Ejercicio 04");
+console.log("T03 - Ejercicio 05");
 /*
 Dada una cadena de texto usando el siguiente formato: "1, 2, 3, 4". 
 Primero elimina todos los espacios en blanco, después convierte la

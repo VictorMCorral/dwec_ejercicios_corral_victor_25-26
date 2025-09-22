@@ -13,10 +13,18 @@ let texto = textoIntroducido.toLowerCase(textoIntroducido).split(" ");
 let palabraComprobar = palabraIntroducida.toLowerCase(palabraIntroducida);
 let contador = 0;
 
-for (let palabra of texto){
-    if (palabra == palabraComprobar){
-        contador ++;
+if (texto.includes(palabraComprobar)){
+    for (let palabra of texto){
+        if (palabra == palabraComprobar){
+            contador ++;
+        }
     }
+    /*const iterator = texto.matchAll(palabraComprobar);
+    contador = Array.from(iterator).length;*/
+    
+
+} else {
+    alert("La palabra no existe")
 }
 
 console.log("El texto que has introducido es: \"" + textoIntroducido + "\" y la palabra a comprobar es \"" + palabraIntroducida + "\"");
