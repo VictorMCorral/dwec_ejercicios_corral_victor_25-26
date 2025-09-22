@@ -30,21 +30,21 @@ if (anio < 0) {
 let fechaIntroducida = prompt("Introduce una fecha: ");
 let fechaModificada = ""
 
-if (horaIntroducida.includes("/")) {
-    horaModificada = horaIntroducida.split("/");
-} else if (horaIntroducida.includes(" ")) {
-    horaModificada = horaIntroducida.split("-");
-} else if (horaIntroducida.includes("-")){
-    horaModificada = horaIntroducida.split("-");
+if (fechaIntroducida.includes("/")) {
+    fechaModificada = fechaIntroducida.split("/");
+} else if (fechaIntroducida.includes(" ")) {
+    fechaModificada = fechaIntroducida.split(" ");
+} else if (fechaIntroducida.includes("-")){
+    fechaModificada = fechaIntroducida.split("-");
 } else {
     alert("El formato introducido no es valido");
 }
 
 
-let fechaInvertida = horaModificada[2] + "-" + horaModificada[1] + "-" + horaModificada[0];
+let fechaInvertida = fechaModificada[2] + "-" + fechaModificada[1] + "-" + fechaModificada[0];
 
 let fecha = new Date(fechaInvertida);
-
+console.log("Fecha introducida: " + fechaIntroducida)  
 
 // get.Time() devuelve el timestamp en milisegundos si la fecha no es valida devuelve NaN
 
