@@ -20,6 +20,6 @@ console.log("El numero premiado es: " + numeroCompleto)
 
 function generar_numeros_entre_0_9() {
     let num = 0;
-    num = parseInt(Math.random() * 9);
+    num = Math.floor(Math.random() * 10);
     return num;
 }
