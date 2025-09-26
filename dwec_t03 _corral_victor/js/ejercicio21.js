@@ -13,4 +13,25 @@ La expresión regular debes crear usando el método:
 Puedes usar una IA para generar el patrón, entendiendo dicho patrón.
 */
 
+let numeroTelefono = prompt("Introduce un numero de telefono: ");
 
+if (validaTelefono(numeroTelefono)){
+    console.log("Es un telefono movil o fijo valido")
+} else {
+    console.log("No es un telefono valido")
+}
+
+
+
+function validaTelefono(telefono){
+    let regexFijos = new RegExp(/^[89]\d{8}$/);
+    let regexMovil = new RegExp(/^[67]\d{8}$/);
+
+
+    if (regexFijos.test(telefono) || regexMovil.test(telefono)){
+        return true;
+    } else {
+        return false;
+    }
+
+};
