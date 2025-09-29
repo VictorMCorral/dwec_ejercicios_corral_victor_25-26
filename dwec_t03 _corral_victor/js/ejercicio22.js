@@ -15,7 +15,6 @@ Puedes usar una IA para generar el patrón y el segundo algoritmo de comprobaci�
 */
 
 
-// dato % 23 = resto -->  letras = "TRWAGMYFPDXBNJZSQVHLCKE";
 let dato = prompt("Introduce tu dni o cif valido: ");
 
 
@@ -24,6 +23,8 @@ if (validarDNIyCIF(dato)) {
 } else {
     console.log("El dato introducido no es DNI o CIF válido.");
 }
+
+
 
 function validarDNIyCIF(dato) {
     const dniRegex = /^[0-9]{8}[A-Z]$/i;
@@ -39,6 +40,8 @@ function validarDNIyCIF(dato) {
 
 }
 
+
+// dato % 23 = resto -->  letras = "TRWAGMYFPDXBNJZSQVHLCKE";
 function validarDNI(dato) {
     let letras = "TRWAGMYFPDXBNJZSQVHLCKE"
     let letra = dato.substring(dato.length - 1).toUpperCase();
@@ -70,7 +73,7 @@ function validarCIF(dato) {
     for (let i = 0; i < medio.length; i++) {
         let digito = parseInt(medio.substring(i, i + 1));
 
-        if (i % 2 === 0) { // posiciones impares
+        if (i % 2 !== 0) { // posiciones impares
             let temp = digito * 2;
             digitosImpares += Math.floor(temp / 10) + (temp % 10);
         } else { // posiciones pares
@@ -101,5 +104,7 @@ function validarCIF(dato) {
         console.log("No es un CIF válido");
         return false;
     }
+
+    //todo FALTA POR CONTROLAR LA "X" Y LA "P"
 }
 
