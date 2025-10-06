@@ -37,13 +37,14 @@ console.log("Array inicial: ");
 mostrarArrayOrdenado(array);
 
 function pedirDatos() {
-    let array = [];
+    const array = [];
     let cantidad = 0;
+    let seguir = false;
 
-    while (isNaN(cantidad) || cantidad <= 0) {
+    while (!seguir) {
         cantidad = Number(prompt("¿Cuantos numeros vas a introducir?: "));
-
-        if (isNaN(cantidad) || cantidad <= 0) {
+        seguir = !isNaN(cantidad) || cantidad > 0;
+        if (!seguir) {
             alert("No es un numero valido");
         }
     }
@@ -88,7 +89,7 @@ Devuelve: un array con los números superiores a la media.
 */
 
 function calcuarlSuperioresMedia(array, media) {
-    let arraySupMedia = [];
+    const arraySupMedia = [];
     for (let i = 0; i < array.length; i++) {
         if (array[i] > media) {
             arraySupMedia.push(array[i]);
@@ -147,6 +148,6 @@ mostrarArrayOrdenado() => Recibe: array. Devuelve: nada.
 
 function mostrarArrayOrdenado(array) {
     let orden = prompt("Como quieres ordenar el array asc o desc: ");
-    let arrayOrdenado =  ordenarArray(array, orden);
+    const arrayOrdenado =  ordenarArray(array, orden);
     mostrarArray(arrayOrdenado);
 }

@@ -1,4 +1,4 @@
-console.log("T03p3 - Ejercicio 05");
+console.log("T03p3 - Ejercicio 06");
 /*
 Desarrolla un script que cree dos arrays de 10 elementos. 
 El primer array tendrá los nombres de 10 personas y el segundo array tendrá 
