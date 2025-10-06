@@ -17,7 +17,7 @@ invertirMetodo(array);
 
 
 function invertirManual(array){
-    const arrayTemporal = array.slice();
+    const arrayTemporal = [];
 
     // 1 - 5 - 8 - 9
     for (let i = 0; i< array.length; i++){
