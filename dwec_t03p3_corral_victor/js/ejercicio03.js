@@ -17,7 +17,7 @@ invertirMetodo(array);
 
 
 function invertirManual(array){
-    let arrayTemporal = array.slice();
+    const arrayTemporal = array.slice();
 
     // 1 - 5 - 8 - 9
     for (let i = 0; i< array.length; i++){
@@ -27,11 +27,12 @@ function invertirManual(array){
 
     array = arrayTemporal.slice();
     console.log("Array invertido manual: ")
-    console.log(array);
+    console.log(arrayTemporal);
 }
 
 function invertirMetodo(array){
-    array.reverse();
+    let arrayTemp = array.slice();
+    arrayTemp.reverse();
     console.log("Array invertido metodo: ")
-    console.log(array);
+    console.log(arrayTemp);
 }
