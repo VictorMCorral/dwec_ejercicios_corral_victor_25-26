@@ -28,13 +28,14 @@ La IIFE no debe llamar a oraculo una sola vez, sino varias veces con distintos c
 
 
 (function() {
-    oraculo(1, 2, "45", "255");
+    oraculo(1, 2, "45", "Juan");
     oraculo(100, 20, "288", "3");
     oraculo(111, 222, "450", "55");
     oraculo(102, 502, "5", "25");
 })();
 
 function oraculo(...args) {
+    let arrayNum = [];
     if (args.length === 0) {
         console.log("No se pasaron argumentos");
     } else {
@@ -46,10 +47,12 @@ function oraculo(...args) {
         Si recibe un cadena tipo "juan", dará el error indicado.
       */
         for (let i = 0; i < args.length; i++) {
-            let num1 = args[i];
-            args[i] = verificarNumeros(num1);
+            let num1 = verificarNumeros(args[i]);
+            if(num1 != undefined){
+                arrayNum.push(num1);
+            }
         }
-        console.log(args);
+        console.log(arrayNum);
 
 
         //  Función 2 - Anónima: Calcular la media de los argumentos
@@ -62,19 +65,19 @@ function oraculo(...args) {
             suma = suma / contador;
             return suma;
         };
-        console.log("Media: " + media(args));
+        console.log("Media: " + media(arrayNum));
 
         // Función 3 - Flecha: Calcular el máximo
         const maximo = (args) => {
             let temp = args[0];
-            for (let i = 0; i < args.length; i++) {
+            for (let i = 1; i < args.length; i++) {
                 if (temp < args[i]) {
                     temp = args[i];
                 }
             };
             return temp;
         };
-        console.log("Maximo: " + maximo(args));
+        console.log("Maximo: " + maximo(arrayNum));
 
         // Recomendacion de la IA
         //const maximoA = args => Math.max(...args)
@@ -83,14 +86,14 @@ function oraculo(...args) {
         //Función 4 - Flecha: Mínimo
         const minimo = (args) => {
             let temp = args[0];
-            for (let i = 0; i < args.length; i++) {
+            for (let i = 1; i < args.length; i++) {
                 if (temp > args[i]) {
                     temp = args[i];
                 }
             };
             return temp;
         };
-        console.log("Minimo: " + minimo(args));
+        console.log("Minimo: " + minimo(arrayNum));
 
         // Adaptando lo que me dio la IA en maximo
         //const minimoA = args => Math.min(...args);
@@ -98,7 +101,7 @@ function oraculo(...args) {
 
 
         //Función 5 - Tradicional: Calcular la desviación respecto de la media (cada valor menos la media).
-        calcularDesviacion(media(args), args);
+        calcularDesviacion(media(arrayNum), arrayNum);
 
 
         /*
@@ -111,7 +114,7 @@ function oraculo(...args) {
         let mensaje = function (media) {
             if(media < 30){
                 console.log("Tu destino es entrenar más duro. Tus estadísticas están por debajo del mínimo requerido.")
-            } else if (media <= 30 && media >= 60){
+            } else if (media >= 30 && media <= 60){
                 console.log("Estás en el camino del héroe. El valor máximo alcanzado fue X y el mínimo Y.")
             } else if (media > 60){
                 console.log("Eres un maestro legendario. Tus desviaciones son: ");
@@ -119,7 +122,7 @@ function oraculo(...args) {
             }
         };
 
-        mensaje(media(args));
+        mensaje(media(arrayNum));
     }
 
 }
