@@ -4,6 +4,8 @@ Desarrolla un script que dada una matriz te devuelva su transpuesta.
 ¿Qué es la transpuesta de una matriz? Define las funciones pertinentes.
 */
 
+
+// PENDIENTE DE TERMINAR
 const matriz1 = [
     [1, 2, 3],
     [4, 5, 6]

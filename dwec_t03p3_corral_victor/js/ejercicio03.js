@@ -12,7 +12,6 @@ objeto Array que permite cambiar el orden de forma directa.
 const array = [1,5,8,9];
 
 invertirManual(array);
-console.log(array)
 
 invertirMetodo(array);
 
@@ -25,7 +24,7 @@ function invertirManual(array){
         let num = array[array.length -1 -i]; //9
         arrayTemporal[i] = num;
     }
-    
+
     console.log("Array invertido manual: ")
     console.log(arrayTemporal);
 }
