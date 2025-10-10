@@ -1,4 +1,4 @@
-console.log("T03p3 - Ejercicio 09");
+console.log("T03p3 - Ejercicio 10");
 /*
 Dada la siguiente matriz se desea tener un script que permita saber 
 quién es el líder de la clasificación (opción 1 del menú), 
