@@ -1,4 +1,4 @@
-console.log("T03p3 - Ejercicio 09");
+console.log("T03p3 - Ejercicio 11");
 /*
 Crear un script que almacene el nombre de dos jugadores en dos variables y dos 
 arrays de 5 elementos con los valores de "piedra, papel, tijera, lagarto, spock". 
