@@ -1,4 +1,3 @@
-console.log("T03p3 - Ejercicio 12");
 /*
 Crea un script que permita agregar listas de tareas (por hacer y hechas) y agruparlas en categorías. 
 El programa debe hacer lo siguiente solo usando arrays. No se pueden usar objetos definidos por el usuario.
@@ -97,9 +96,11 @@ Menú 4. Tareas seleccionadas: Libro, Zapatillas
 
 
 
+
+console.log("T03p3 - Ejercicio 12");
 let categorias = [
     ["Categoria 1", ["Tarea 1", "toDo"], ["Tarea 2", "toDo"], ["Tarea 3", "toDo"], ["Tarea 4", "toDo"]],
-    ["Categoria 2", ["Tarea 3", "done"], ["Tarea 4", "toDo"],["Tarea 5", "toDo"], ["Tarea 6", "toDo"]]
+    ["Categoria 2", ["Tarea 3", "done"], ["Tarea 4", "toDo"], ["Tarea 5", "toDo"], ["Tarea 6", "toDo"]]
 ];
 
 const deshacer = [];
@@ -199,17 +200,19 @@ function tercerMenu(categoriaSelect, categorias) {
             const primeraOpcion = Number(opcion[0]);
             if (primeraOpcion > 0 && primeraOpcion <= numTareas) {
                 let accion = [categoriaSelect, opcion];
-
+                let tareasSeleccionadas = []
                 for (let i = 0; i < opcion.length; i++) {
-                    marcarDone(categoriaSelect[opcion[i]]);
+                    tareasSeleccionadas.push(categoriaSelect[opcion[i][0]]);
+                    //marcarDone(categoriaSelect[opcion[i]]);
                 }
 
-                if(primeraOpcion != opcion_deshacer){
+                cuartoMenu(categoriaSelect, categorias, tareasSeleccionadas);
+                if (primeraOpcion != opcion_deshacer) {
 
-                    if (deshacer.length == 5){
+                    if (deshacer.length == 5) {
                         deshacer.pop();
-                    } 
-                    deshacer.unshift(accion); 
+                    }
+                    deshacer.unshift(accion);
                 }
                 tercerMenu(categoriaSelect, categorias, deshacer);
             }
@@ -249,25 +252,31 @@ function tercerMenu(categoriaSelect, categorias) {
 
 }
 
-function cuartoMenu(categoriaSelect, categorias, tareas){
-    let texto = "Menú 4. Tareas seleccionadas" + tareas + "\n" +
-    "====== \n";
-    texto += "1. Pasar a 'done\n" +
-            "2. Asignar otras categorías\n" +
-            "3. Atrás";
+function cuartoMenu(categoriaSelect, categorias, tareas) {
+    let tareasNombres = [];
+    for (let i = 0; i < tareas.length; i++) {
+        tareasNombres.push(tareas[i][0]);
+    }
+
+    let texto = "Menú 4. Tareas seleccionadas " + tareasNombres + "\n" +
+        "====== \n";
+    texto += "1. Pasar a 'done'\n" +
+        "2. Asignar otras categorías\n" +
+        "3. Atrás";
     let opcion = Number(prompt(texto));
 
-    switch (opcion){
-        case 1: 
+    switch (opcion) {
+        case 1:
             //Pasar a done
-            for (let i = 0; i<tareas.length; i++){
+            for (let i = 0; i < tareas.length; i++) {
                 marcarDone(tareas[i]);
             }
             break;
         case 2:
             //Asignar a otras categorias
+            asignarOtraCategoria(categorias, tareas);
             break;
-        case 3: 
+        case 3:
             //atras
             tercerMenu(categoriaSelect, categorias);
             break;
@@ -279,14 +288,45 @@ function cuartoMenu(categoriaSelect, categorias, tareas){
 
 }
 
+
+function asignarOtraCategoria(categorias, tarea) {
+
+    // let categorias = [
+    //     ["Categoria 1", ["Tarea 1", "toDo"], ["Tarea 2", "toDo"], ["Tarea 3", "toDo"], ["Tarea 4", "toDo"]],
+    //     ["Categoria 2", ["Tarea 3", "done"], ["Tarea 4", "toDo"], ["Tarea 5", "toDo"], ["Tarea 6", "toDo"]]
+    // ];
+    for (let i = 0; i < tarea.length; i++) {
+        for (let j = 0; j < categorias.length; j++) {
+            let encontrada = comprobarTareaEnCategoria(categorias[j], tarea[i]);
+            if (encontrada) {
+                console.log("La tarea '" + tarea[i] + "' SÍ está en la categoría: " + categorias[j][0]);
+            } else {
+                console.log("La tarea '" + tarea[i] + "' NO está en la categoría: " + categorias[j][0]);
+            }
+        }
+    }
+
+
+}
+
+
+function comprobarTareaEnCategoria(categoria, tarea) {
+    let encontrada = false;
+    for (let i = 1; i < categoria.length; i++) {
+        encontrada = tarea[0] == categoria[i][0];
+        console.log(tarea + "==" + categoria[i])
+    }
+    return encontrada;
+}
+
 function borrarTarea(categoriaSelect) {
     //["Categoria 1", ["Tarea 1", "done"], ["Tarea 2", "toDo"]
-    let opcion = prompt("Introduce la tarea a borrar ").toLowerCase();
+    let opcion = prompt("Introduce la tarea a borrar ");
     let indexBorrar = 0;
     let encontrado = false;
 
-    for (let i = 1; i < categoriaSelect.length && encontrado; i++) {
-        if (categoriaSelect[i][0].toLowerCase() == opcion) {
+    for (let i = 1; i < categoriaSelect.length; i++) {
+        if (categoriaSelect[i][0] == opcion) {
             indexBorrar = i;
             encontrado = true;
         }
@@ -440,7 +480,7 @@ function marcarDone(tarea) {
 
 function deshacerDone(categoriaSelect) {
 
-    if(deshacer.length != 0 ){
+    if (deshacer.length != 0) {
         //[["Categoria 1", ["Tarea 1", "done"], ["Tarea 2", "toDo"], [1,2]]
         let indicesARevertir = deshacer[0][1]; // [1]
         let categoriaDeshacer = deshacer[0][0];
@@ -458,4 +498,4 @@ function deshacerDone(categoriaSelect) {
 
 }
 
-function hacerYGuardar(){}
+function hacerYGuardar() { }
