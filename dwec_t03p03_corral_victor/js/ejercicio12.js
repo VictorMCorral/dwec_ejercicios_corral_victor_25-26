@@ -98,254 +98,306 @@ Menú 4. Tareas seleccionadas: Libro, Zapatillas
 
 
 console.log("T03p3 - Ejercicio 12");
-let categorias = [
-    ["Categoria 1", ["Tarea 1", "toDo"], ["Tarea 2", "toDo"], ["Tarea 3", "toDo"], ["Tarea 4", "toDo"]],
-    ["Categoria 2", ["Tarea 3", "done"], ["Tarea 4", "toDo"], ["Tarea 5", "toDo"], ["Tarea 6", "toDo"]]
-];
+let categorias = [];
 
 const deshacer = [];
 
 if (categorias.length == 0) {
-    agregarCategoria(categoriasVacio, "categoria");
-    primerMenu(categoriasVacio);
+    agregarCategoria(categorias, "categoria");
+    primerMenu(categorias);
 } else {
     primerMenu(categorias);
 }
 
 function primerMenu(categorias) {
     let opcion = 0;
-    let menu1 = "Menú 1 \n" +
-        "====== \n" +
-        "1. Listar categorías\n" +
-        "2. Añadir nueva Categoría\n" +
-        "3. Borrar categoría\n" +
-        "4. Salir."
-    opcion = Number(prompt(menu1));
+    do {
 
-    switch (opcion) {
-        case 1:
-            segundoMenu(categorias);
-            break;
-        case 2:
-            do {
-                agregarCategoria(categorias, "categoria");
-            } while (confirm("¿Quieres agregar más categorias?"))
-            primerMenu(categorias);
+        let menu1 = "Menú 1 \n" +
+            "====== \n" +
+            "1. Listar categorías\n" +
+            "2. Añadir nueva Categoría\n" +
+            "3. Borrar categoría\n" +
+            "4. Salir."
+        opcion = Number(prompt(menu1));
 
-            break;
-        case 3:
-            borrarCategoria(categorias);
-            break;
-        case 4:
-            alert("Saliendo del programa...")
-            break;
-        default:
-            console.log("Has elegido una opcion no valida para el Menu 1");
-            primerMenu(categorias);
-            break;
-    }
+        if (isNaN(opcion)) {
+            console.log("Volviendo al menu anterior...");
+        } else {
+            switch (opcion) {
+                case 1:
+                    segundoMenu(categorias);
+                    break;
+                case 2:
+                    do {
+                        agregarCategoria(categorias, "categoria");
+                    } while (confirm("¿Quieres agregar más categorias?"))
+                    break;
+                case 3:
+                    borrarCategoria(categorias);
+                    break;
+                case 4:
+                    alert("Saliendo del programa...")
+                    break;
+                default:
+                    console.log("Has elegido una opcion no valida para el Menu 1");
+                    break;
+            }
+        }
+    } while (opcion !== 4);
 }
 
 function segundoMenu(categorias) {
-    let texto = "Menú 2\n" +
-        "======\n";
+    let salir = false;
+    do {
+        if (categorias.length != 0) {
+            let texto = "Menú 2\n" +
+                "======\n";
 
-    texto = listarCategorias(categorias, texto, "categorias");
+            texto = listarCategorias(categorias, texto, "categorias");
 
-    if (categorias.length != 0) {
-        let opcion = Number(prompt(texto));
+            let opcion = Number(prompt(texto));
 
-        if (opcion > 0 && opcion <= (categorias.length + 1)) {
-            opcion = opcion - 1;
-            categoriaSelect = categorias[opcion];
-
-            if (opcion != categorias.length) {
-                tercerMenu(categoriaSelect, categorias);
-            } else if (opcion == categorias.length) {
-                primerMenu(categorias);
+            if (opcion > 0 && opcion <= (categorias.length + 1) && !isNaN(opcion)) {
+                if (opcion === categorias.length + 1) {
+                    console.log("Volviendo al menú anterior...");
+                    salir = true;
+                } else {
+                    let categoriaSelect = categorias[opcion -1];
+                    tercerMenu(categoriaSelect, categorias);
+                }
             } else {
-                console.log("no es una opcion valida")
+                console.log("No es una opcion valida, volviendo al menu anterior... ")
+                salir = true;
             }
 
         } else {
-            console.log("No es una opcion valida, volviendo al menu anterior... ")
-            primerMenu(categorias);
+            alert("No hay categorias para listar");
+            salir = true;
         }
+    } while (!salir);
 
-    } else {
-        alert("No hay categorias para listar");
-    }
 
 }
 
 function tercerMenu(categoriaSelect, categorias) {
-    let texto = "Menú 3. " + categoriaSelect[0] + "\n" +
-        "====== \n";
+    let noAtras = true;
+    do {
+        let texto = "Menú 3. " + categoriaSelect[0] + "\n" +
+            "====== \n";
 
-    texto = listarCategorias(categoriaSelect, texto, "tareas");
+        texto = listarCategorias(categoriaSelect, texto, "tareas");
 
-    let numTareas = (categoriaSelect.length - 1);
-    let opcion_agregar = numTareas + 1;
-    let opcion_borrar = numTareas + 2;
-    let opcion_atras = numTareas + 3;
-    let opcion_deshacer = numTareas + 4
+        let numTareas = (categoriaSelect.length - 1);
+        let opcion_agregar = numTareas + 1;
+        let opcion_borrar = numTareas + 2;
+        let opcion_atras = numTareas + 3;
+        let opcion_deshacer = numTareas + 4
 
-    //["Categoria 1", ["Tarea 1", "done"], ["Tarea 2", "toDo"]
+        //["Categoria 1", ["Tarea 1", "done"], ["Tarea 2", "toDo"]
 
-    const opcion = prompt(texto).split(",");
+        let opcionText = prompt(texto);
 
-    if (opcion[0].trim() != "") {
-
-        if (opcion.length != 0) {
-            const primeraOpcion = Number(opcion[0]);
-            if (primeraOpcion > 0 && primeraOpcion <= numTareas) {
-                let accion = [categoriaSelect, opcion];
-                let tareasSeleccionadas = []
-                for (let i = 0; i < opcion.length; i++) {
-                    tareasSeleccionadas.push(categoriaSelect[opcion[i][0]]);
-                    //marcarDone(categoriaSelect[opcion[i]]);
-                }
-
-                cuartoMenu(categoriaSelect, categorias, tareasSeleccionadas);
-                if (primeraOpcion != opcion_deshacer) {
-
-                    if (deshacer.length == 5) {
-                        deshacer.pop();
-                    }
-                    deshacer.unshift(accion);
-                }
-                tercerMenu(categoriaSelect, categorias, deshacer);
-            }
-
-
-            switch (primeraOpcion) {
-                case opcion_agregar:
-                    //Añadir
-                    do {
-                        agregarCategoria(categoriaSelect, "tarea");
-                    } while (confirm("¿Quieres agregar más tareas?"));
-                    tercerMenu(categoriaSelect, categorias);
-                    break;
-                case opcion_borrar:
-                    //Borrar
-                    borrarTarea(categoriaSelect, "tarea");
-                    tercerMenu(categoriaSelect, categorias);
-                    break;
-                case opcion_atras:
-                    //Atras
-                    segundoMenu(categorias);
-                    break;
-                case opcion_deshacer:
-                    //Deshacer (ampliacion 1)
-                    deshacerDone(categoriaSelect, deshacer);
-                    tercerMenu(categoriaSelect, categorias, []);
-                    break;
-            }
+        if (opcionText === null || opcionText.trim() === "") {
+            console.log("Volviendo al menu anterior...");
+            noAtras = false;
         } else {
-            console.log("No hay tareas, volviendo al menu anterior...")
-            segundoMenu(categorias);
-        }
-    } else {
-        console.log("Has dejado la opcion en blanco, volviendo al menu anterior...");
-        segundoMenu(categorias);
-    }
+            const opcionArray = opcionText.split(",");
+            const opcion = [];
+            for (let i = 0; i < opcionArray.length; i++) {
+                if (!isNaN(Number(opcionArray[i]))) {
+                    opcion.push(Number(opcionArray[i]))
+                }
+            }
 
+
+            if (opcion.length != 0) {
+                const primeraOpcion = Number(opcion[0]);
+                if (primeraOpcion > 0 && primeraOpcion <= numTareas) {
+                    let accion = [categoriaSelect, opcion];
+                    let tareasSeleccionadas = []
+                    for (let i = 0; i < opcion.length; i++) {
+                        tareasSeleccionadas.push(categoriaSelect[opcion[i]]);
+                        //marcarDone(categoriaSelect[opcion[i]]);
+                    }
+
+                    cuartoMenu(categoriaSelect, categorias, tareasSeleccionadas);
+                    if (primeraOpcion != opcion_deshacer) {
+
+                        if (deshacer.length == 5) {
+                            deshacer.pop();
+                        }
+                        deshacer.unshift(accion);
+                    }
+                }
+
+
+                switch (primeraOpcion) {
+                    case opcion_agregar:
+                        //Añadir
+                        do {
+                            agregarCategoria(categoriaSelect, "tarea");
+                        } while (confirm("¿Quieres agregar más tareas?"));
+                        break;
+                    case opcion_borrar:
+                        //Borrar
+                        borrarTarea(categorias, categoriaSelect);
+                        break;
+                    case opcion_atras:
+                        noAtras = false;
+                        console.log("Volviendo al menu anterior...");
+                        break;
+                    case opcion_deshacer:
+                        //Deshacer (ampliacion 1)
+                        deshacerDone();
+                        break;
+                }
+            } else {
+                console.log("No hay tareas, volviendo al menu anterior...")
+                noAtras = false;
+            }
+
+        }
+    } while (noAtras);
 }
 
 function cuartoMenu(categoriaSelect, categorias, tareas) {
+    let salir = false;
+
+        let tareasNombres = [];
+        for (let i = 0; i < tareas.length; i++) {
+            tareasNombres.push(tareas[i][0]);
+        }
+
+        let texto = "Menú 4. Tareas seleccionadas " + tareasNombres + "\n" +
+            "====== \n";
+        texto += "1. Pasar a 'done'\n" +
+            "2. Asignar otras categorías\n" +
+            "3. Atrás";
+        let opcion = Number(prompt(texto));
+
+        switch (opcion) {
+            case 1:
+                //Pasar a done
+                for (let i = 0; i < tareas.length; i++) {
+                    marcarDone(tareas[i]);
+                }
+                break;
+            case 2:
+                //Asignar a otras categorias
+                asignarOtraCategoria(categorias, tareas);
+                break;
+            case 3:
+                //atras
+                salir = true;
+                break;
+            default:
+                console.log("No es una opcion valida, pasando al menu anterior...");
+                salir = true;
+                break;
+        }
+}
+
+
+function asignarOtraCategoria(categorias, tareas) {
     let tareasNombres = [];
+    let contador = 1;
+    let categoriasDisponibles = [];
     for (let i = 0; i < tareas.length; i++) {
         tareasNombres.push(tareas[i][0]);
     }
-
-    let texto = "Menú 4. Tareas seleccionadas " + tareasNombres + "\n" +
+    let texto = "Menú 5. Tareas seleccionadas " + tareasNombres + "\n" +
         "====== \n";
-    texto += "1. Pasar a 'done'\n" +
-        "2. Asignar otras categorías\n" +
-        "3. Atrás";
-    let opcion = Number(prompt(texto));
+    //tareas = [["t1", "toDo"], ["t2", "toDo"]] -- length = 2
 
-    switch (opcion) {
-        case 1:
-            //Pasar a done
-            for (let i = 0; i < tareas.length; i++) {
-                marcarDone(tareas[i]);
+    for (const categoria of categorias) {
+        let contieneAlguna = false;
+        for (const tarea of tareas) {
+            if (comprobarTareaEnCategoria(categoria, tarea)) {
+                contieneAlguna = true;
+                break;
             }
-            break;
-        case 2:
-            //Asignar a otras categorias
-            asignarOtraCategoria(categorias, tareas);
-            break;
-        case 3:
-            //atras
-            tercerMenu(categoriaSelect, categorias);
-            break;
-        default:
-            console.log("No es una opcion valida, pasando al menu anterior...");
-            tercerMenu(categoriaSelect, categorias);
-            break;
-    }
-
-}
-
-
-function asignarOtraCategoria(categorias, tarea) {
-
-    // let categorias = [
-    //     ["Categoria 1", ["Tarea 1", "toDo"], ["Tarea 2", "toDo"], ["Tarea 3", "toDo"], ["Tarea 4", "toDo"]],
-    //     ["Categoria 2", ["Tarea 3", "done"], ["Tarea 4", "toDo"], ["Tarea 5", "toDo"], ["Tarea 6", "toDo"]]
-    // ];
-    for (let i = 0; i < tarea.length; i++) {
-        for (let j = 0; j < categorias.length; j++) {
-            let encontrada = comprobarTareaEnCategoria(categorias[j], tarea[i]);
-            if (encontrada) {
-                console.log("La tarea '" + tarea[i] + "' SÍ está en la categoría: " + categorias[j][0]);
-            } else {
-                console.log("La tarea '" + tarea[i] + "' NO está en la categoría: " + categorias[j][0]);
-            }
+        }
+        if (!contieneAlguna) {
+            categoriasDisponibles.push(categoria);
         }
     }
 
+    if (categoriasDisponibles.length === 0) {
+        alert("No hay categorías disponibles para asignar estas tareas.");
+        return;
+    }
+
+    for (let i = 0; i < categoriasDisponibles.length; i++) {
+        texto += `${i + 1}. ${categoriasDisponibles[i][0]}\n`;
+    }
+
+    const seleccion = prompt(texto);
+    const indice = Number(seleccion) - 1;
+
+    const categoriaElegida = categoriasDisponibles[indice];
+    for (const tarea of tareas) {
+        // Evitar duplicados si es necesario
+        if (!comprobarTareaEnCategoria(categoriaElegida, tarea)) {
+            categoriaElegida.push(tarea);
+        }
+    }
+
+    console.log(`Tareas asignadas a la categoría: ${categoriaElegida[0]}`);
 
 }
-
 
 function comprobarTareaEnCategoria(categoria, tarea) {
     let encontrada = false;
     for (let i = 1; i < categoria.length; i++) {
-        encontrada = tarea[0] == categoria[i][0];
-        console.log(tarea + "==" + categoria[i])
+        if (tarea === categoria[i]) {
+            console.log(tarea + " == " + categoria[i]);
+            encontrada = true;
+        }
     }
+    console.log(tarea + " no encontrada en " + categoria[0]);
     return encontrada;
 }
 
-function borrarTarea(categoriaSelect) {
+function borrarTarea(categorias, categoriaSelect) {
     //["Categoria 1", ["Tarea 1", "done"], ["Tarea 2", "toDo"]
-    let opcion = prompt("Introduce la tarea a borrar ");
-    let indexBorrar = 0;
-    let encontrado = false;
-
+    let texto = "";
     for (let i = 1; i < categoriaSelect.length; i++) {
-        if (categoriaSelect[i][0] == opcion) {
-            indexBorrar = i;
-            encontrado = true;
-        }
+        texto += i + ". " + categoriaSelect[i][0] + "\n";
     }
-
-
-    if (indexBorrar > 0) {
-        let confirmacion = confirm(`¿Estás seguro de que deseas eliminar la categoría "${categoriaSelect[indexBorrar][0]}"?`);
-        if (confirmacion) {
-            categoriaSelect.splice(indexBorrar, 1);
-            console.log(`"${categoriaSelect[indexBorrar][0]}" eliminada correctamente`)
-        } else {
-            console.log("Eliminación cancelada por el usuario.");
-
-        }
-
+    texto += "Introduce la tarea a borrar ";
+    let opcion = Number(prompt(texto));
+    if (isNaN(opcion) || opcion < 1 || opcion >= categoriaSelect.length) {
+        console.log("Opción inválida.");
     } else {
-        console.log("No se puede borrar la categoría: no existe");
+        let nombre = categoriaSelect[opcion][0];
+        let indexBorrar = -1;
+        let encontrado = false;
+
+        for (let i = 1; i < categoriaSelect.length; i++) {
+            if (categoriaSelect[i][0] === nombre) {
+                indexBorrar = i;
+                encontrado = true;
+            }
+        }
+
+
+        if (indexBorrar === -1) {
+            console.log(`La tarea "${nombre}" no existe.`);
+            return;
+        } else {
+            if (confirm(`¿Eliminar la tarea "${nombre}"?`)) {
+                let tareaEliminada = categoriaSelect.splice(indexBorrar, 1);
+                for (let i = 0; i < categorias.length; i++) {
+                    if (comprobarTareaEnCategoria(categorias[i], tareaEliminada[0])) {
+                        categorias[i].splice(indexBorrar, 1);
+                    }
+                }
+                console.log(`Tarea "${nombre}" eliminada.`);
+            }
+        }
     }
+
 }
 
 function listarCategorias(categoria, texto, opcion) {
@@ -461,8 +513,6 @@ function borrarCategoria(categoria) {
         }
 
     }
-
-    primerMenu(categoria);
 }
 
 
@@ -478,7 +528,7 @@ function marcarDone(tarea) {
 }
 
 
-function deshacerDone(categoriaSelect) {
+function deshacerDone() {
 
     if (deshacer.length != 0) {
         //[["Categoria 1", ["Tarea 1", "done"], ["Tarea 2", "toDo"], [1,2]]
@@ -486,7 +536,7 @@ function deshacerDone(categoriaSelect) {
         let categoriaDeshacer = deshacer[0][0];
 
         for (let i = 0; i < indicesARevertir.length; i++) {
-            let pos = indicesARevertir[i]; // posición de la tarea dentro de categoriaSelect
+            let pos = Number(indicesARevertir[i]); // posición de la tarea dentro de categoriaSelect
             categoriaDeshacer[pos][1] = "toDo";
             console.log(categoriaDeshacer[0] + " " + categoriaDeshacer[pos][0] + " cambiada a toDo");
         }
@@ -498,4 +548,3 @@ function deshacerDone(categoriaSelect) {
 
 }
 
-function hacerYGuardar() { }
