@@ -1,4 +1,4 @@
-console.log("T04 - Ejercicio 01 - Alumno");
+console.log("T04 - Ejercicio 02 - Alumno");
 function Alumno(dni, nombre, fechaNac, notaPrimer, notaSegundo, notaTercero, sex) {
     this.dniInfo = dni,
     this.nombreInfo = nombre,
@@ -104,7 +104,6 @@ Object.defineProperty(Alumno.prototype, 'fechaNacInfo', {
     },
     set(valor) {
         this.fechaNac = valor;
-        this.edad = this.calcularEdad();
     }
 });
 
