@@ -151,13 +151,3 @@ Object.defineProperty(Alumno.prototype, 'sex', {
         }
     }
 });
-
-const alum = new Alumno("00", "Victor", "1989-07-17", 5, 7, 8, "m");
-
-
-alum.nombreInfo = "Pepito";
-
-console.log(alum.mostrarInformacion());
-
-alum.cambiarNotas(9,9,9);
-console.log(alum.mostrarInformacion());
