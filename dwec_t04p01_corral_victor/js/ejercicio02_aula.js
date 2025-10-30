@@ -1,12 +1,13 @@
 console.log("T04 - Ejercicio 02 - Aula");
 
-function Aula(maxAlumnos, id, descripcion, curso) {
+function Aula(maxAlumnos, id, descripcion, curso, grupos) {
     this._alumnos = [];
     this.numAlumnos = 0;
     this.maxAlumnos = maxAlumnos;
     this.id = id;
     this.descripcion = descripcion;
     this.curso = curso;
+    this.gruposInfo = grupos;
 
     this.haySitioAlumnos = function () {
         if (this.numAlumnos < this.maxAlumnos) {
@@ -32,14 +33,17 @@ function Aula(maxAlumnos, id, descripcion, curso) {
         let notaSegundo = Number(prompt("Introduce la nota del segundo trimestre: "));
         let notaTercero = Number(prompt("Introduce la nota del tercer trimestre: "));
         let sexo = prompt("Introduce el sexo en formato \"h - m - o\": ");
+        let grupo = prompt("Introduce el grupo: ");
         let alumno;
         if (this.comprobarFechaAlumno(fechaNac)) {
-            if(!isNaN(notaPrimer) && !isNaN(notaSegundo) && !isNaN(notaTercero)){
-                alumno = new Alumno(dni, nombre, fechaNac, notaPrimer, notaSegundo, notaTercero, sexo);
+            if (!isNaN(notaPrimer) && !isNaN(notaSegundo) && !isNaN(notaTercero)) {
+                alumno = new Alumno(dni, nombre, fechaNac, notaPrimer, notaSegundo, notaTercero, sexo, grupo);
             } else {
                 console.log("Alguna nota no es correcta")
             }
-        } 
+        } else {
+            console.log("La fecha no es valida");
+        }
         return alumno;
     }
 
@@ -70,82 +74,92 @@ function Aula(maxAlumnos, id, descripcion, curso) {
         return datosValidos;
     }
 
-    this.pedirDatos = function (){
+    this.pedirDatos = function () {
         let numAlumnos = Number(prompt("Introduce cuantos alumnos quieres matricular: "));
         let alumnosTemp = [];
-        if(this.haySitioAlumnos() && numAlumnos<=this.maxAlumnos){
-            for (let i = 0; i<numAlumnos; i++){
+        if (this.haySitioAlumnos() && numAlumnos <= this.maxAlumnos) {
+            for (let i = 0; i < numAlumnos; i++) {
                 let alumno = this.pedirDatosUnAlumno();
                 alumnosTemp.push(alumno);
             }
         } else {
             alert("No se pueden agregar mas alumnos")
         };
-        
+
         return alumnosTemp;
     }
 
-    this.mostrarDatos = function (){
+    this.mostrarDatos = function () {
         let alumnosTexto = "";
-
-        if (this.hayAlumnos()){
+        if (this.hayAlumnos()) {
             for (let i = 0; i < this._alumnos.length; i++) {
                 alumnosTexto += this._alumnos[i].mostrarInformacion() + "\n";
             }
         } else {
             alumnosTexto = "No hay alumnos matriculados."
         }
-
-
-        return  alumnosTexto;
+        return alumnosTexto;
     }
 
-    this.mediasNota = function(){
+    this.mediasNota = function () {
         let mediasNota = 0;
-        let cantidadAlumnos = 0;
-        for (let i = 0; i<this._alumnos.length; i++){
-            mediasNota = mediasNota + this._alumnos[i].notaFinalInfo;
-            cantidadAlumnos ++;
+        let cantidadAlumnos = this._alumnos.length;
+        for (let i = 0; i < cantidadAlumnos; i++) {
+            mediasNota = Number(mediasNota) + Number(this._alumnos[i].notaFinalInfo);
         }
-        return mediasNota/cantidadAlumnos;
+        return mediasNota / cantidadAlumnos;
     }
 
-    this.mejorNota = function(){
-        let alumnoMejorNota = this._alumnos[0];
+
+    this.mejorNota = function () {
+        if (this._alumnos.length === 0) return [];
+
         let mejorNota = this._alumnos[0].notaFinalInfo;
-        for (let i = 0; i<this._alumnos.length; i++){
-            if(mejorNota<this._alumnos[i].notaFinalInfo){
-                mejorNota = this._alumnos[i].notaFinalInfo;
-                alumnoMejorNota = this._alumnos[i];
+        const resultado = [];
+
+        for (let i = 0; i < this._alumnos.length; i++) {
+            const nota = this._alumnos[i].notaFinalInfo;
+            if (nota > mejorNota) {
+                mejorNota = nota;
+                resultado.length = 0;
+                resultado.push(this._alumnos[i]);
+            } else if (nota === mejorNota) {
+                resultado.push(this._alumnos[i]);
             }
         }
 
-        return alumnoMejorNota;
-    }
+        return resultado;
+    };
 
-    this.porcentajeSuspensos = function (){
+    this.porcentajeSuspensos = function () {
         let totalAlumnos = this.numAlumnos;
         let suspensos = 0;
 
-        for (let i = 0; i<this._alumnos.length; i++){
-            if(this._alumnos[i].notaFinalInfo<5){
-                suspensos ++;
+        for (let i = 0; i < this._alumnos.length; i++) {
+            if (this._alumnos[i].notaFinalInfo < 5) {
+                suspensos++;
             }
         }
-        return (suspensos/totalAlumnos)*100;
+        return (suspensos / totalAlumnos) * 100;
     }
 
-    this.mostrarSuspensosAprobados = function(){
+    this.mostrarSuspensosAprobados = function () {
         let porcentajeSuspensos = this.porcentajeSuspensos();
         let porcentajeAprobados = 100 - porcentajeSuspensos;
 
         return "Hay un " + porcentajeAprobados + "% de aprobados y " + porcentajeSuspensos + "% de suspensos";
     }
 
-    this.insertarAlumnos = function(alumnos){
-        for(let i = 0; i<alumnos.length; i++){
+    this.insertarAlumnos = function (alumnos) {
+        /* [alumno, "grupo 0"]*/
+        for (let i = 0; i < alumnos.length; i++) {
             this._alumnos.push(alumnos[i]);
-            this.numAlumnos ++;
+            this.numAlumnos++;
+            for(let j = 0; j<this.gruposInfo.length; j++){
+                if (alumnos[j].grupoInfo == this.gruposInfo[j][0]){
+                    this.gruposInfo[j][1].push(alumnos[i]);
+                }
+            }
         }
     }
 
@@ -153,60 +167,127 @@ function Aula(maxAlumnos, id, descripcion, curso) {
 }
 
 Object.defineProperty(Aula.prototype, "alumnos", {
-    get: function() {
+    get: function () {
         return this._alumnos;
     },
-    set: function(valor) {
+    set: function (valor) {
         this._alumnos = valor;
     }
 });
 
 Object.defineProperty(Aula.prototype, "numAlumnos", {
-    get: function() {
+    get: function () {
         return this._numAlumnos;
     },
-    set: function(valor) {
+    set: function (valor) {
         this._numAlumnos = valor;
     }
 });
 
 Object.defineProperty(Aula.prototype, "maxAlumnos", {
-    get: function() {
+    get: function () {
         return this._maxAlumnos;
     },
-    set: function(valor) {
+    set: function (valor) {
         this._maxAlumnos = valor;
     }
 });
 
 Object.defineProperty(Aula.prototype, "id", {
-    get: function() {
+    get: function () {
         return this._id;
     },
-    set: function(valor) {
+    set: function (valor) {
         this._id = valor;
     }
 });
 
 Object.defineProperty(Aula.prototype, "descripcion", {
-    get: function() {
+    get: function () {
         return this._descripcion;
     },
-    set: function(valor) {
+    set: function (valor) {
         this._descripcion = valor;
     }
 });
 
 Object.defineProperty(Aula.prototype, "curso", {
-    get: function() {
+    get: function () {
         return this._curso;
     },
-    set: function(valor) {
-        if(valor == 1 || valor == 2 || valor == 3 || valor == 4){
+    set: function (valor) {
+        if (valor == 1 || valor == 2 || valor == 3 || valor == 4) {
             this._curso = valor;
         } else {
             this._curso = null;
         }
-        
+
     }
 });
+
+Object.defineProperty(Aula.prototype, "gruposInfo",{
+    get: function () {
+        return this._grupos;
+    },
+    set: function (valor){
+        for (let i = 0; i<valor.length; i++){
+            if (this._grupos[i] !== valor[i])
+            this._grupos.push([valor[i], []]);
+        }
+    }
+})
+
+Aula.prototype.hayAlumnosGrupo = function (grupoAComprobar) {
+    let hayAlumnos = false;
+    for (let i = 0; i < this._alumnos.length; i++) {
+        if (this._alumnos[i].grupoInfo == grupoAComprobar) {
+            hayAlumnos = true;
+        }
+    }
+    return hayAlumnos;
+}
+
+
+Aula.prototype.mostrarPorGrupo = function (grupoAMostrar) {
+    let alumnosTexto = "";
+    if (this.hayAlumnosGrupo(grupoAMostrar)) {
+        alumnosTexto += grupoAMostrar + "\n";
+        for (let i = 0; i < this._alumnos.length && this._alumnos[i].grupoInfo == grupoAMostrar; i++) {
+            alumnosTexto += "\t" + this._alumnos[i].mostrarInformacion() + "\n";
+        }
+    } else {
+        alumnosTexto = "No hay alumnos en " + grupoAMostrar;
+    }
+
+    return alumnosTexto;
+}
+
+Aula.prototype.mostrarResumenGrupos = function (){
+    let texto = "Resumen por grupos: ";
+    for (let i = 0; i<this.gruposInfo.length; i++){
+        texto += "\n" + this.gruposInfo[i][0];
+        for (let j = 0; j<this.gruposInfo[i][1].length; j++){
+            texto += "\n\t" + this.gruposInfo[i][1][j].mostrarInformacion();
+        }
+    }
+
+    return texto; 
+}
+
+Aula.prototype.cambiarGrupo = function(alumno, grupo, grupos){
+    //Sin acabar
+    this.gruposInfo = grupos;
+    let alumnoCambio = this.alumnos[alumno];
+    let grupoAnterior = alumnoCambio.grupoInfo;
+    for (let i = 0; i<this.gruposInfo.length; i++){
+        if (this.gruposInfo[i][0] == grupoAnterior){
+            this.gruposInfo[i][1]
+        }
+    }
+
+
+
+
+    alumno.gruposInfo = grupo;
+    
+}

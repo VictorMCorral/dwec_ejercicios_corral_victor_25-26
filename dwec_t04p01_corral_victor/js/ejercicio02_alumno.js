@@ -1,5 +1,5 @@
 console.log("T04 - Ejercicio 02 - Alumno");
-function Alumno(dni, nombre, fechaNac, notaPrimer, notaSegundo, notaTercero, sex) {
+function Alumno(dni, nombre, fechaNac, notaPrimer, notaSegundo, notaTercero, sex, grupo) {
     this.dniInfo = dni,
     this.nombreInfo = nombre,
     this.fechaNacInfo = fechaNac,
@@ -7,12 +7,14 @@ function Alumno(dni, nombre, fechaNac, notaPrimer, notaSegundo, notaTercero, sex
     this.notaSeg = notaSegundo,
     this.notaTer = notaTercero,
     this.sexo = sex,
+    this.grupoInfo = grupo,
 
     this.mostrarInformacion = function () {
         return this.nombre + ":" +
             "\n\tEdad: " + this.edadInfo + " años" +
             "\n\tSexo: " + this.sexo +
             "\n\tDNI: " + this.dni +
+            "\n\tGrupo: " + this.grupo +
             "\n\tFecha nacimiento: " + this.fechaNac +
             "\nTiene las siguientes notas: \n" +
             "\tPrimer trimestre: " + this.notaPri + "\n" +
@@ -152,6 +154,19 @@ Object.defineProperty(Alumno.prototype, 'sex', {
             this.sexo = valor;
         } else {
             this.sexo = "o";
+        }
+    }
+});
+
+Object.defineProperty(Alumno.prototype, 'grupoInfo', {
+    get() {
+        return this.grupo;
+    },
+    set(valor) {
+        if (valor) {
+            this.grupo = valor;
+        } else {
+            this.grupo = "grupo 0";
         }
     }
 });
