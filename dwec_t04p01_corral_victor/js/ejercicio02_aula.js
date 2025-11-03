@@ -2,11 +2,11 @@ console.log("T04 - Ejercicio 02 - Aula");
 
 function Aula(maxAlumnos, id, descripcion, curso, grupos) {
     this._alumnos = [];
-    this.numAlumnos = 0;
-    this.maxAlumnos = maxAlumnos;
-    this.id = id;
-    this.descripcion = descripcion;
-    this.curso = curso;
+    this._numAlumnos = 0;
+    this._maxAlumnos = maxAlumnos;
+    this._id = id;
+    this._descripcion = descripcion;
+    this._curso = curso;
     this.gruposInfo = grupos;
 
     this.haySitioAlumnos = function () {
@@ -153,17 +153,18 @@ function Aula(maxAlumnos, id, descripcion, curso, grupos) {
     this.insertarAlumnos = function (alumnos) {
         /* [alumno, "grupo 0"]*/
         for (let i = 0; i < alumnos.length; i++) {
-            this._alumnos.push(alumnos[i]);
+            const alumno = alumnos[i];
+            this._alumnos.push(alumno);
             this.numAlumnos++;
-            for(let j = 0; j<this.gruposInfo.length; j++){
-                if (alumnos[j].grupoInfo == this.gruposInfo[j][0]){
-                    this.gruposInfo[j][1].push(alumnos[i]);
+
+            for (let j = 0; j < this._grupos.length; j++) {
+                if (alumno.grupoInfo == this._grupos[j][0]) {
+                    this._grupos[j][1].push(alumno);
+                    break;
                 }
             }
         }
     }
-
-
 }
 
 Object.defineProperty(Aula.prototype, "alumnos", {
@@ -225,17 +226,26 @@ Object.defineProperty(Aula.prototype, "curso", {
     }
 });
 
-Object.defineProperty(Aula.prototype, "gruposInfo",{
+Object.defineProperty(Aula.prototype, "gruposInfo", {
     get: function () {
         return this._grupos;
     },
-    set: function (valor){
-        for (let i = 0; i<valor.length; i++){
-            if (this._grupos[i] !== valor[i])
-            this._grupos.push([valor[i], []]);
+    set: function (valor) {
+        if (Array.isArray(valor)) {
+            this._grupos = valor.map(g => [g, []]);
+        } else {
+            this._grupos = []
         }
     }
 })
+
+Aula.prototype.agregarGrupo = function (grupoNuevo) {
+    this._grupos.push([grupoNuevo, []]);
+}
+
+Aula.prototype.eliminarGrupo = function (grupoEliminar) {
+    this._grupos.splice(grupoEliminar, 1);
+}
 
 Aula.prototype.hayAlumnosGrupo = function (grupoAComprobar) {
     let hayAlumnos = false;
@@ -250,44 +260,151 @@ Aula.prototype.hayAlumnosGrupo = function (grupoAComprobar) {
 
 Aula.prototype.mostrarPorGrupo = function (grupoAMostrar) {
     let alumnosTexto = "";
-    if (this.hayAlumnosGrupo(grupoAMostrar)) {
-        alumnosTexto += grupoAMostrar + "\n";
-        for (let i = 0; i < this._alumnos.length && this._alumnos[i].grupoInfo == grupoAMostrar; i++) {
-            alumnosTexto += "\t" + this._alumnos[i].mostrarInformacion() + "\n";
+    let hayAlumnos = true;
+    /* grupos = [
+                ["grupo 0", [alumno1, alumno2]], 
+                ["grupo 1", [alumno1, alumno2]]
+            ]*/
+
+    for (let i = 0; i < this._grupos.length && hayAlumnos; i++) {
+        if (this._grupos[i][0] == grupoAMostrar) {
+            const alumnosEnGrupo = this._grupos[i][1];
+            if (alumnosEnGrupo.length > 0) {
+                alumnosTexto += grupoAMostrar + ":\n";
+                for (let j = 0; j < alumnosEnGrupo.length; j++) {
+                    alumnosTexto += "\n" + alumnosEnGrupo[j].mostrarInformacion();
+                }
+            } else {
+                hayAlumnos = false;
+            }
+            
         }
-    } else {
+    }
+
+    if (!hayAlumnos) {
         alumnosTexto = "No hay alumnos en " + grupoAMostrar;
     }
-
     return alumnosTexto;
-}
+};
 
-Aula.prototype.mostrarResumenGrupos = function (){
-    let texto = "Resumen por grupos: ";
-    for (let i = 0; i<this.gruposInfo.length; i++){
-        texto += "\n" + this.gruposInfo[i][0];
-        for (let j = 0; j<this.gruposInfo[i][1].length; j++){
-            texto += "\n\t" + this.gruposInfo[i][1][j].mostrarInformacion();
+Aula.prototype.mostrarResumenGrupos = function () {
+    let texto = "Resumen por grupos: \n";
+    for (let i = 0; i<this._grupos.length; i++){
+        const grupo = this._grupos[i];
+        texto += grupo[0];
+        if(grupo[1].length<=0){
+            texto += "\n\t No tiene Alumnos"
+        }
+        for (let j = 0; j<grupo[1].length; j++ ){
+            const alumno = grupo[1][j]
+            texto += "\n" + alumno.mostrarInformacion();
         }
     }
-
-    return texto; 
+    return texto;
 }
 
-Aula.prototype.cambiarGrupo = function(alumno, grupo, grupos){
-    //Sin acabar
-    this.gruposInfo = grupos;
-    let alumnoCambio = this.alumnos[alumno];
-    let grupoAnterior = alumnoCambio.grupoInfo;
-    for (let i = 0; i<this.gruposInfo.length; i++){
-        if (this.gruposInfo[i][0] == grupoAnterior){
-            this.gruposInfo[i][1]
-        }
-    }
+Aula.prototype.cambiarGrupo = function (alumno, grupo) {
+    let grupoAnterior = alumno.grupoInfo;
 
-
-
-
-    alumno.gruposInfo = grupo;
+    if(grupoAnterior != grupo){
+        for (let i = 0; i < this._grupos.length; i++) {
+            if (this._grupos[i][0] == grupoAnterior) {
+                let indiceAlumno = 0;
+                for (let j = 0; j < this._grupos[i][1].length; j++) {
+                    if (this._grupos[i][1][j] === alumno) {
+                        indiceAlumno = j;
+                    }
+                }
     
+                this._grupos[i][1].splice(indiceAlumno, 1);
+            }
+        }
+    
+    
+        for (let i = 0; i < this._grupos.length; i++) {
+            if (this._grupos[i][0] == grupo) {
+                this._grupos[i][1].push(alumno);
+                alumno.grupoInfo = this._grupos[i][0];
+                console.log(alumno.nombreInfo + " cambiado al grupo \"" + grupo +"\"")
+            }
+        }
+    
+    } else {
+        console.log(alumno.nombreInfo + " ya esta en el grupo " + grupo);
+    }
+
+}
+
+Aula.prototype.mediaPorGrupo = function (grupoACalcular){
+    let cantidadAlumnos = 0;
+    let notas = 0;
+    let encontrado = false;
+    let media = null;
+    for (let i = 0; i<this._grupos.length; i++){
+        if (this._grupos[i][0] == grupoACalcular){
+            encontrado = true;
+            const alumnosEnGrupo = this._grupos[i][1];
+            cantidadAlumnos = alumnosEnGrupo.length
+            for (let j = 0; j<cantidadAlumnos; j++){
+                notas += Number(alumnosEnGrupo[j].notaFinalInfo);
+            }
+        } 
+    } 
+    
+    if(encontrado){
+        media = notas/cantidadAlumnos;
+    }
+
+    return media
+}
+
+Aula.prototype.alumnoMejorNotaGrupo = function(grupo){
+    let mejorNota = 0;
+
+    for (let a = 0; a<this._grupos.length; a++){
+        if (this._grupos[a][0] == grupo){
+            const alumnos = this._grupos[a][1];
+
+            if (alumnos.length === 0) return [];
+
+            mejorNota = alumnos[0].notaFinalInfo;
+            const resultado = []
+
+            for (let i = 0; i < alumnos.length; i++) {
+                const nota = alumnos[i].notaFinalInfo;
+                if (nota > mejorNota) {
+                    mejorNota = nota;
+                    resultado.length = 0;
+                    resultado.push(this._alumnos[i]);
+                } else if (nota === mejorNota) {
+                    resultado.push(this._alumnos[i]);
+                }
+            }
+
+            return resultado;
+        }
+
+
+    
+    }
+}
+
+Aula.prototype.porcentajeSuspensosGrupo = function(grupo){   
+    let suspensos = 0;
+    let totalAlumnos = 0;
+    for (let a = 0; a<this._grupos.length; a++){
+        if (this._grupos[a][0] == grupo){
+            const alumnos = this._grupos[a][1];
+            totalAlumnos = alumnos.length;
+            if (alumnos.length === 0) return [];
+
+            for (let i = 0; i < alumnos.length; i++) {
+                if (alumnos[i].notaFinalInfo < 5) {
+                    suspensos++;
+                }
+            }
+        }
+    }
+
+    return (suspensos / totalAlumnos) * 100;
 }

@@ -108,9 +108,10 @@ function ampliacion1() {
             "\n 5. Mostrar resumen de grupos " +
             "\n 6. Calcular media de un grupo" +
             "\n 7. Mostrar alumno con mejor nota de un grupo" +
-            "\n 8. Porcentaje de suspensos en un grupo"
+            "\n 8. Porcentaje de suspensos en un grupo" +
         "\n\n\t 0. Salir"
         opcion = Number(prompt(texto));
+        const arrayGrupos = [...grupos];
 
         switch (opcion) {
             case 1:
@@ -119,9 +120,15 @@ function ampliacion1() {
                 break;
             case 2:
                 //Mostrar alumnos por grupo
-                let grupoAMostrar = prompt("Introduce el grupo del que deseas ver los alumnos: ")
+                let textoCase2 = "Introduce el grupo del que deseas ver los alumnos: ";
+                for (let i = 0; i < arrayGrupos.length; i++) {
+                    textoCase2 += "\n" + arrayGrupos[i];
+                }
+                let grupoAMostrar = prompt(textoCase2)
                 if (grupos.has(grupoAMostrar.toLowerCase())) {
                     console.log(daw2_1.mostrarPorGrupo(grupoAMostrar));
+                } else {
+                    console.log("El grupo \"" + grupoAMostrar +"\" no existe")
                 }
                 break;
             case 3:
@@ -131,8 +138,8 @@ function ampliacion1() {
                     texto += "\n" + (i + 1) + ". " + daw2_1.alumnos[i].nombreInfo + " -- " + daw2_1.alumnos[i].grupoInfo;
                 }
                 let alumnoCambio = Number(prompt(texto)) - 1;
+
                 texto = "¿A que grupo quieres cambiar a " + daw2_1.alumnos[alumnoCambio].nombreInfo + "?: ";
-                let arrayGrupos = [...grupos];
                 for (let i = 0; i < arrayGrupos.length; i++) {
                     texto += "\n" + arrayGrupos[i];
                 }
@@ -141,9 +148,10 @@ function ampliacion1() {
 
                 if (!grupos.has(grupoAsignado)) {
                     grupos.add(grupoAsignado);
+                    daw2_1.agregarGrupo(grupoAsignado);
                 }
-
-                daw2_1.cambiarGrupo(alumnoCambio, grupoAsignado, [...grupos])
+                alumnoCambio = daw2_1.alumnos[alumnoCambio];
+                daw2_1.cambiarGrupo(alumnoCambio, grupoAsignado)
                 break;
             case 4:
                 //Eliminar un grupo
@@ -165,6 +173,7 @@ function ampliacion1() {
                     }
                     if (eliminar) {
                         grupos.delete(grupoEliminar);
+                        daw2_1.eliminarGrupo(opcion);
                         console.log("Se ha eliminado el " + grupoEliminar + " correctamente!")
                     } else {
                         console.log("No se puede eliminar, hay alumnos en " + grupoEliminar)
@@ -182,13 +191,36 @@ function ampliacion1() {
                 break;
             case 6:
                 //Calcular media de un grupo
+                let grupoMedia = prompt(preguntarPorGrupo(arrayGrupos));;
 
+                let mediaPorGrupo = daw2_1.mediaPorGrupo(grupoMedia);
+
+                if(mediaPorGrupo){
+                    console.log("La media de " + grupoMedia + " es " + mediaPorGrupo);
+                } else {
+                    console.log("No existe el grupo \"" + grupoMedia + "\" o no tiene alumnos");
+                }
+                
                 break;
             case 7:
                 //Mostrar alumno con mejor nota de un grupo
+                let grupoMejorNota = prompt(preguntarPorGrupo(arrayGrupos));
+
+                const alumnoMejorNota = daw2_1.alumnoMejorNotaGrupo(grupoMejorNota);
+
+                let texto7 = "La mejor nota es: " + alumnoMejorNota[0].notaFinalInfo + " y la obtuvo: ";
+                for (let i = 0; i < alumnoMejorNota.length; i++) {
+                    texto7 += "\n - " + alumnoMejorNota[i].nombreInfo;
+                }
+                console.log(texto7);
+
                 break;
             case 8:
                 //Porcentaje de suspensos en un grupo
+                let grupoSuspensos = prompt(preguntarPorGrupo(arrayGrupos));
+                let porcentaje = daw2_1.porcentajeSuspensosGrupo(grupoSuspensos);
+
+                console.log("En el grupo \"" + grupoSuspensos + "\" hay un " + porcentaje + "% de suspensos");
                 break;
         }
 
@@ -196,6 +228,15 @@ function ampliacion1() {
 
     } while (opcion != 0)
 
+}
+
+
+function preguntarPorGrupo(arrayGrupos){
+    let texto = "Introduce el grupo: ";
+    for (let i = 0; i < arrayGrupos.length; i++) {
+        texto += "\n" + arrayGrupos[i];
+    }
+    return texto;
 }
 
 
