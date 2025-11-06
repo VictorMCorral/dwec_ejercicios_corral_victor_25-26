@@ -2,241 +2,177 @@ console.log("T04 - Ejercicio 02 - Principal");
 
 const grupos = new Set(["grupo 0", "grupo 1"]);
 
-funcionPrueba2();
-
-function funcionPrueba1() {
-
-    const alum1 = new Alumno("00", "Victor", "1989-07-17", 8, 7, 10, "m");
-
-
-
-    const alum2 = new Alumno("00", "Orwin", "2007-07-17", 8, 7, 10, "m");
+function Prueba3() {
+    const aula1 = new Aula("AU01", "Aula de primero", 40, 1);
+    const aula2 = new Aula("AU02", "Aula de segundo", 30, 2);
+    const aula3 = new Aula("AU03", "Aula de primero", 30, 3);
+    const aula4 = new Aula("AU04", "Aula de primero", 30, 4);
+    //TODO Pedir aula a elegir
+    
 
 
-    console.log(alum1.mostrarInformacion());
-
-    console.log(alum2.mostrarInformacion());
-
-    if (alum1.comparar(alum2) === 1) {
-        console.log(alum2.nombreInfo + " tiene la mayor nota final, y es " + alum2.notaFinalInfo);
-    } else if (alum1.comparar(alum2) === 0) {
-        console.log(alum1.nombreInfo + " y " + alum2.nombreInfo + " tiene la misma nota, y es " + alum2.notaFinalInfo);
-    } else {
-        console.log(alum1.nombreInfo + " tiene la mayor nota final y es " + alum1.notaFinalInfo);
-    }
-
-
-    console.log("Cambiando notas de " + alum1.nombreInfo + " a 5,5,5");
-    alum1.cambiarNotas(5, 5, 5);
-
-    if (alum1.comparar(alum2) === 1) {
-        console.log(alum2.nombreInfo + " tiene la mayor nota final, y es " + alum2.notaFinalInfo);
-    } else if (alum1.comparar(alum2) === 0) {
-        console.log(alum1.nombreInfo + " y " + alum2.nombreInfo + " tiene la misma nota, y es " + alum2.notaFinalInfo);
-    } else {
-        console.log(alum1.nombreInfo + " tiene la mayor nota final y es " + alum1.notaFinalInfo);
-    }
-
-}
-
-function funcionPrueba2() {
-    let opcion = 0;
-    let maxAlumnos = Number(prompt("Introduce la cantidad maxima de alumnos: "));
-    let daw2 = new Aula(maxAlumnos, 102, "Curso de prueba", 1, []);
+    let opcion = 6;
     do {
-        let texto = "Menu Aula y Alumnos" +
-            "\n===================" +
-            "\n 1. Alumnos ya matriculados " +
-            "\n 2. Agregar alumnos " +
-            "\n 3. Nota media de los alumnos " +
-            "\n 4. Mejor nota " +
-            "\n 5. Porcentaje de aprobados y suspensos " +
-            "\n 6. Siguiente Menú" +
-            "\n 0. Salir"
+        let texto = "\nGestion de Aulas: Aula de Primero" +
+            "\n=================================" +
+            "\n1. Añadir alumnos" +
+            //Matricular obligatorias
+            //Preguntar por optativa
+            "\n2. Asignar asignatura a profesor" +
+            "\n3. Consultar alumnado" +
+            //Profesor
+            //Asignatura
 
+            "\n4. Insertar notas por alumno" +
+            //Profesor
+            //Asignatura
+            "\n5. Listado de % y nota (por aula)" +
+            "\n0. Salir"
         opcion = Number(prompt(texto));
+
 
         switch (opcion) {
             case 1:
-                alert(daw2.mostrarDatos());
+                //TODO Meter bucle
+                agregarAlumnos(aula1, asignaturas);
                 break;
             case 2:
-                daw2.insertarAlumnos(daw2.pedirDatos());
+                asignarAsignaturaProfesor(profesores, asignaturas);
                 break;
             case 3:
-                let notaMedia = daw2.mediasNota();
-                alert(notaMedia + " es la nota media de todos los alumnos");
+                //TODO Continuar por aqui
+                consultarAlumnado(aula1, profesores);
                 break;
             case 4:
-                let alumno = daw2.mejorNota();
-                let texto = "La mejor nota es: " + alumno[0].notaFinalInfo + " y la obtuvo: ";
-                for (let i = 0; i < alumno.length; i++) {
-                    texto += "\n - " + alumno[i].nombreInfo;
-                }
-                alert(texto);
+                //TODO Insertar notas alumno
+                insertarNotasAlumno();
                 break;
             case 5:
-                alert(daw2.mostrarSuspensosAprobados());
+                //TODO Listado aprovado suspenso
+                listadoAprobadosSuspensos();
                 break;
-            case 6:
-                ampliacion1();
+            case 0:
+                alert("Saliendo del programa...");
                 break;
+            default:
+                alert("No es una opcion valida...")
         }
-
-    } while (opcion != 0);
-
-}
-
-function ampliacion1() {
-    let opcion = 0;
-    let daw2_1 = new Aula(3, 102, "Curso de prueba2", 2, [...grupos]);
-    const alumnos = [
-                        new Alumno("00000001A", "Victor", "1989-07-17", 5, 5, 5, "m", "grupo 0"),
-                        new Alumno("00000001B", "Orwin", "2008-07-17", 8, 8, 8, "m", "grupo 0"),
-                        new Alumno("00000001C", "Mary", "1999-07-17", 4, 4, 4, "h", "grupo 0")
-                    ]
-    daw2_1.insertarAlumnos(alumnos);
-
-
-    do {
-        let texto = "Menu Aula y Alumnos" +
-            "\n===================" +
-            "\n 1. Mostrar todos los alumnos " +
-            "\n 2. Mostrar alumnos por grupo " +
-            "\n 3. Agregar alumno a un grupo " +
-            "\n 4. Eliminar un grupo " +
-            "\n 5. Mostrar resumen de grupos " +
-            "\n 6. Calcular media de un grupo" +
-            "\n 7. Mostrar alumno con mejor nota de un grupo" +
-            "\n 8. Porcentaje de suspensos en un grupo" +
-        "\n\n\t 0. Salir"
-        opcion = Number(prompt(texto));
-        const arrayGrupos = [...grupos];
-
-        switch (opcion) {
-            case 1:
-                // Mostrar todos los alumnos
-                console.log(daw2_1.mostrarDatos());
-                break;
-            case 2:
-                //Mostrar alumnos por grupo
-                let textoCase2 = "Introduce el grupo del que deseas ver los alumnos: ";
-                for (let i = 0; i < arrayGrupos.length; i++) {
-                    textoCase2 += "\n" + arrayGrupos[i];
-                }
-                let grupoAMostrar = prompt(textoCase2)
-                if (grupos.has(grupoAMostrar.toLowerCase())) {
-                    console.log(daw2_1.mostrarPorGrupo(grupoAMostrar));
-                } else {
-                    console.log("El grupo \"" + grupoAMostrar +"\" no existe")
-                }
-                break;
-            case 3:
-                //Agregar alumno a un grupo
-                let texto = "¿Que alumno quieres cambiar de grupo?: ";
-                for (let i = 0; i < daw2_1.alumnos.length; i++) {
-                    texto += "\n" + (i + 1) + ". " + daw2_1.alumnos[i].nombreInfo + " -- " + daw2_1.alumnos[i].grupoInfo;
-                }
-                let alumnoCambio = Number(prompt(texto)) - 1;
-
-                texto = "¿A que grupo quieres cambiar a " + daw2_1.alumnos[alumnoCambio].nombreInfo + "?: ";
-                for (let i = 0; i < arrayGrupos.length; i++) {
-                    texto += "\n" + arrayGrupos[i];
-                }
-                texto += "\nPara agregar otro grupo, escribelo:";
-                let grupoAsignado = prompt(texto)
-
-                if (!grupos.has(grupoAsignado)) {
-                    grupos.add(grupoAsignado);
-                    daw2_1.agregarGrupo(grupoAsignado);
-                }
-                alumnoCambio = daw2_1.alumnos[alumnoCambio];
-                daw2_1.cambiarGrupo(alumnoCambio, grupoAsignado)
-                break;
-            case 4:
-                //Eliminar un grupo
-                if (grupos.size >= 0) {
-                    let textoGrupos = "¿Que grupo quieres eliminar?";
-                    let arrayGrupos = [...grupos];
-                    for (let i = 0; i < arrayGrupos.length; i++) {
-                        textoGrupos += "\n" + (i + 1) + ". " + arrayGrupos[i];
-                    }
-                    let opcion = Number(prompt(textoGrupos)) - 1;
-                    let grupoEliminar = arrayGrupos[opcion];
-                    let eliminar = true;
-
-                    for (let i = 0; i < daw2_1.alumnos.length; i++) {
-                        if (daw2_1.alumnos[i].grupoInfo == grupoEliminar) {
-                            eliminar = false;
-                            break;
-                        }
-                    }
-                    if (eliminar) {
-                        grupos.delete(grupoEliminar);
-                        daw2_1.eliminarGrupo(opcion);
-                        console.log("Se ha eliminado el " + grupoEliminar + " correctamente!")
-                    } else {
-                        console.log("No se puede eliminar, hay alumnos en " + grupoEliminar)
-                    }
-                    console.log([...grupos]);
-                } else {
-                    alert("No hay grupos para eliminar...");
-                }
-
-                break;
-            case 5:
-                //Mostrar resumen de grupos
-                let textoPorGrupos = daw2_1.mostrarResumenGrupos();
-                console.log(textoPorGrupos);
-                break;
-            case 6:
-                //Calcular media de un grupo
-                let grupoMedia = prompt(preguntarPorGrupo(arrayGrupos));;
-
-                let mediaPorGrupo = daw2_1.mediaPorGrupo(grupoMedia);
-
-                if(mediaPorGrupo){
-                    console.log("La media de " + grupoMedia + " es " + mediaPorGrupo);
-                } else {
-                    console.log("No existe el grupo \"" + grupoMedia + "\" o no tiene alumnos");
-                }
-                
-                break;
-            case 7:
-                //Mostrar alumno con mejor nota de un grupo
-                let grupoMejorNota = prompt(preguntarPorGrupo(arrayGrupos));
-
-                const alumnoMejorNota = daw2_1.alumnoMejorNotaGrupo(grupoMejorNota);
-
-                let texto7 = "La mejor nota es: " + alumnoMejorNota[0].notaFinalInfo + " y la obtuvo: ";
-                for (let i = 0; i < alumnoMejorNota.length; i++) {
-                    texto7 += "\n - " + alumnoMejorNota[i].nombreInfo;
-                }
-                console.log(texto7);
-
-                break;
-            case 8:
-                //Porcentaje de suspensos en un grupo
-                let grupoSuspensos = prompt(preguntarPorGrupo(arrayGrupos));
-                let porcentaje = daw2_1.porcentajeSuspensosGrupo(grupoSuspensos);
-
-                console.log("En el grupo \"" + grupoSuspensos + "\" hay un " + porcentaje + "% de suspensos");
-                break;
-        }
-
-
 
     } while (opcion != 0)
 
 }
 
+function agregarAlumnos(aula1, asignaturas) {
+    let texto = "\nInsertar alumno: Aula de primero" +
+        "\n================================" +
+        "\nIntroduce el dni:"
+    let dni = prompt(texto);
+    texto = "\nInsertar alumno: Aula de primero" +
+        "\n================================" +
+        "\nIntroduce el nombre:"
+    let nombre = prompt(texto);
 
-function preguntarPorGrupo(arrayGrupos){
-    let texto = "Introduce el grupo: ";
-    for (let i = 0; i < arrayGrupos.length; i++) {
-        texto += "\n" + arrayGrupos[i];
+    let alumno = new Alumno(dni, nombre)
+
+    texto = "\nInsertar alumno: Aula de primero" +
+        "\n================================" +
+        "\n¿Que optativas? Elige separadas por \",\" :"
+
+    const optativas = [];
+    let contador = 1;
+    for (let j = 0; j < asignaturas.length; j++) {
+        if (asignaturas[j].getCurso == 1 && asignaturas[j].getTipo == "Obligatoria") {
+            alumno.insertarAsignatura(asignaturas[j]);
+        } else if (asignaturas[j].getTipo == "Optativa") {
+            optativas.push(asignaturas[j]);
+            texto += "\n" + contador + ". " + asignaturas[j].getNombre;
+            contador++;
+        }
     }
-    return texto;
+
+    let optativasElegidas = prompt(texto);
+    let indicesOptativas = optativasElegidas.split(",");
+
+    for (let i = 0; i < indicesOptativas.length; i++) {
+        let indice = Number(indicesOptativas[i]) - 1
+        alumno.insertarAsignatura(optativas[indice]);
+    }
+
+    aula1.insertarAlumnos(alumno)
+    console.log("Alumnos: " + aula1.alumnos)
 }
+
+function asignarAsignaturaProfesor(profesores, asignaturas) {
+    let texto = "\nSeleccione profesor: Aula de primero" +
+        "\n================================";
+    for (let i = 0; i < profesores.length; i++) {
+        texto += "\n" + (i + 1) + " " + profesores[i].getNombre;
+    }
+    let opcion = Number(prompt(texto)) - 1;
+    const profesor = profesores[opcion];
+    texto = "\nSeleccione asignatura: " + profesor.getNombre +
+        "\n================================";
+
+    const asignaturasYaAsignadas = profesor.getAsignaturas;
+    const asignaturasDisponibles = []
+    let contador = 1;
+
+    if (asignaturasYaAsignadas.length < 2) {
+        for (let i = 0; i < asignaturas.length; i++) {
+            let asignatura = asignaturas[i];
+            let yaAsignada = false;
+
+            for (let j = 0; j < asignaturasYaAsignadas.length && !yaAsignada; j++) {
+                if (asignaturasYaAsignadas[j] === asignatura || 
+                    asignaturasYaAsignadas[j].getCurso == asignaturas[i].getCurso) {
+                    yaAsignada = true;
+                }
+            }
+
+            if (!yaAsignada && asignaturas[i].getProfesor == "") {
+                texto += "\n" + contador + " " + asignaturas[i].getNombre;
+                asignaturasDisponibles.push(asignaturas[i])
+                contador++;
+            }
+        }
+
+        if (asignaturasDisponibles.length === 0) {
+            alert("No hay asignaturas disponibles para este profesor.");
+            return;
+        }
+
+        opcion = Number(prompt(texto)) - 1;
+        let asignatura = asignaturasDisponibles[opcion];
+
+        profesor.agregarAsignatura(asignatura);
+        asignatura.agregarProfesor(profesor.getNombre);
+    } else {
+        console.log("El profesor ya tiene 2 asignaturas asignadas")
+    }
+
+
+
+    console.log(profesor.mostrarInformacion());
+}
+
+function consultarAlumnado(aula, profesores) {
+    let texto = "\nSeleccione profesor: Aula de primero" +
+                "\n================================";
+    for(let i = 0; i<profesores.length; i++){
+        texto += "\n" + (i+1) + ". " + profesores[i].getNombre;
+    }
+    let opcion = Number(prompt(texto));
+
+}
+
+function insertarNotasAlumno() {
+
+}
+
+function listadoAprobadosSuspensos() {
+
+}
+
+
 
 

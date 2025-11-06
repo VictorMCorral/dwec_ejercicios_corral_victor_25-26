@@ -21,11 +21,6 @@ Asegúrate de que la eliminación no deje huecos en el array (undefined).
 */
 
 
-/* 
-    TODO NO se pueden manipular arrays si no los mandamos 
-*/
-
-
 const array = ["Luffy", "Zoro", "Nami", "Usopp", "Sanji","Chopper", "Nico Robin", "Franki", "Brook", "Jinbe" ]
 /*let arrayActual = array.slice();*/
 /*let arrayAnterior = [];*/
