@@ -1,97 +1,107 @@
 console.log("T04 - Ejercicio 03 - Asignaturas");
 
+const asignaturaReutilizable = {
+    mostrarInfo : function () {
+        //TODO hacer el Call()
+    }
+};
+
+
 const programacion = new Object({
-    curso: 1,
-    nombre: "Programacion",
-    tipo: "Obligatoria",
-    profesor: "",
-    alumnos: [],
+    _curso: 1,
+    _nombre: "Programacion",
+    _tipo: "Obligatoria",
+    _profesor: undefined,
+    _alumnos: [],
 });
 
 const baseDeDatos = new Object({
-    curso: 1,
-    nombre: "Base de Datos",
-    tipo: "Obligatoria",
-    profesor: "",
-    alumnos: [],
+    _curso: 1,
+    _nombre: "Base de Datos",
+    _tipo: "Obligatoria",
+    _profesor: undefined,
+    _alumnos: [],
 });
 
 const interfaces = new Object({
-    curso: 2,
-    nombre: "Interfaces",
-    tipo: "Obligatoria",
-    profesor: "",
-    alumnos: [],
+    _curso: 2,
+    _nombre: "Interfaces",
+    _tipo: "Obligatoria",
+    _profesor: undefined,
+    _alumnos: [],
 });
 
 const despliegue = new Object({
-    curso: 2,
-    nombre: "Despliegue",
-    tipo: "Obligatoria",
-    profesor: "",
-    alumnos: [],
+    _curso: 2,
+    _nombre: "Despliegue",
+    _tipo: "Obligatoria",
+    _profesor: undefined,
+    _alumnos: [],
 });
 
 const frameworks = new Object({
-    curso: 1,
-    nombre: "Frameworks",
-    tipo: "Optativa",
-    profesor: "",
-    alumnos: [],
+    _curso: 2,
+    _nombre: "Frameworks",
+    _tipo: "Optativa",
+    _profesor: undefined,
+    _alumnos: [],
 });
 
 const servidor = new Object({
-    curso: 1,
-    nombre: "Servidor",
-    tipo: "Optativa",
-    profesor: "",
-    alumnos: [],
+    _curso: 2,
+    _nombre: "Servidor",
+    _tipo: "Optativa",
+    _profesor: undefined,
+    _alumnos: [],
 });
 
 const sostenibilidad = new Object({
-    curso: 1,
-    nombre: "Sostenibilidad",
-    tipo: "Optativa",
-    profesor: "",
-    alumnos: [],
+    _curso: 2,
+    _nombre: "Sostenibilidad",
+    _tipo: "Optativa",
+    _profesor: undefined,
+    _alumnos: [],
 });
 
 const proyecto = new Object({
-    curso: 1,
-    nombre: "Proyecto",
-    tipo: "Optativa",
-    profesor: "",
-    alumnos: [],
+    _curso: 2,
+    _nombre: "Proyecto",
+    _tipo: "Optativa",
+    _profesor: undefined,
+    _alumnos: [],
 });
 
 function addAllGetters(obj){
-    Object.defineProperty(obj, "getCurso", {
+    Object.defineProperty(obj, "curso", {
         get: function () {
-            return this.curso;
+            return this._curso;
         }
     })
 
-    Object.defineProperty(obj, "getNombre", {
+    Object.defineProperty(obj, "nombre", {
         get: function () {
-            return this.nombre;
+            return this._nombre;
         }
     })
 
-    Object.defineProperty(obj, "getTipo", {
+    Object.defineProperty(obj, "tipo", {
         get: function () {
-            return this.tipo;
+            return this._tipo;
         }
     })
 
-    Object.defineProperty(obj, "getAlumnos", {
+    Object.defineProperty(obj, "alumnos", {
         get: function () {
-            return this.alumnos;
+            return this._alumnos;
         }
     })
 
-    Object.defineProperty(obj, "getProfesor", {
+    Object.defineProperty(obj, "profesor", {
         get: function () {
-            return this.profesor;
+            return this._profesor;
+        },
+        set: function (profesor) {
+            this._profesor = profesor;
         }
     })
 
@@ -102,12 +112,6 @@ function addInsertar(obj){
     Object.defineProperty(obj, "agregarAlumno", {
         value: function(alumno){
             this.alumnos.push(alumno);
-        }
-    })
-
-    Object.defineProperty(obj, "agregarProfesor", {
-        value: function(profesor) {
-            this.profesor = profesor;
         }
     })
 }

@@ -1,33 +1,39 @@
 console.log("T04 - Ejercicio 03 - Profesores");
 
+const profesorReutilizable = {
+    mostrarInfo : function () {
+        //TODO hacer el bind()
+    }
+};
+
 const manuel = new Object({
-    nombre: "Manuel",
-    correo: "Manuel@correo.es",
-    asignaturas: [],
+    _nombre: "Manuel",
+    _correo: "Manuel@correo.es",
+    _asignaturas: [],
 });
 
 const paula = new Object({
-    nombre: "Paula",
-    correo: "Paula@correo.es",
-    asignaturas: [],
+    _nombre: "Paula",
+    _correo: "Paula@correo.es",
+    _asignaturas: [],
 });
 
 function addAllGetters(obj) {
-    Object.defineProperty(obj, "getNombre", {
+    Object.defineProperty(obj, "nombre", {
         get: function () {
-            return this.nombre;
+            return this._nombre;
         }
     })
 
-    Object.defineProperty(obj, "getCorreo", {
+    Object.defineProperty(obj, "correo", {
         get: function () {
-            return this.correo;
+            return this._correo;
         }
     })
 
-    Object.defineProperty(obj, "getAsignaturas", {
+    Object.defineProperty(obj, "asignaturas", {
         get: function () {
-            return this.asignaturas;
+            return this._asignaturas;
         }
     })
 }
@@ -35,6 +41,7 @@ function addAllGetters(obj) {
 function addInsertarAsignatura(obj) {
     Object.defineProperty(obj, "agregarAsignatura", {
         value: function (asignatura) {
+            asignatura.profesor = this;
             this.asignaturas.push(asignatura);
         }
     })
@@ -43,7 +50,7 @@ function addInsertarAsignatura(obj) {
         value: function(){
             let info ="Nombre: " + this.nombre +  "; Correo: " + this.correo 
             for(let i = 0; i<this.asignaturas.length; i++){
-                info += "\n" + this.asignaturas[i].getNombre;
+                info += "\n" + this.asignaturas[i].nombre;
             }
             return info;
         }

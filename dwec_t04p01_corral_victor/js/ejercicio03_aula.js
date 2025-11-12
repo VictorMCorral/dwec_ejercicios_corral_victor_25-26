@@ -64,7 +64,6 @@ function Aula(id, descripcion, maxAlumnos, curso) {
         return datosValidos;
     }
 
-
     this.mostrarDatos = function () {
         let alumnosTexto = "";
         if (this.hayAlumnos()) {
@@ -77,7 +76,6 @@ function Aula(id, descripcion, maxAlumnos, curso) {
         return alumnosTexto;
     }
 
-
     this.insertarAlumnos = function (infoAlumno) {
         /* [alumno, nota]*/
         //let alumno = [infoAlumno, 0]
@@ -88,12 +86,7 @@ function Aula(id, descripcion, maxAlumnos, curso) {
 
 Object.defineProperty(Aula.prototype, "alumnos", {
     get: function () {
-        let info = "";
-        for(let i = 0; i<this._alumnos.length; i++){
-            info += "\n" + this._alumnos[i].mostrarInformacion();
-        }
-
-        return info;
+        return this._alumnos;
     },
     set: function (valor) {
         this._alumnos = valor;
@@ -133,5 +126,14 @@ Object.defineProperty(Aula.prototype, "descripcion", {
     },
     set: function (valor) {
         this._descripcion = valor;
+    }
+});
+
+Object.defineProperty(Aula.prototype, "curso", {
+    get: function () {
+        return this._curso;
+    },
+    set: function (valor) {
+        this._curso = valor;
     }
 });
