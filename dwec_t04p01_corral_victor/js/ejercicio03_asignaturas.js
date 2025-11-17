@@ -7,69 +7,69 @@ const asignaturaReutilizable = {
 };
 
 
-const programacion = new Object({
+const programacion = {
     _curso: 1,
     _nombre: "Programacion",
     _tipo: "Obligatoria",
     _profesor: undefined,
     _alumnos: [],
-});
+};
 
-const baseDeDatos = new Object({
+const baseDeDatos = {
     _curso: 1,
     _nombre: "Base de Datos",
     _tipo: "Obligatoria",
     _profesor: undefined,
     _alumnos: [],
-});
+};
 
-const interfaces = new Object({
+const interfaces = {
     _curso: 2,
     _nombre: "Interfaces",
     _tipo: "Obligatoria",
     _profesor: undefined,
     _alumnos: [],
-});
+};
 
-const despliegue = new Object({
+const despliegue = {
     _curso: 2,
     _nombre: "Despliegue",
     _tipo: "Obligatoria",
     _profesor: undefined,
     _alumnos: [],
-});
+};
 
-const frameworks = new Object({
+const frameworks = {
     _curso: 2,
     _nombre: "Frameworks",
     _tipo: "Optativa",
     _profesor: undefined,
     _alumnos: [],
-});
+};
 
-const servidor = new Object({
+const servidor = {
     _curso: 2,
     _nombre: "Servidor",
     _tipo: "Optativa",
     _profesor: undefined,
     _alumnos: [],
-});
+};
 
-const sostenibilidad = new Object({
+const sostenibilidad = {
     _curso: 2,
     _nombre: "Sostenibilidad",
     _tipo: "Optativa",
     _profesor: undefined,
     _alumnos: [],
-});
+};
 
-const proyecto = new Object({
+const proyecto = {
     _curso: 2,
     _nombre: "Proyecto",
     _tipo: "Optativa",
     _profesor: undefined,
     _alumnos: [],
-});
+};
 
 function addAllGetters(obj){
     Object.defineProperty(obj, "curso", {

@@ -2,43 +2,53 @@ console.log("T04 - Ejercicio 03 - Profesores");
 
 function ejercicio4_with() {
     // w.Usa "with" para crear un nuevo array en el que modifiques la edad de Batman sin alterar el array original.
-    
-    //https://www.w3schools.com/jsrEF/jsref_array_with.asp
+
+        //https://www.w3schools.com/jsrEF/jsref_array_with.asp
         //The with() method updates a specified array element.
         //The with() method returns a new array.
         //The with() method does not change the original array.
-
+        //Lanza excepcion si no existe el indice
     const personajesOriginal = cargarJsonPersonajes();
 
-    const personajeManual = personajesOriginal.with(1, {
-        nombre: personajesOriginal[1].nombre,
-        nombreReal: personajesOriginal[1].nombreReal,
-        profesionReal: personajesOriginal[1].profesionReal,
-        editorial: personajesOriginal[1].editorial,
-        superpoder: personajesOriginal[1].superpoder,
-        debilidad: personajesOriginal[1].debilidad,
-        heroe: personajesOriginal[1].heroe,
-        edad: 45,
-        numeroApariciones: personajesOriginal[1].numeroApariciones,
-        equipo: personajesOriginal[1].equipo,
-        nacionalidad: personajesOriginal[1].nacionalidad,
-        especie: personajesOriginal[1].especie,
-        universo: personajesOriginal[1].universo
-    });
-    console.log("Ejercicio manual: " + personajeManual[1].nombre + " tiene " + personajeManual[1].edad + " años")
+        //Gracias a Miguel
+    let ind = personajesOriginal.findIndex(personajesOriginal => personajesOriginal.nombre === "Batman");
 
-    const personajeModIA = personajesOriginal.with(1, {
-        ...personajesOriginal[1],
+    const personajeManual = personajesOriginal.with(ind, {
+        nombre: personajesOriginal[ind].nombre,
+        nombreReal: personajesOriginal[ind].nombreReal,
+        profesionReal: personajesOriginal[ind].profesionReal,
+        editorial: personajesOriginal[ind].editorial,
+        superpoder: personajesOriginal[ind].superpoder,
+        debilidad: personajesOriginal[ind].debilidad,
+        heroe: personajesOriginal[ind].heroe,
+        edad: 45,
+        numeroApariciones: personajesOriginal[ind].numeroApariciones,
+        equipo: personajesOriginal[ind].equipo,
+        nacionalidad: personajesOriginal[ind].nacionalidad,
+        especie: personajesOriginal[ind].especie,
+        universo: personajesOriginal[ind].universo
+    });
+    console.log(personajeManual[ind])
+
+
+
+
+
+        //OPTIMIZACION IA: operador REST
+        //REST solo copiaria el primer nivel
+    const personajeModIA = personajesOriginal.with(ind, {
+        ...personajesOriginal[ind],
         edad: 40
     });
 
-    console.log("Recomendacion de la IA: " + personajeModIA[1].nombre + " tiene " + personajeModIA[1].edad + " años")
+    console.log(personajeModIA[ind]);
 }
+
 
 function ejercicio4_fill() {
     //x.Usa el método "fill" para añadir dos personajes vacíos al final del array de personajes, con valores predeterminados (por ejemplo: 0 o 'pendiente') que luego se podrán modificar.
-    
-    //https://www.w3schools.com/jsrEF/jsref_fill.asp
+
+        //https://www.w3schools.com/jsrEF/jsref_fill.asp
         //The fill() method fills specified elements in an array with a value.
         //The fill() method overwrites the original array.
         //Start and end position can be specified. If not, all elements will be filled.
@@ -47,7 +57,7 @@ function ejercicio4_fill() {
 
     personajesOriginal.length = (personajesOriginal.length + 2);
 
-    personajesOriginal.fill({
+    const pers = {
         nombre: "pendiente",
         nombreReal: "pendiente",
         profesionReal: "pendiente",
@@ -61,22 +71,24 @@ function ejercicio4_fill() {
         nacionalidad: "pendiente",
         especie: "pendiente",
         universo: "pendiente"
-    }, -2)
+    }
+
+    personajesOriginal.fill(pers, -2)
 
     console.log(personajesOriginal[personajesOriginal.length - 1])
     console.log(personajesOriginal[personajesOriginal.length - 2])
 
-    //fill() SI sobreescribe el original. 
+        //fill() SI sobreescribe el original. 
 }
 
 function ejercicio4_arrayFrom() {
     //y.Usa "Array.from" para crear un nuevo array con dos personajes vacíos independientes, con propiedades iniciales predefinidas.
-    
-    //https://www.w3schools.com/jsref/jsref_from.asp
+
+        //https://www.w3schools.com/jsref/jsref_from.asp
         //The Array.from() method returns an array from any object with a length property.
         //The Array.from() method returns an array from any iterable object.
-    
-        const personajesOriginal = cargarJsonPersonajes();
+
+    const personajesOriginal = cargarJsonPersonajes();
 
     const personajesFrom = Array.from({ length: 2 }, () => ({
         nombre: "pendiente",
@@ -96,19 +108,6 @@ function ejercicio4_arrayFrom() {
     )
 
     console.log(personajesFrom);
-
-    //Utilizando como plantilla un personaje del array original
-    const plantilla = personajesOriginal[0];
-
-    const personajesIAVacios = Array.from({ length: 2 }, () => {
-        const nuevoPersonaje = {};
-        for (let key in plantilla) {
-                nuevoPersonaje[key] = "pendiente";
-        }
-        return nuevoPersonaje;
-    });
-
-    console.log(personajesIAVacios);
 }
 
 

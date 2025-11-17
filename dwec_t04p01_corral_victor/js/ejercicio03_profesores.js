@@ -6,17 +6,17 @@ const profesorReutilizable = {
     }
 };
 
-const manuel = new Object({
+const manuel = {
     _nombre: "Manuel",
     _correo: "Manuel@correo.es",
     _asignaturas: [],
-});
+};
 
-const paula = new Object({
+const paula ={
     _nombre: "Paula",
     _correo: "Paula@correo.es",
     _asignaturas: [],
-});
+};
 
 function addAllGetters(obj) {
     Object.defineProperty(obj, "nombre", {
