@@ -31,6 +31,7 @@ class LeerDatos {
 }
 
 class LeerDatosPrompt extends LeerDatos {
+    //2025-11-20 --> 9 funciones
     leerEntero(mensaje_o_id) {
         // Recibe: una cadena con el mensaje a mostrar al usuario.
         // Hace: solicita un número entero mediante prompt(). Si el valor no es entero, lanza excepción.
@@ -46,12 +47,15 @@ class LeerDatosPrompt extends LeerDatos {
         // Recibe: una cadena con el mensaje.
         // Hace: llama a leerEntero() repetidamente hasta que el usuario introduzca un entero válido.
         // Devuelve: el número entero válido.
-        let valor = 0;
-        while (valor === 0) {
+        let valor = undefined;
+        let continuar = true;
+        while (continuar) {
             try {
                 valor = this.leerEntero(mensaje_o_id);
+                continuar = false;
             } catch (err) {
                 console.error(err);
+                continuar = true;
             }
 
         }
@@ -88,39 +92,77 @@ class LeerDatosPrompt extends LeerDatos {
         // Recibe: mensaje, valor mínimo y valor máximo.
         // Hace: llama a leerEnteroEntre() repetidamente hasta que el usuario introduzca un entero válido.
         // Devuelve: el número entero válido.
-        let valorNumber = 0;
-        while (valorNumber === -1) {
+        let continuar = true;
+        while (continuar) {
             try {
                 valorNumber = this.leerEnteroEntre(mensaje_o_id, min, max);
+                continuar = false;
             } catch (err) {
                 console.error(err);
+                continuar = true;
             }
         }
 
         return valorNumber;
     }
-    leerCadena(mensaje_o_id) {
+    leerCadena1(mensaje_o_id) {
         // Recibe: una cadena con el mensaje.
         // Hace: solicita una cadena mediante prompt(). Comprueba que no esté vacía y tenga al menos 1 carácter. Si no, lanza excepción.
         // Devuelve: la cadena válida, o lanza excepción si no lo es.
         let valor = prompt(mensaje_o_id);
-        if (valor.trim() === "" || valor.trim().length === 1) {
+        if (valor.trim() === "" || valor.trim().length <= 1) {
             throw new Error("El texto introducido esta vacio o tiene menos de 2 letras");
         }
         return valor;
     }
 
-    leerCadenaHasta(mensaje_o_id) {
+    leerCadena2(mensaje_o_id, longitud){
+        // Recibe: una cadena con el mensaje y su longitud mínima.
+        // Hace: solicita una cadena mediante prompt(). Comprueba que no esté vacía y tenga al menos la longitud de caracteres indicada. Si no, lanza excepción.
+        // Devuelve: la cadena válida, o lanza excepción si no lo es.
+        let valor = prompt(mensaje_o_id + " de la siguiente longitud minima: " + longitud);
+        if(valor.trim() === "" || valor.trim().length < longitud){
+            throw new Error("El texto introducido esta vacio o tiene menos de " + longitud + " letras")
+        }
+        return valor;
+    }
+
+    leerCadena3(mensaje_o_id, longitud, patron){
+        // Recibe: una cadena con el mensaje, su longitud mínima y un patrón.
+        // Hace: solicita una cadena mediante prompt(). Comprueba que no esté vacía, tenga al menos la longitud de caracteres indicada y cumpla el patrón. Si no, lanza excepción.
+        // Devuelve: la cadena válida, o lanza excepción si no lo es.
+        const regex = patron;
+        let valor = prompt(mensaje_o_id + " de la siguiente longitud minima: " + longitud  + " y el siguiente patron: " + patron);
+        if(valor.trim() === "" || 
+            valor.trim().length < longitud ||
+            !regex.test(valor.trim())){
+            throw new Error("El texto introducido esta vacio o tiene menos de " + longitud + " letras")
+        }
+        return valor;
+    }
+
+    leerCadenaHasta(...atributos) {
         // Recibe: una cadena con el mensaje.
         // Hace: llama a leerCadena() repetidamente hasta que el usuario introduzca una cadena válida.
         // Devuelve: la cadena válida.
+        
         let valor = "";
-
-        while (valor === "") {
+        let continuar = true;
+        while (continuar) {
             try {
-                valor = this.leerCadena(mensaje_o_id);
+                switch(atributos.length) {
+                    case 1: 
+                        valor = this.leerCadena(mensaje_o_id);
+                        break;
+                    case 2: 
+                        valor = this.leerCadena(mensaje_o_id, longitud);
+                        break;
+                }
+                
+                continuar = false;
             } catch (err) {
                 console.error(err);
+                continuar = true;
             }
         }
 

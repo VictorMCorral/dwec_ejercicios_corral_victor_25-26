@@ -1,13 +1,15 @@
-// Debe ser estatica
 class Util {
+    //20/11/2025 --> 16 funciones
     static validarEntero(valor) {
         // Comprueba que valor es un entero.
+        valor = Number(valor);
         return Number.isInteger(valor);
 
     }
     static validarReal(valor) {
         // Comprueba que valor es un número real.
-        return typeof valor === "number" && !Number.isNaN(valor);
+        valor = Number(valor);
+        return !Number.isNaN(valor);
     }
     static validarCadenaFecha(valor) {
         // Comprueba que valor es una cadena fecha correcta. Admite distintos formatos de fecha.
@@ -18,7 +20,6 @@ class Util {
         const regex = /^(?:\d{4}-\d{1,2}-\d{1,2}|\d{1,2}-\d{1,2}-\d{4})$/;
         return regex.test(valor);
     }
-
     static validarFecha(valor) {
         // Comprueba que valor es una fecha correcta. Hará uso de la función anterior.
         let fechaValida = false;
@@ -46,22 +47,20 @@ class Util {
         }
         return fechaValida;
     }
-
     static validarTitulo(titulo) {
         // Comprueba que el titulo sea una cadena y tenga longitud mínima de 1 carácter.
-        let valido = true;
-        if (titulo.length < 1) {
-            valido = false;
-        } else if (typeof titulo !== "string") {
-            valido = false;
-        }
-        return valido;
+        return typeof titulo === "string" && titulo.length>0;
     }
 
     static validarNombrePersona(nombre) {
         // Comprueba que el nombre sea una cadena formada por letras y tenga longitud mínima de 3 carácter.
         const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]{4,}$/;
         return regex.test(nombre);
+    }
+
+    static validarDireccion(direccion){
+        //Comprueba que el direccion sea una cadena que tenga longitud mínima de 3 caracteres.
+        return  typeof titulo === "string" && titulo.length>2;
     }
 
     static validarPrecio(precio) {
@@ -72,21 +71,23 @@ class Util {
         // Comprueba que el tamaño sea un número positivo mayor que 0.
         return this.validarReal(tamanoArchivo) && tamanoArchivo>0;
     }
-    
-    static validarFormato(formato) {
-        // Comprueba que el formato esté entre PDF, EPUB, MOBI.
-        return formato === "PDF" || formato === "EPUB" || formato === "MOBI";
-    }
-    
+
     static validarPeso(peso) {
         // Comprueba que el peso sea un número positivo mayor que 0.
         return this.validarReal(peso) && peso>0;
     }
+
+    static validarStock(stock){
+        //Comprueba que el stock sea un número positivo mayor que 0.
+        return this.validarEntero(stock) && stock>0;
+    }
+
     static validarDimensiones(dimensiones) {
         // Comprueba que las dimensiones tengan el formato correcto (ejemplo: 20x15x3).
         const regex = /^\d+x\d+x\d+$/
         return regex.test(dimensiones);
     }
+
     static esMesPromocion(fecha, array_meses_promocion) {
         // Comprueba que la fecha está en uno de los meses de promoción. Devuelve true / false.
         let promocion = false;
@@ -98,6 +99,11 @@ class Util {
         return promocion;
         }
 
+    static validarFormato(formato, setFormatosValidos) { 
+        // Comprueba que el formato esté entre PDF, EPUB, MOBI.
+        return setFormatosValidos.has(formato);
+    }
+    
     static validarGenero(generoLeido, setGenerosValidos){
         //Comprueba que el genero leído sea válido dentro de la lista de géneros soportados.
         return setGenerosValidos.has(generoLeido);
