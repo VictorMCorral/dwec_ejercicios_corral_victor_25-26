@@ -75,6 +75,23 @@ class LeerDatosPrompt extends LeerDatos {
         return valorNumber;
     }
 
+    leerRealHasta(mensaje_o_id) {
+        let valor = undefined;
+        let continuar = true;
+        while (continuar) {
+            try {
+                valor = this.leerReal(mensaje_o_id);
+                continuar = false;
+            } catch (err) {
+                console.error(err);
+                continuar = true;
+            }
+
+        }
+
+        return valor;
+    }
+
     leerEnteroEntre(mensaje_o_id, min, max) {
         // Recibe: mensaje, valor mínimo y valor máximo.
         // Hace: solicita un entero y valida que esté entre los límites. Si no, lanza excepción.
@@ -93,6 +110,7 @@ class LeerDatosPrompt extends LeerDatos {
         // Hace: llama a leerEnteroEntre() repetidamente hasta que el usuario introduzca un entero válido.
         // Devuelve: el número entero válido.
         let continuar = true;
+        let valorNumber = null;
         while (continuar) {
             try {
                 valorNumber = this.leerEnteroEntre(mensaje_o_id, min, max);
@@ -105,6 +123,7 @@ class LeerDatosPrompt extends LeerDatos {
 
         return valorNumber;
     }
+
     leerCadena1(mensaje_o_id) {
         // Recibe: una cadena con el mensaje.
         // Hace: solicita una cadena mediante prompt(). Comprueba que no esté vacía y tenga al menos 1 carácter. Si no, lanza excepción.
@@ -146,17 +165,19 @@ class LeerDatosPrompt extends LeerDatos {
         // Hace: llama a leerCadena() repetidamente hasta que el usuario introduzca una cadena válida.
         // Devuelve: la cadena válida.
         
-        let valor = "";
+        let valor = null;
         let continuar = true;
         while (continuar) {
             try {
                 switch(atributos.length) {
                     case 1: 
-                        valor = this.leerCadena(mensaje_o_id);
+                        valor = this.leerCadena1(atributos[0]);
                         break;
                     case 2: 
-                        valor = this.leerCadena(mensaje_o_id, longitud);
+                        valor = this.leerCadena2(atributos[0], atributos[1]);
                         break;
+                    case 3: 
+                        valor = this.leerCadena3(atributos[0], atributos[1], atributos[2])
                 }
                 
                 continuar = false;

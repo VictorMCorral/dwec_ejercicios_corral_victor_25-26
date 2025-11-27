@@ -6,52 +6,57 @@ class Libros{
     
     constructor(){
         // Y un constructor que crea la lista de libros vacía.
-        this.#libros = []
+        this.libros = []
+    }
+
+    get libros(){
+        return this.#libros;
+    }
+
+    set libros(libros){
+        this.#libros = libros;
     }
     
     // También tiene los siguientes métodos:
     existeLibroPorIsbn(isbnAbuscar){
         // existeLibroPorIsbn(isbnAbuscar): devuelve true o false si ya existe 
         // el isbn que se recibe como argumento en la lista de libros.
-        if(Util.validarReal(isbnAbuscar)){
-            this.#libros.forEach(element => {
-                if(element.isbn == isbnAbuscar){
-                    return true;
-                }
-            });
-        }
+        // let existe = false;
+        // if(Util.validarReal(isbnAbuscar)){
+        //     this.libros.forEach(element => {
+        //         if(element.isbn === isbnAbuscar){
+        //             existe = true;
+        //         }
+        //     });
 
-        return false;
+            return this.libros.some(libro => libro.isbn === isbnAbuscar);
+        //return existe;
     }
 
     insertarLibros(libros){
         // insertarLibros(libros): recibe un array de libros y los inserta en la lista de libros. 
         //Verifica antes de insertar que el isbn no exista. Devuelve el número de libros insertados.
         let contador = 0;
-        let texto = "";
+
         libros.forEach(element => {
             if(!this.existeLibroPorIsbn(element.isbn)){
-                this.#libros.push(element);
+                this.libros.push(element);
                 contador ++;
-            } else {
-                texto += element.isbn + " esta duplicado";
             }
         });
 
-        if(texto != ""){
-            throw new Error(texto);
-        }
         return contador;
     }
     buscarLibroPorIsbn(isbnAbuscar){
         // buscarLibroPorIsbn(isbnAbuscar): devuelve un objeto libro por isbn.
+        let libro = null;
         if(Util.validarReal(isbnAbuscar)){
-            this.#libros.forEach(element => {
+            this.libros.forEach(element => {
                 if(element.isbn === isbnAbuscar){
-                    return element;
+                    libro = element;
                 }
             });
-            throw new Error (`No se ha encontrado el libro con isbn ${isbnAbuscar}`);
+            return libro;
         } 
     }
     
@@ -59,44 +64,45 @@ class Libros{
         // buscarLibroPorTitulo(tituloAbuscar): devuelve un array de objetos libro por título.
         const libros = [];
         if(Util.validarTitulo(tituloAbuscar)){
-            this.#libros.forEach(element => {
+            this.libros.forEach(element => {
                 if(element.titulo === tituloAbuscar){
                     libros.push(element);
                 }
             });
             if(libros.length === 0){
-                throw new Error (`No se ha encontrado el libro con isbn \"${tituloAbuscar}\"`);
+                return null;
             } else {
                 return libros;
             }
         } 
-
     }
 
     modificarLibroPorIsbn(isbnAmodificarm, mapaConInfo){
         // modificarLibroPorIsbn(isbnAmodificar, mapaConInfo): modifica un objeto libro por isbn 
         // con los datos recibidos en el mapa.
-        //TODO ¿Seria buena practica instace of?
         let libro = this.buscarLibroPorIsbn(isbnAmodificarm)
-        libro.modificarLibro(mapaConInfo);
+        if(libro !== null){
+            libro.modificarLibro(mapaConInfo);
+        }
+        
     }
 
     obtenerCadenaLibrosMenu(){
         // obtenerCadenaLibrosMenu(): Devuelve una cadena con el listado numerado de los 
         // títulos de los libros en orden alfabético y entre paréntesis si es Ebook o libro en papel.
-        let texto = "";
-        for(let i = 0; i<this.#libros.length; i++){
+        let texto = "Libros: ";
+        for(let i = 0; i<this.libros.length; i++){
             let tipoLibro = "";
-            if(this.#libros[i] instanceof Ebook){
+            if(this.libros[i] instanceof Ebook){
                 tipoLibro = "Ebook";
-            } else if (this.#libros[i] instanceof LibroPapel){
+            } else if (this.libros[i] instanceof LibroPapel){
                 tipoLibro = "Libro en papel";
             }
 
-            texto += `\n${i+1}.- ${this.#libros[i].titulo} (${tipoLibro})`
+            texto += `\n${i+1}.- ${this.libros[i].titulo} (${tipoLibro})`
         }
 
-        if(texto === ""){
+        if(this.libros.length <= 0){
             texto ="No existe ningun libro";
         }
         return texto;

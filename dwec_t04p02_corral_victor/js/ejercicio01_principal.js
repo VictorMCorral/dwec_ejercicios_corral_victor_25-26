@@ -6,15 +6,30 @@ boton.addEventListener("click", () => {
 })
 
 function main(){
-    let libro1 = new Ebook(555555555, "Titulo 1", ["este", "esta", "Estos"], "Novela", 10.24, 1024, "pdf")
-
-
-    let libro2 = new LibroPapel(555555555, "Titulo 1", ["este", "esta", "Estos"], "Novela", 10.25, 1024, "20x05x50", 2)
-
-
-    let biblioteca = new Libros();
-    biblioteca.insertarLibros([libro1, libro2]);
-    console.log(biblioteca.obtenerCadenaLibrosMenu());
-    //TODO Terminar de comprobar los metodos
+    const rinconLector = Tienda.getInstancia("El Rincon del lector");
+    rinconLector.iniciar();
+    rinconLector.cargarDatosPrueba();
     
+
+    console.log("TODOS");
+    rinconLector.clientes.clientes.forEach(cliente => {
+        console.log(cliente.mostrarDatosCliente());
+    });
+    console.log("TRUE");
+    console.log(rinconLector.tiposEnvios.existeTipoPorNombre("Envio 1"));
+    console.log("FALSE");
+    console.log(rinconLector.tiposEnvios.existeTipoPorNombre("Envio 3"));
+    console.log(rinconLector.tiposEnvios.buscarTiposPorNombre("Envio a"));
+    console.log(rinconLector.tiposEnvios.buscarTiposPorNombre("Envio 3"));
+    console.log(rinconLector.tiposEnvios.obtenerCadenaTiposMenu());
+    
+    
+    
+
+
+
+    // switch (opcion){
+    //     case 1: 
+    //         break;
+    // }
 }

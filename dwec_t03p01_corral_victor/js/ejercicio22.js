@@ -55,8 +55,6 @@ function validarDNI(dato) {
         console.log("El dni no es correcto");
         return false;
     }
-
-
 }
 
 function validarCIF(dato) {

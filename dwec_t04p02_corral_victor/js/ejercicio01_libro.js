@@ -48,24 +48,30 @@ class Libro{
         // Y un constructor que recibe el isbn, el título, el autor, el género y el precio. 
         //Aquí se harán validaciones antes de crear.
 
-        this.isbn = isbn;
+        this.#_isbn = isbn;
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
         this.precio = precio;
-        this.#precioOriginal = precio;
+        this.#pOriginal = precio;
     }
 
     //Y los siguientes métodos:
     // getter//setter
 
-    set isbn(isbn){
+    set #_isbn(isbn){
         if(Util.validarEntero(isbn)){
             this.#isbn = isbn; 
         } else {
             throw new Error ("No es un Isbn valido");
         }
         
+    }
+
+    set #pOriginal(precio){
+        if(Util.validarReal(precio)){
+            this.#precioOriginal = precio;
+        }
     }
 
     get isbn(){
@@ -99,19 +105,7 @@ class Libro{
     }
 
     set autor(autor){
-        let texto = "";
-        //TODO modificar para cuando haga la clase autor
-        for(let i = 0; i<autor.length; i++){
-            if(!Util.validarNombrePersona(autor[i])){
-                texto += `\n ${autor[i]} no es valido`;
-            } 
-        }
-
-        if(texto === ""){
-            this.#autor = autor;
-        } else {
-            throw new Error(texto);
-        }
+        this.#autor = autor;
     }
 
     get autor(){
@@ -131,15 +125,15 @@ class Libro{
         return this.#precio;
     }
 
-    set precioOriginal(precioOriginal){
-        if(Util.validarReal(precioOriginal)){
-            this.#precioOriginal = precioOriginal;
-        } else {
-            throw new Error("El descuento no es valido");
-        }  
-    }
+    // set precioOriginal(precioOriginal){
+    //     if(Util.validarReal(precioOriginal)){
+    //         this.#precioOriginal = precioOriginal;
+    //     } else {
+    //         throw new Error("El descuento no es valido");
+    //     }  
+    // }
 
-    get precioOriginal(){
+    get #pOriginal(){
         return this.#precioOriginal;
     }
 
@@ -155,19 +149,20 @@ class Libro{
 
     deshacerDescuentoLibro(){
         //deshacerDescuentoLibro(): deshace el último descuento aplicado. Si no hay ningún descuento previo aplicado, no hace nada. Por tanto, el libro conservará el precio original antes del descuento.
-        if(this.precio !== this.precioOriginal){
-            this.precio = this.precioOriginal;
-        } else {
-            throw new Error (`${this.titulo} no tiene un descuento aplicado. `)
-        }
+        if(this.precio !== this.#pOriginal){
+            this.precio = this.#pOriginal;
+        } 
     }
     
     aplicarDescuentoLibro(descuento){
-        //aplicarDescuentoLibro(descuento): cambiar el precio del libro una vez aplicado el descuento. No devuelve nada. Solo se puede aplicar un descuento. Así que si el libro ya tenía descuento, se deshace el que hubiese y se aplica el nuevo.
-        if(this.precio !== this.precioOriginal && Util.validarReal(descuento)){
-            this.precio = this.precio * (descuento/100);
-        } else {
-            throw new Error (`${this.titulo} ya tiene un descuento aplicado. `)
+        //aplicarDescuentoLibro(descuento): cambiar el precio del libro una vez aplicado el descuento. No devuelve nada. Solo se puede aplicar un descuento. 
+        //Así que si el libro ya tenía descuento, se deshace el que hubiese y se aplica el nuevo.
+        if(Util.validarReal(descuento)){
+            if(this.precio !== this.#pOriginal){
+                this.deshacerDescuentoLibro();
+            }
+
+            this.precio = this.precio - (precio * (descuento/100));
         }
     }
     //Algun metodo que consideres necesarios y sean comunes a los hijos e identicos.
@@ -257,7 +252,9 @@ class Ebook extends Libro{
         // Define un método modificarLibro() que sea diferente para cada subclase (polimorfismo) 
         // que reciba toda la información que se pueda modificar en un mapa y la modifique.
         for (const [clave, valor] of mapaInfo){
-            this[clave] = valor;
+            if(this.hasOwnProperty(clave)){
+                this[clave] = valor;
+            }
         }
     }
 }
@@ -272,7 +269,7 @@ class LibroPapel extends Libro{
     #dimensiones;
     #stock;
     // La clase LibroPapel también tiene una propiedad estática que avisa del número mínimo de unidades que se permiten en stock antes de pedir más unidades.
-    static minimoStock;
+    static minimoStock = 2;
 
     constructor(isbn, titulo, autor, genero, precio, peso, dimensiones, stock){
         // Y un constructor que recibe todo lo esperado y llama al padre con super().
@@ -281,7 +278,6 @@ class LibroPapel extends Libro{
         this.peso = peso;
         this.dimensiones = dimensiones;
         this.stock =stock;
-        LibroPapel.minimoStock = 2;
         // Métodos específicos:
         // getter//setter
     }
@@ -339,7 +335,7 @@ class LibroPapel extends Libro{
     }
 
     ampliarStock(numUnididades){    
-        if(Util.validarReal(numUnididades)){
+        if(Util.validarEntero(numUnididades)){
             this.stock = this.stock + numUnididades;
         } else {
             throw new Error ("Numero de unidades no valido");
@@ -363,7 +359,9 @@ class LibroPapel extends Libro{
     modificarLibro(mapaInfo){
     // Define un método modificarLibro() que sea diferente para cada subclase (polimorfismo) que reciba toda la información que se pueda modificar en un mapa y la modifique.
         for (const [clave, valor] of mapaInfo){
-            this[clave] = valor;
+            if(this.hasOwnProperty(clave)){
+                this[clave] = valor;
+            }
         }
     }
 }
