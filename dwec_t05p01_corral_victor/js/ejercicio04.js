@@ -13,8 +13,12 @@ function crearElemento(){
     elementoNuevo.innerText = contenido;
     lista.appendChild(elementoNuevo);
     
-    document.getElementById("ordenar").classList.remove("d-none");
-    document.getElementById("ordenar").classList.add("d-block");
+    let elementos = lista.querySelectorAll("li");
+
+    if(elementos.length >= 2){
+        document.getElementById("ordenar").classList.remove("d-none");
+        document.getElementById("ordenar").classList.add("d-block");
+    }
 
 }
 
@@ -32,7 +36,7 @@ function borrarElemento(){
     lista.removeChild(elementoBorrar);
     elementos = lista.querySelectorAll("li");
 
-    if(elementos.length == 0){
+    if(elementos.length <= 1){
         document.getElementById("ordenar").classList.add("d-none");
         document.getElementById("ordenar").classList.remove("d-block");
     }
