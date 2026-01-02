@@ -1,0 +1,44 @@
+extends base
+
+block content 
+    .container-fluid.w-50
+        form(action="/", method="get" id="formBuscador" name="formBuscador")
+            .row
+                .col-8
+                    input(type="search" id="buscador" name="buscador" placeholder="Busca por titulo, genero o autor").form-control
+                .col-4
+                    input(type="submit" value="Buscar")
+    .container-fluid.w-75 
+        <table class="table table-striped" id="resultadosBusqueda">
+            <thead>
+                <tr>
+                <th scope="col">ISBN</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Autores</th>
+                <th scope="col">Genero</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Stock</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        //- ---- Modal ---- 
+        <div class="modal fade" tabindex="-1" id="modalLibros">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="titulo"></h1>
+                </div>
+                <div class="modal-body" id="cuerpo">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>

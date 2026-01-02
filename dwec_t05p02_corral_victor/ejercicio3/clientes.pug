@@ -1,0 +1,118 @@
+extends base
+
+block content 
+    .container-fluid.w-50.border.p-4
+        .row
+            form(action="/", method="post" novalidate).needs-validation
+                .col.d-flex.justify-content-center
+                    label(for="dni").tamano-pred Dni: 
+                    input(type="text" name="dni" id="dni" pattern="([0-9]{8}[A-Z])|([XYZ][0-9]{7}[A-Z])" placeholder="Introduce tu dni" required class="form-control")
+                    .invalid-feedback El DNI no tiene un formato válido o ya existe.
+                .col.d-flex.justify-content-center
+                    label(for="nombre").tamano-pred Nombre: 
+                    input(type="text" name="nombre" class="form-control" id="nombre" placeholder="Introduce tu nombre" required) 
+                    .invalid-feedback El nombre no puede estar vacio
+                .col.d-flex.justify-content-center
+                    label(for="direccion").tamano-pred Direccion: 
+                    input(type="text" name="direccion" class="form-control" id="direccion" placeholder="Introduce tu Direccion" required) 
+                    .invalid-feedback La direccion no puede estar vacia 
+                .col.d-flex.justify-content-center.mt-4
+                    input(type="submit", value="Crear cliente")
+    .container-fluid.w-75.p-4
+        <table class="table table-striped" id="resultadosBusquedaClientes">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center">DNI</th>
+                    <th scope="col" class="text-center">Nombre</th>
+                    <th scope="col" class="text-center">Direccion</th>
+                    <th scope="col" class="text-center">Pedido</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">00000000A</td>
+                    <td class="text-center">Noombre 1</td>
+                    <td class="text-center">Direccion 1</td>
+                    <td class="text-center">
+                        input(type="button", value="Ver detalles")    
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">00000000A</td>
+                    <td class="text-center">Noombre 1</td>
+                    <td class="text-center">Direccion 1</td>
+                    <td class="text-center">
+                        input(type="button", value="Ver detalles")    
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">00000000A</td>
+                    <td class="text-center">Noombre 1</td>
+                    <td class="text-center">Direccion 1</td>
+                    <td class="text-center">
+                        input(type="button", value="Ver detalles")    
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="miModal" class="card-group"> 
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Pedido: IDPEDIDO</h5>
+                    table
+                        thead 
+                            tr 
+                                th(scope="col").text-center Titulo
+                                th(scope="col").text-center Cantidad
+                                th(scope="col").text-center Precio
+                        tbody 
+                            tr 
+                                td.text-center Titulo 1
+                                td.text-center 5
+                                td.text-center 100 €
+                            tr
+                                td.text-center Titulo 2
+                                td.text-center 4
+                                td.text-center 50 €
+                            tr 
+                                td.text-center Gastos de envio
+                                td.text-center 
+                                td.text-center 0.5 €
+                        tfoot
+                            tr 
+                                th(scope="col").text-center TOTAL
+                                th(scope="col").text-center 
+                                th(scope="col").text-center 700,5 €  
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Pedido: IDPEDIDO</h5>
+                    table
+                        thead 
+                            tr 
+                                th(scope="col").text-center Titulo
+                                th(scope="col").text-center Cantidad
+                                th(scope="col").text-center Precio
+                        tbody 
+                            tr 
+                                td.text-center Titulo 1
+                                td.text-center 5
+                                td.text-center 100 €
+                            tr
+                                td.text-center Titulo 2
+                                td.text-center 4
+                                td.text-center 50 €
+                            tr 
+                                td.text-center Gastos de envio
+                                td.text-center 
+                                td.text-center 0.5 €
+                        tfoot
+                            tr 
+                                th(scope="col").text-center TOTAL
+                                th(scope="col").text-center 
+                                th(scope="col").text-center 700,5 €  
+                </div>
+            </div>
+        </div>
+

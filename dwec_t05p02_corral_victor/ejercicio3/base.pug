@@ -1,0 +1,14 @@
+html 
+    include ./partials/head
+    body.d-flex.flex-column.min-vh-100
+        header.container-fluid.d-flex.justify-content-center.py-3
+            include ./partials/header
+        include ./partials/nav
+        main.container-fluid.flex-grow-1
+            block content
+        footer.container-flui.mt-auto.d-flex.justify-content-center.py-3
+            include ./partials/footer
+    
+    <!-- Enlace al archivo JavaScript -->
+    include ./partials/scripts
+</html>

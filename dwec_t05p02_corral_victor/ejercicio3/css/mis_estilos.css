@@ -1,0 +1,85 @@
+/* NAV */
+
+/*
+    Paleta de colores:
+    #455455
+    #B4964E
+    #D9C6A3
+    #735838
+    #0D0D0D
+*/
+body{
+    background-color: #D9C6A3;
+}
+
+.tamano-pred{
+    width: 7rem;
+}
+
+.borde_inferior{
+    border-bottom: 1px solid #B4964E;
+    margin-bottom: 2rem;
+}
+.bordes_laterales > :first-child {
+    border-left: 1px solid #B4964E;
+}
+.bordes_laterales li a:hover{
+    color: #0D0D0D;
+    background-color: #B4964E;
+}
+
+.bordes_laterales li{
+    border-right: 1px solid #B4964E;
+}
+
+.bordes_laterales li a{
+    color: #0D0D0D;
+}
+
+.nav-burger {
+    display: flex;
+    font-size: 10px;
+    justify-content: flex-end;
+}
+
+.ul-nav{
+    display: none;
+}
+
+@media (min-width: 576px) {
+    .nav-burger{
+        display: none;
+    }
+
+    .ul-nav {
+        display: flex;
+        font-size: 10px;
+        justify-content: flex-end;
+    }
+}
+
+/* HEADER */
+header{
+    background-color: #B4964E;
+
+}
+
+header span{
+    color: #0D0D0D;
+}
+
+.logo-header {
+    height: 100px;
+    width: auto;
+}
+
+
+
+/* FOOTER */
+footer{
+    background-color: #B4964E;
+}
+
+footer span{
+    color: #0D0D0D;
+}
