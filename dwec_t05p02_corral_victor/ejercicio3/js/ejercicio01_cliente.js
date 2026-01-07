@@ -61,8 +61,14 @@ class Cliente{
         return `${this.nombreCompleto}, dni: ${this.dni} direccion: ${this.direccion}; \n${this.mostrarPedidosClienteAbierto()}`;
     }
     // mostrarPedidosClienteAbierto(): Devuelve una cadena con toda la información de los pedidos abiertos de este cliente. No recibe nada.
-    mostrarPedidosClienteAbierto(){
-        //TODO need Pedidos;
+    mostrarPedidos(){
+        return this.listaPedidos;
+    }
+
+    insertarPedido(pedido){
+        // insertarPedido(pedido): Inserta un pedido en la lista de pedidos del cliente. Devuelve el número de pedidos que tiene el cliente.
+        this.#listaPedidos.push(pedido);
+        return this.#listaPedidos.length;
     }
 
 }

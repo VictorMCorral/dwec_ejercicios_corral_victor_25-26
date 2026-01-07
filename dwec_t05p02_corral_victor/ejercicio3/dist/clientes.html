@@ -21,7 +21,7 @@
 <ul class="nav nav-pills bordes_laterales">
 <li class="nav-item"><a href="catalogo.html" class="nav-link">Catalogo</a></li>
 <li class="nav-item"><a href="clientes.html" class="nav-link">Clientes</a></li>
-<li class="nav-item"><a href="#" class="nav-link">Nuevo libro</a></li>
+<li class="nav-item"><a href="nuevoLibro.html" class="nav-link">Nuevo libro</a></li>
 <li class="nav-item"><a href="#" class="nav-link">Crear pedido</a></li>
 </ul>
 </div>
@@ -29,18 +29,18 @@
     <main class="container-fluid flex-grow-1">
       <div class="container-fluid w-50 border p-4">
         <div class="row">
-          <form class="needs-validation" action="/" method="post" novalidate="novalidate">
-            <div class="col d-flex justify-content-center">
+          <form class="needs-validation" action="/" method="post" novalidate="novalidate" id="formCrearCliente" name="formCrearCliente">
+            <div class="col">
               <label class="tamano-pred" for="dni">Dni: </label>
               <input class="form-control" type="text" name="dni" id="dni" pattern="([0-9]{8}[A-Z])|([XYZ][0-9]{7}[A-Z])" placeholder="Introduce tu dni" required="required"/>
               <div class="invalid-feedback">El DNI no tiene un formato válido o ya existe.</div>
             </div>
-            <div class="col d-flex justify-content-center">
+            <div class="col">
               <label class="tamano-pred" for="nombre">Nombre: </label>
               <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Introduce tu nombre" required="required"/>
               <div class="invalid-feedback">El nombre no puede estar vacio</div>
             </div>
-            <div class="col d-flex justify-content-center">
+            <div class="col">
               <label class="tamano-pred" for="direccion">Direccion: </label>
               <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Introduce tu Direccion" required="required"/>
               <div class="invalid-feedback">La direccion no puede estar vacia </div>
@@ -61,104 +61,9 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="text-center">00000000A</td>
-<td class="text-center">Noombre 1</td>
-<td class="text-center">Direccion 1</td>
-<td class="text-center">
-        <input type="button" value="Ver detalles"/></td>
-</tr>
-<tr>
-<td class="text-center">00000000A</td>
-<td class="text-center">Noombre 1</td>
-<td class="text-center">Direccion 1</td>
-<td class="text-center">
-        <input type="button" value="Ver detalles"/></td>
-</tr>
-<tr>
-<td class="text-center">00000000A</td>
-<td class="text-center">Noombre 1</td>
-<td class="text-center">Direccion 1</td>
-<td class="text-center">
-        <input type="button" value="Ver detalles"/></td>
-</tr>
 </tbody>
 </table>
-<div id="miModal" class="card-group"> 
-<div class="card" style="width: 18rem;">
-<div class="card-body">
-<h5 class="card-title">Pedido: IDPEDIDO</h5>
-        <table>
-          <thead> 
-            <tr> 
-              <th class="text-center" scope="col">Titulo</th>
-              <th class="text-center" scope="col">Cantidad</th>
-              <th class="text-center" scope="col">Precio</th>
-            </tr>
-          </thead>
-          <tbody> 
-            <tr> 
-              <td class="text-center">Titulo 1</td>
-              <td class="text-center">5</td>
-              <td class="text-center">100 €</td>
-            </tr>
-            <tr>
-              <td class="text-center">Titulo 2</td>
-              <td class="text-center">4</td>
-              <td class="text-center">50 €</td>
-            </tr>
-            <tr> 
-              <td class="text-center">Gastos de envio</td>
-              <td class="text-center"> </td>
-              <td class="text-center">0.5 €</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr> 
-              <th class="text-center" scope="col">TOTAL</th>
-              <th class="text-center" scope="col"> </th>
-              <th class="text-center" scope="col">700,5 €  </th>
-            </tr>
-          </tfoot>
-        </table></div>
-</div>
-<div class="card" style="width: 18rem;">
-<div class="card-body">
-<h5 class="card-title">Pedido: IDPEDIDO</h5>
-        <table>
-          <thead> 
-            <tr> 
-              <th class="text-center" scope="col">Titulo</th>
-              <th class="text-center" scope="col">Cantidad</th>
-              <th class="text-center" scope="col">Precio</th>
-            </tr>
-          </thead>
-          <tbody> 
-            <tr> 
-              <td class="text-center">Titulo 1</td>
-              <td class="text-center">5</td>
-              <td class="text-center">100 €</td>
-            </tr>
-            <tr>
-              <td class="text-center">Titulo 2</td>
-              <td class="text-center">4</td>
-              <td class="text-center">50 €</td>
-            </tr>
-            <tr> 
-              <td class="text-center">Gastos de envio</td>
-              <td class="text-center"> </td>
-              <td class="text-center">0.5 €</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr> 
-              <th class="text-center" scope="col">TOTAL</th>
-              <th class="text-center" scope="col"> </th>
-              <th class="text-center" scope="col">700,5 €  </th>
-            </tr>
-          </tfoot>
-        </table></div>
-</div>
+<div id="modalClientes" class="card-group"> 
 </div>
       </div>
     </main>

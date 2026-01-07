@@ -55,11 +55,11 @@ class Tienda {
         return this.#autores;
     }
 
-    get clientes(){
+    get clientes() {
         return this.#clientes;
     }
 
-    get tiposEnvios(){
+    get tiposEnvios() {
         return this.#tiposEnvios;
     }
     cargarDatosPrueba() {
@@ -85,14 +85,34 @@ class Tienda {
 
         this.#libros = new Libros();
         this.#libros.insertarLibros([libro1, libro2, libro3, libro4, libro5]);
-        let cliente1 = new Cliente("05708827C", "Victor", "calle calle 123" );
-        let cliente2 = new Cliente("12345678Z", "Orwin", "123 calle calle" );
+        let cliente1 = new Cliente("05708827C", "Victor", "calle calle 123");
+        let cliente2 = new Cliente("12345678Z", "Orwin", "123 calle calle");
         this.#clientes.insertarClientes([cliente1, cliente2]);
         let tipoEnvio1 = new TipoEnvio("Envio z", 5, 5.50);
         let tipoEnvio2 = new TipoEnvio("Envio a", 10, 10.50);
         this.#tiposEnvios.insertarTipos([tipoEnvio1, tipoEnvio2]);
         //nombre, diasMaximo, precioPorEnvio
 
+        let nuevoPedido = new Pedido(cliente1);
+        nuevoPedido.insertarLibro(libro1, 1);
+        nuevoPedido.insertarLibro(libro3, 5);
+        nuevoPedido.establecerTipoEnvio(tipoEnvio1);
+        nuevoPedido.calcularTotal();
+        cliente1.insertarPedido(nuevoPedido);
+
+        let nuevoPedido1 = new Pedido(cliente1);
+        nuevoPedido1.insertarLibro(libro1, 1);
+        nuevoPedido1.insertarLibro(libro2, 2);
+        nuevoPedido1.establecerTipoEnvio(tipoEnvio1);
+        nuevoPedido1.calcularTotal();
+        cliente1.insertarPedido(nuevoPedido1);
+
+        let nuevoPedido2 = new Pedido(cliente2);
+        nuevoPedido2.insertarLibro(libro3, 1);
+        nuevoPedido2.insertarLibro(libro4, 2);
+        nuevoPedido2.establecerTipoEnvio(tipoEnvio2);
+        nuevoPedido2.calcularTotal();
+        cliente2.insertarPedido(nuevoPedido2);
     }
 
     iniciar() {
@@ -161,7 +181,7 @@ class Tienda {
 
         while (!Util.validarReal(isbn) || this.#libros.existeLibroPorIsbn(isbn)) {
             isbn = this.#leerDatosPrompt.leerEnteroHasta("Introduce el ISBN: ");
-            if(this.#libros.existeLibroPorIsbn(isbn)){
+            if (this.#libros.existeLibroPorIsbn(isbn)) {
                 console.log("El isbn ya existe");
             }
         }
@@ -182,14 +202,14 @@ class Tienda {
         //autor correspondiente en la colección de autores; si no existe, se 
         //creará un nuevo objeto Autor y se insertará en el sistema. 
         autorCantidad = this.#leerDatosPrompt.leerEnteroHasta("¿Cuantos autores tiene?: ");
-        for(let i = 0; i<autorCantidad; i++){
-            let autorAux = 1; 
+        for (let i = 0; i < autorCantidad; i++) {
+            let autorAux = 1;
             let autor = null;
-            while(!Util.validarNombrePersona(autorAux)){
-                autorAux = this.#leerDatosPrompt.leerCadenaHasta(`Introduce el nombre del autor ${i+1}:`);
+            while (!Util.validarNombrePersona(autorAux)) {
+                autorAux = this.#leerDatosPrompt.leerCadenaHasta(`Introduce el nombre del autor ${i + 1}:`);
             };
             if (!this.#autores.existeAutorPorNombre(autorAux)) {
-                if (confirm(`El autor ${autorAux} no existe, se creara ¿Esta seguro?`)){
+                if (confirm(`El autor ${autorAux} no existe, se creara ¿Esta seguro?`)) {
                     autor = this.pedirYcrearAutor(autorAux);
                 }
             } else {
@@ -199,8 +219,8 @@ class Tienda {
         }
 
         tipoLibro = this.#leerDatosPrompt.leerEnteroHasta("¿Que tipo de libro es? \n1. Ebook\n2. Libro en papel");
-        
-        if(tipoLibro == 1){
+
+        if (tipoLibro == 1) {
             let tamanoArchivo = null;
             let formato = null;
 
@@ -214,29 +234,29 @@ class Tienda {
 
             libroAux = new Ebook(isbn, titulo, autores, genero, precio, tamanoArchivo, formato);
 
-        } else if (tipoLibro == 2){
+        } else if (tipoLibro == 2) {
             let peso = null;
             let dimensiones = null;
             let stock = null;
-            
-            while(!Util.validarPeso(peso)){
+
+            while (!Util.validarPeso(peso)) {
                 peso = this.#leerDatosPrompt.leerReal("Introduce el peso: ");
             }
-            
-            while(!Util.validarDimensiones(dimensiones)){
-                dimensiones = this.#leerDatosPrompt.leerCadenaHasta("Introduce las dimensiones: ", 5, /^\d+x\d+x\d+$/ )
+
+            while (!Util.validarDimensiones(dimensiones)) {
+                dimensiones = this.#leerDatosPrompt.leerCadenaHasta("Introduce las dimensiones: ", 5, /^\d+x\d+x\d+$/)
             }
-            
-            while(!Util.validarStock(stock)){
+
+            while (!Util.validarStock(stock)) {
                 stock = this.#leerDatosPrompt.leerEnteroHasta("Introduce el stock: ");
             }
 
             libroAux = new LibroPapel(isbn, titulo, autores, genero, precio, peso, dimensiones, stock);
         }
 
-        if(libroAux != null){
+        if (libroAux != null) {
             this.libros.insertarLibros([libroAux]);
-            
+
             autores.forEach(autor => {
                 autor.insertarLibro(libroAux);
             });
@@ -255,22 +275,22 @@ class Tienda {
         //libro completamente válido y, una vez creado, lo insertará en la 
         //colección de libros del sistema. Después, se preguntará al usuario 
         //si desea crear otro libro.
-        do{
+        do {
             this.pedirYcrearLibro();
-        } while(confirm("¿Desea crear otro libro?"));
+        } while (confirm("¿Desea crear otro libro?"));
     }
 
     pedirYcrearAutor(nombre) {
 
-            let autor = new Autor(nombre);
-            this.#autores.insertarAutores([autor]);
-            return autor;
+        let autor = new Autor(nombre);
+        this.#autores.insertarAutores([autor]);
+        return autor;
     }
 
     pedirYcrearVariosAutores() {
-        do{
+        do {
             this.pedirYcrearAutor();
-        } while(confirm("¿Desea crear otro Autor?"));
+        } while (confirm("¿Desea crear otro Autor?"));
     }
 
     pedirYcrearClientes() {
@@ -278,16 +298,16 @@ class Tienda {
         let nombreCompleto = null;
         let direccion = null;
 
-        while(!Util.validarDni(dni) && !this.#clientes.existeClientePorDNI(dni)){
-            dni = this.#leerDatosPrompt.leerCadenaHasta("Introduce el dni:", 9,/^[0-9]{8}[A-Z]$/i);
+        while (!Util.validarDni(dni) && !this.#clientes.existeClientePorDNI(dni)) {
+            dni = this.#leerDatosPrompt.leerCadenaHasta("Introduce el dni:", 9, /^[0-9]{8}[A-Z]$/i);
         }
 
         console.log(!Util.validarNombrePersona(nombreCompleto))
-        while(!Util.validarNombrePersona(nombreCompleto)){
+        while (!Util.validarNombrePersona(nombreCompleto)) {
             nombreCompleto = this.#leerDatosPrompt.leerCadenaHasta("Introduce el nombre completo:");
         }
 
-        while(!Util.validarDireccion(direccion)){
+        while (!Util.validarDireccion(direccion)) {
             direccion = this.#leerDatosPrompt.leerCadenaHasta("Introduce la direccion: ");
         }
 
@@ -295,11 +315,13 @@ class Tienda {
 
         return clienteAux; //¿Es necesario?
     }
+
     pedirYcrearVariosClientes() {
-        while(confirm("¿Quieres crear un cliente?")){
+        while (confirm("¿Quieres crear un cliente?")) {
             this.pedirYcrearClientes();
         }
     }
+
     pedirYcrearPedido() {
         //TODO need Pedidos
     }
@@ -313,7 +335,7 @@ class Tienda {
 
 
     mostrarCatálogoLibrosDisponibles(texto = null) {
-        if(texto == null){
+        if (texto == null) {
             return this.#libros.libros;
         } else {
             console.log("Texto:" + texto);
@@ -322,17 +344,17 @@ class Tienda {
 
     }
 
-    buscarLibroPorIsbn(isbnAbuscar){
+    buscarLibroPorIsbn(isbnAbuscar) {
         return this.libros.buscarLibroPorIsbn(isbnAbuscar);
     }
-    
-    buscarLibroPorNombreAutor(nombreAutor){
+
+    buscarLibroPorNombreAutor(nombreAutor) {
         let autores = this.autores.buscarAutoresPorNombre(nombreAutor);
         let libros = [];
         autores.forEach(autor => {
             let librosAutor = autor.libros
             librosAutor.forEach(libro => {
-                if(!libros.includes(libro)){
+                if (!libros.includes(libro)) {
                     libros.push(libro);
                 }
             })
@@ -340,11 +362,11 @@ class Tienda {
         return libros;
     }
 
-    buscarLibroPorGenero(genero){
+    buscarLibroPorGenero(genero) {
         return this.libros.buscarLibroPorGenero(genero);
     }
-    
-    buscarLibroPorTitulo(titulo){
+
+    buscarLibroPorTitulo(titulo) {
         return this.libros.buscarLibroPorTitulo(titulo);
     }
 
@@ -356,15 +378,15 @@ class Tienda {
         let nuevoStock = null;
         let isbn = this.#leerDatosPrompt.leerEnteroHasta(`${titulo}\tIntroduce el isbn del libro a buscar: `);
         console.log(isbn);
-        if(this.#libros.existeLibroPorIsbn(isbn)){
+        if (this.#libros.existeLibroPorIsbn(isbn)) {
             libro = this.#libros.buscarLibroPorIsbn(isbn);
 
-            if(libro instanceof LibroPapel){
+            if (libro instanceof LibroPapel) {
                 nuevoStock = this.#leerDatosPrompt.leerRealHasta(`${titulo}\tIntroduce el nuevo stock de ${libro.titulo}`);
                 libro.ampliarStock(nuevoStock);
-                alert(`El stock actual es: ${libro.stock}` );
+                alert(`El stock actual es: ${libro.stock}`);
             } else {
-                alert(`${libro.titulo} no es un libro que maneje Stoks` )
+                alert(`${libro.titulo} no es un libro que maneje Stoks`)
             }
 
         } else {
@@ -378,42 +400,79 @@ class Tienda {
         //debajo del mínimo establecido.
         let texto = "";
         this.#libros.libros.forEach(libro => {
-            if(libro instanceof LibroPapel && libro.stock<LibroPapel.minimoStock){
+            if (libro instanceof LibroPapel && libro.stock < LibroPapel.minimoStock) {
                 texto += `${libro.titulo} esta por debajo del stock minimo, stock actual: ${libro.stock}`;
             }
         });
-        
-        if(texto == ""){
+
+        if (texto == "") {
             texto = "No hay ningun libro por debajo del stock minimo";
         }
 
         alert(texto);
-        
-    }
+
+    } 
+
     mostrarPedidosAbiertoCliente() {
         //pide los datos necesarios y muestra un listado de los pedidos abiertos 
         //de un cliente determinado.
         //TODO need Pedidos and clientes
 
     }
+
     borrarCliente() {
         //pide los datos necesarios y borra un cliente y sus pedidos
         //TODO need Pedidos
         let dni = null;
-        while(!Util.validarDni(dni)){
-            dni = this.#leerDatosPrompt.leerCadenaHasta("Introduce el dni:", 9,/^[0-9]{8}[A-Z]$/i);
+        while (!Util.validarDni(dni)) {
+            dni = this.#leerDatosPrompt.leerCadenaHasta("Introduce el dni:", 9, /^[0-9]{8}[A-Z]$/i);
         }
         this.#clientes.borrarClientePorDNI(dni);
-        
+
     }
+
     hacerPedidoPorCliente() {
         //pide los datos necesarios y crea un nuevo pedido para el cliente indicado.
         //TODO need Pedidos and Clientes
     }
+
     mostrarPedidoPorID() {
         //pide los datos necesarios y muestra el pedido en cuestión.
         //TODO need Pedidos
+    }
+
+    existeClientePorDNI(dniAbuscar) {
+        return this.#clientes.existeClientePorDNI(dniAbuscar);
     }   
 
+    crearCliente(dni, nombreCompleto, direccion) {
+        if (!this.existeClientePorDNI(dni)) {
+            let nuevoCliente = new Cliente(dni, nombreCompleto, direccion);
+            this.#clientes.insertarClientes([nuevoCliente]);
+        }
+    }
+
+    existeLibroPorIsbn(isbnAbuscar) {
+        return this.#libros.existeLibroPorIsbn(isbnAbuscar);
+    }
+
+    crearEbook(isbn, titulo, autores, genero, precio, tamanoArchivo, formato) {
+        if (!this.existeLibroPorIsbn(isbn)) {
+            let nuevoEbook = new Ebook(isbn, titulo, autores, genero, precio, tamanoArchivo, formato);
+            this.#libros.insertarLibros([nuevoEbook]);
+            autores.forEach(autor => {
+                autor.insertarLibro(nuevoEbook);
+            });
+        }   
+    }
+    crearLibroPapel(isbn, titulo, autores, genero, precio, peso, dimensiones, stock) {
+        if (!this.existeLibroPorIsbn(isbn)) {
+            let nuevoLibroPapel = new LibroPapel(isbn, titulo, autores, genero, precio, peso, dimensiones, stock);
+            this.#libros.insertarLibros([nuevoLibroPapel]);
+            autores.forEach(autor => {
+                autor.insertarLibro(nuevoLibroPapel);
+            });
+        }
+    }
     //  - Todos aquellos que consideres necesarios.
 }

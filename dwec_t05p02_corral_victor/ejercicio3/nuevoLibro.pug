@@ -1,0 +1,39 @@
+extends base
+
+block content 
+    .container-fluid.w-50.border.p-4
+        .row
+            form(action="/nuevoLibro", method="post" novalidate id="formCrearLibro" name="formCrearLibro").needs-validation
+                .col
+                    label(for="isbn").tamano-pred.form-label ISBN: 
+                    input(type="text" name="isbn" id="isbn" placeholder="Introduce el ISBN del libro" required class="form-control")
+                    .invalid-feedback El ISBN no puede estar vacio.
+                .col
+                    label(for="titulo").tamano-pred.form-label Titulo: 
+                    input(type="text" name="titulo" id="titulo" placeholder="Introduce el titulo del libro" required class="form-control")
+                    .invalid-feedback El titulo no puede estar vacio.
+                .col
+                    label(for="genero").tamano-pred.form-label Genero: 
+                    input(type="text" name="genero" id="genero" placeholder="Introduce el genero del libro" required class="form-control")
+                    .invalid-feedback El genero no puede estar vacio.
+                .col
+                    label(for="precio").tamano-pred.form-label Precio: 
+                    input(type="number" step="0.01" name="precio" class="form-control" id="precio" placeholder="Introduce el precio del libro" required) 
+                    .invalid-feedback El precio debe ser un número positivo
+                .col
+                    label(for="tipo").tamano-pred.form-label Tipo: 
+                    select(name="tipo" id="tipo" class="form-select" required)
+                        option(value="" disabled selected) Selecciona un tipo
+                        option(value="Ebook") Ebook
+                        option(value="LibroPapel") Libro en papel
+                    .invalid-feedback Debes seleccionar un tipo de libro
+                .col
+                    div(id="camposExtra")
+                .col
+                    label(for="autor").tamano-pred Autor: 
+                    select(name="autor" id="autor" class="form-select" multiple required)
+                    .invalid-feedback Debes seleccionar al menos un autor
+                .col.d-flex.justify-content-center.mt-4
+                    input(type="submit", value="Crear libro")
+    br
+                    
