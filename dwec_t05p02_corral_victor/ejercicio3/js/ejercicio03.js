@@ -291,9 +291,9 @@ function cargarTipoLibro() {
                     <label for="formato" class="form-label">Formato: </label>
                     <select name="formato" id="formato" required class="form-select">
                         <option value="" disabled selected>Selecciona un formato</option>
-                        <option value="PDF">PDF</option>
-                        <option value="EPUB">EPUB</option>
-                        <option value="MOBI">MOBI</option>
+                        <option value="pdf">PDF</option>
+                        <option value="epub">EPUB</option>
+                        <option value="mobi">MOBI</option>
                     </select>
                     <div class="invalid-feedback">Debes seleccionar un formato válido.</div>
                 `;

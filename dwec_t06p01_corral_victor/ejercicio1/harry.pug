@@ -1,0 +1,38 @@
+extends base
+
+block content
+    .container-fluid.w-50(id="buscadorDiv")
+        h3.center Buscador
+        form(action="/", method="get" id="formBuscador" name="formBuscador")
+            .row
+                .col-8
+                    input(type="search" id="buscador" name="buscador" placeholder="Busca por personaje").form-control
+                .col-4
+                    input(type="submit" value="Buscar")
+    .container-fluid.w-75 
+        table.table.table-striped(id= "resultadosBusqueda")
+            thead 
+            tbody
+    hr
+    .container-fluid.w-100
+        h3.center Bienvenida
+        .loader(id="loader")
+            img(src="../img/spinner_2.gif" alt="Cargando..." width="500")
+        .container-fluid.w-75(id="bienvenida")
+            <div class="row row-cols-1 row-cols-md-2 g-4" id="contenedor">
+            .row.row-cols-1.row-cols-md-2.g-4(id="contenedor")
+            </div>
+    hr
+    .container-fluid.w-75(id="favoritos")
+        h3.center Favoritos
+
+    hr
+    .container-fluid.w-75
+        h3.center Mapa
+        .mapa(id="map")
+
+
+    .aviso-cookies(id="avisoCookies") Este sitio usa cookies para mejorar tu experiencia. ¿Aceptas?
+        button(id="btnAceptarCookies") Aceptar
+        button(id="btnRechazarCookies") Rechazar
+

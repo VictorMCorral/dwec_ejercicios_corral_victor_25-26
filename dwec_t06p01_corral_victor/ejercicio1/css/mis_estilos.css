@@ -1,0 +1,125 @@
+/* NAV */
+
+/*
+    Paleta de colores Harry: 
+    #1A237E 
+    #C5A059
+    #F4EBD0
+    #5D1014
+*/
+body{
+    background-color: #1A237E ;
+}
+
+.tamano-pred{
+    width: 7rem;
+}
+
+.borde_inferior{
+    border-bottom: 1px solid #C5A059;
+    margin-bottom: 2rem;
+    /* background-color: #1A237E; */
+}
+.bordes_laterales > :first-child {
+    border-left: 1px solid #C5A059;
+}
+.bordes_laterales li a:hover{
+    color: #F4EBD0;
+    background-color: #C5A059;
+}
+
+.bordes_laterales li{
+    border-right: 1px solid #C5A059;
+}
+
+.bordes_laterales li a{
+    color: #F4EBD0;
+}
+
+.nav-burger {
+    display: flex;
+    font-size: 10px;
+    justify-content: flex-end;
+}
+
+.ul-nav{
+    display: none;
+    /* position: fixed; top: 130; left: 0; width: 100%;
+    z-index: 1; */
+}
+
+@media (min-width: 576px) {
+    .nav-burger{
+        display: none;
+    }
+
+    .ul-nav {
+        display: flex;
+        font-size: 10px;
+        justify-content: flex-end;
+    }
+}
+
+/* HEADER */
+header{
+    background-color: #5D1014;
+    /* position: fixed; top: 0; left: 0; width: 100%;
+    z-index: 1; */
+}
+
+header span{
+    color: #F4EBD0;
+}
+
+.logo-header {
+    height: 100px;
+    width: auto;
+}
+
+
+
+/* FOOTER */
+footer{
+    background-color: #5D1014;
+    /* position: fixed; bottom: 0; left: 0; width: 100%; */
+}
+
+h3, footer span{
+    color: #F4EBD0;
+}
+
+hr{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: none;
+    height: 1px; 
+    background-color: #C5A059; 
+    opacity: 1;
+}
+
+.center{
+    text-align: center;
+}
+
+.loader{
+    display:none; 
+    text-align:center;
+}
+
+.aviso-cookies {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    background: #333; color: white; padding: 15px;
+    text-align: center; z-index: 2;
+    display: block;
+}
+
+/* main{
+    margin-top: 200px;
+    z-index: 0;
+} */
+
+#map { 
+    background-color: #5D1014;
+    height: 400px; 
+    margin-bottom: 2em;
+}
