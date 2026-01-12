@@ -2,6 +2,19 @@
 
 console.log("T05 - Ejercicio 03");
 document.addEventListener("DOMContentLoaded", function () {
+  var burger = document.querySelector('.nav-burger');
+  var menu = document.getElementById('mobile-menu');
+
+  if (burger && menu) {
+    burger.addEventListener('click', function () {
+      if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+      } else {
+        menu.style.display = 'block';
+      }
+    });
+  }
+
   var currentUrl = location.pathname;
 
   if (currentUrl.search("catalogo") !== -1) {

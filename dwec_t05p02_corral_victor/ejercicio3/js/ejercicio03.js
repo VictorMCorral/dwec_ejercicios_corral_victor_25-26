@@ -1,6 +1,18 @@
 console.log("T05 - Ejercicio 03");
 
 document.addEventListener("DOMContentLoaded", () => {
+        const burger = document.querySelector('.nav-burger');
+        const menu = document.getElementById('mobile-menu');
+
+        if (burger && menu) {
+            burger.addEventListener('click', () => {
+                if (menu.style.display === 'block') {
+                    menu.style.display = 'none';
+                } else {
+                    menu.style.display = 'block';
+                }
+            });
+        }
 
     const currentUrl = location.pathname;
 
@@ -683,7 +695,7 @@ function borrarTodo() {
 
     let detallesPedido = document.querySelector("#detallesPedido");
     detallesPedido.innerHTML = '';
-                document.getElementById('collapseEnvio').classList.remove('show');
+    document.getElementById('collapseEnvio').classList.remove('show');
 
     Pedido.ultimoIdAsignado--;
     deseleccionarCliente();

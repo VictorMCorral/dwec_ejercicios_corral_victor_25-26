@@ -61,7 +61,10 @@ body{
 /* HEADER */
 header{
     background-color: #B4964E;
+}
 
+.menu_movil{
+    background-color: #B4964E;
 }
 
 header span{
