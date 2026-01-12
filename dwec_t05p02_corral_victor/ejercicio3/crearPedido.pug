@@ -1,0 +1,45 @@
+extends base
+
+block content
+    .accordion(id="accordionPedido")
+        .accordion-item
+            h2.accordion-header(id="headingCliente")
+                button.accordion-button(type="button" data-bs-toggle="collapse" data-bs-target="#collapseCliente" aria-expanded="true" aria-controls="collapseCliente") Selecciona cliente
+            .accordion-collapse.collapse.show(id="collapseCliente" aria-labelledby="headingCliente")
+                .accordion-body
+                    form(action="/", method="get" id="formBuscadorCliente" name="formBuscadorCliente").needs-validation
+                        .row
+                            .col-8
+                                input(type="search" id="buscador" name="buscador" placeholder="Busca por dni").form-control
+                                .invalid-feedback El DNI no puede estar vacio y debe tener un formato válido.
+                            .col-4
+                                input(type="submit" value="Buscar")
+                            .col-8(id="resultadoBusqueda")
+        .accordion-item
+            h2.accordion-header(id="headingLibro")
+                button.accordion-button.collapsed(disabled id="btnLibro" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLibro" aria-expanded="false" aria-controls="collapseLibro") Selecciona libro
+            .accordion-collapse.collapse(id="collapseLibro" aria-labelledby="headingLibro")
+                .accordion-body
+                    form(action="/", method="post" novalidate id="formCrearPedido" name="formCrearPedido").needs-validation
+                        .row
+                            .col-8
+                                input(type="search" id="buscadorLibro" name="buscadorLibro" placeholder="Busca por ISBN").form-control
+                                .invalid-feedback El ISBN no puede estar vacio y debe tener un formato válido.
+                            .col-4
+                                input(type="submit" value="Buscar")
+                            .col-8(id="resultadoBusquedaLibro")
+        .accordion-item
+            h2.accordion-header(id="headingEnvio")
+                button.accordion-button.collapsed(disabled id="btnEnvio" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEnvio" aria-expanded="false" aria-controls="collapseEnvio") Tipo de envío
+            .accordion-collapse.collapse(id="collapseEnvio" aria-labelledby="headingEnvio")
+                .accordion-body 
+                    select(name="tipoEnvio" id="tipoEnvio" class="form-select")
+                        option(value="" disabled selected) Selecciona un tipo de envío
+    .resumen_pedido 
+        h3 Resumen del pedido
+        .detalle_pedido(id="detallesPedido") 
+    br
+    .d-flex.justify-content-center
+        input(type="button" id="btnPagarPedido" value="Pagar pedido" class="btn btn-success" disabled)
+        input(type="button" id="btnCancelarPedido" value="Cancelar pedido" class="btn btn-success" disabled)
+    br

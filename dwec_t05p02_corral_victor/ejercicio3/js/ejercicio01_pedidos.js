@@ -11,3 +11,45 @@
 //  - Aquellos otros métodos que consideres necesarios.
 
 // Y un constructor que crea la lista de pedidos vacía.
+class Pedidos{
+    #listadoPedidos;
+
+    constructor(){
+        this.#listadoPedidos = [];
+    }
+    get listadoPedidos(){
+        return this.#listadoPedidos;
+    }   
+    existePedidoPorID(idAbuscar){
+        return this.#listadoPedidos.some(pedido => pedido.id === idAbuscar);
+    }
+    insertarPedido(pedidos){
+        let contador = 0;   
+        pedidos.forEach(pedido => {
+            this.#listadoPedidos.push(pedido);
+            contador++;
+        });
+        return contador;
+    }
+    buscarPedidoPorId(idAbuscar){
+        return this.#listadoPedidos.find(pedido => pedido.id === idAbuscar);
+    }
+    cerrarPedidoPorId(idAbuscar){
+        let pedidoEncontrado = this.buscarPedidoPorId(idAbuscar);
+        if(pedidoEncontrado && pedidoEncontrado.abierto){
+            pedidoEncontrado.abierto = false;
+            return true;
+        } else {
+            return false;
+        }   
+    }
+    borrarPedidos(pedidosAborrar){
+        for (let pedido of pedidosAborrar){
+            let index = this.#listadoPedidos.indexOf(pedido);
+            if (index !== -1) {
+                this.#listadoPedidos.splice(index, 1);
+            }
+        }   
+        return true;
+    }
+}

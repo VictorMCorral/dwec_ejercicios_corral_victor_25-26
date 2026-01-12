@@ -41,7 +41,7 @@ class Tienda {
         this.#tiposEnvios = new TiposEnvios();
         // Los tipos de pedidos estarán precargados y  no se van a gestionar desde el menú principal.
         this.#clientes = new Clientes();
-        //this.#pedidos = new Pedidos();
+        this.#pedidos = new Pedidos();
         this.#leerDatosPrompt = new LeerDatosPrompt();
     }
     // La clase Tienda además implementa todos los métodos necesarios 
@@ -62,6 +62,11 @@ class Tienda {
     get tiposEnvios() {
         return this.#tiposEnvios;
     }
+
+    get pedidos() {
+        return this.#pedidos;
+    }
+    
     cargarDatosPrueba() {
         //  - cargarDatosPrueba(): Nos permite iniciar la aplicación con datos de prueba Reales. 
         let autorPrueba = new Autor("JRR Tolkien");
@@ -90,7 +95,8 @@ class Tienda {
         this.#clientes.insertarClientes([cliente1, cliente2]);
         let tipoEnvio1 = new TipoEnvio("Envio z", 5, 5.50);
         let tipoEnvio2 = new TipoEnvio("Envio a", 10, 10.50);
-        this.#tiposEnvios.insertarTipos([tipoEnvio1, tipoEnvio2]);
+        let tipoEnvio3 = new TipoEnvio("Envio Ebook", 2, 0);
+        this.#tiposEnvios.insertarTipos([tipoEnvio1, tipoEnvio2, tipoEnvio3]);
         //nombre, diasMaximo, precioPorEnvio
 
         let nuevoPedido = new Pedido(cliente1);
@@ -460,6 +466,7 @@ class Tienda {
         if (!this.existeLibroPorIsbn(isbn)) {
             let nuevoEbook = new Ebook(isbn, titulo, autores, genero, precio, tamanoArchivo, formato);
             this.#libros.insertarLibros([nuevoEbook]);
+            console.log(nuevoEbook);
             autores.forEach(autor => {
                 autor.insertarLibro(nuevoEbook);
             });

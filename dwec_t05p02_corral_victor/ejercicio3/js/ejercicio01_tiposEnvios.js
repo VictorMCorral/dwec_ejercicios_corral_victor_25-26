@@ -6,6 +6,10 @@ class TiposEnvios{
     constructor(){
         this.#tiposEnvios = [];
     }
+
+    get tiposEnvios(){
+        return this.#tiposEnvios;
+    }
     // También tiene los siguientes métodos:
     existeTipoPorNombre(nombreAbuscar){
         // existeTipoPorNombre(nombreAbuscar): devuelve true o false si ya existe el tipo de envío.

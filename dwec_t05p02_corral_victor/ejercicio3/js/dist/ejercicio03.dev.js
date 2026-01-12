@@ -42,6 +42,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
       _lanzador.classList.add('was-validated');
     });
+  } else if (currentUrl.search("crearPedido") !== -1) {
+    var _lanzador2 = document.querySelector("#formBuscadorCliente");
+
+    _lanzador2.addEventListener("submit", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      validarBusquedaCliente();
+
+      _lanzador2.classList.add('was-validated');
+    });
+
+    var lanzadorLibro = document.querySelector("#formCrearPedido");
+    lanzadorLibro.addEventListener("submit", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      validarBusquedaLibro();
+      lanzadorLibro.classList.add('was-validated');
+    });
+    var btnPagar = document.querySelector("#btnPagarPedido");
+    btnPagar.addEventListener("click", function () {
+      validarPedido();
+    });
+    var btnCancelar = document.querySelector("#btnCancelarPedido");
+    btnCancelar.addEventListener("click", function () {
+      borrarTodo();
+    });
   }
 });
 var rinconLector = Tienda.getInstancia("El Rincon del lector");
@@ -102,7 +128,6 @@ function cargarTabla() {
 
 function cargarModal(isbn) {
   var libroPulsado = rinconLector.buscarLibroPorIsbn(isbn);
-  console.log(libroPulsado);
   var modal = document.getElementById("modalLibros");
   var autor = libroPulsado.autor;
   var texto = "\n        <h5>Isbn: ".concat(libroPulsado.isbn, "</h5>\n        <p class=\"ps-5\">Genero: ").concat(libroPulsado.genero, "</p>\n        <p class=\"ps-5\">Autor: ").concat(autor[0].nombreCompleto, "</p>\n        <p class=\"ps-5\">Precio: ").concat(libroPulsado.precio, " \u20AC</p>\n    ");
@@ -369,17 +394,210 @@ function validarDatosLibro() {
   }
 
   if (contadorErrores == 0) {
-    var autorSeleccionado = [];
     var autorEncontrado = rinconLector.autores.buscarAutoresPorNombre(autorInput.value);
-    console.log(autorEncontrado);
-    autorSeleccionado.push(autorEncontrado);
 
     if (tipoLibroInput === "Ebook") {
-      rinconLector.crearEbook(isbnInput.value, tituloInput.value, autorSeleccionado, generoInput.value, parseFloat(precioInput.value), tamanoArchivo.value, formato.value);
+      rinconLector.crearEbook(isbnInput.value, tituloInput.value, autorEncontrado, generoInput.value, parseFloat(precioInput.value), tamanoArchivo.value, formato.value);
     } else if (tipoLibroInput === "LibroPapel") {
-      rinconLector.crearLibroPapel(isbnInput.value, tituloInput.value, autorSeleccionado, generoInput.value, parseFloat(precioInput.value), pesoConvertido, dimensiones.value, stock.value);
+      rinconLector.crearLibroPapel(isbnInput.value, tituloInput.value, autorEncontrado, generoInput.value, parseFloat(precioInput.value), pesoConvertido, dimensiones.value, stock.value);
     }
   }
 
   console.log(rinconLector.libros);
+}
+
+function validarBusquedaCliente() {
+  var dniInput = document.querySelector("#buscador");
+  var resultadosBusqueda = document.querySelector("#resultadoBusqueda");
+  resultadosBusqueda.innerHTML = "";
+  var contadorErrores = 0;
+
+  if (!Util.validarDni(dniInput.value)) {
+    dniInput.classList.add('is-invalid');
+    contadorErrores++;
+  } else {
+    dniInput.classList.remove('is-invalid');
+  }
+
+  if (contadorErrores == 0) {
+    buscarCliente();
+  }
+}
+
+function buscarCliente() {
+  var dniBuscar = document.querySelector("#buscador").value;
+  var resultadosBusqueda = document.querySelector("#resultadoBusqueda");
+  var itemLibro = document.getElementById("btnLibro");
+  resultadosBusqueda.innerHTML = "";
+  var clienteEncontrado = rinconLector.clientes.buscarClientePorDNI(dniBuscar);
+
+  if (clienteEncontrado != null) {
+    pedidoActual = new Pedido(clienteEncontrado);
+    rinconLector.pedidos.insertarPedido([pedidoActual]);
+    resultadosBusqueda.innerHTML = "\n                    <p>\n                        Cliente encontrado: ".concat(clienteEncontrado.nombreCompleto, "\n                        <input type=\"button\" id=\"deseleccionarCliente\" value=\"Deseleccionar\">\n                        <input type=\"hidden\" id=\"idPedidoActual\" value=\"").concat(pedidoActual.id, "\">\n                    </p>\n                ");
+    document.getElementById('collapseLibro').classList.add('show');
+    document.getElementById("btnCancelarPedido").disabled = false;
+    itemLibro.disabled = false;
+    var botonDeseleccionar = document.querySelector("#deseleccionarCliente");
+    botonDeseleccionar.addEventListener("click", function () {
+      deseleccionarCliente();
+    });
+  } else {
+    resultadosBusqueda.innerHTML = "\n                    <p>No se ha encontrado ning\xFAn cliente con ese DNI.</p>\n                ";
+  }
+}
+
+function deseleccionarCliente() {
+  var pedidoBorrar = document.querySelector("#idPedidoActual").value;
+  var pedidoObjeto = rinconLector.pedidos.buscarPedidoPorId(pedidoBorrar);
+  rinconLector.pedidos.borrarPedidos([pedidoObjeto]);
+  var resultadosBusqueda = document.querySelector("#resultadoBusqueda");
+  resultadosBusqueda.innerHTML = "";
+  var itemLibro = document.getElementById("btnLibro");
+  itemLibro.disabled = true;
+  document.getElementById('collapseLibro').classList.remove('show');
+  var dniInput = document.querySelector("#buscador");
+  dniInput.value = "";
+}
+
+function validarBusquedaLibro() {
+  var isbnInput = document.querySelector("#buscadorLibro");
+  var resultadosBusqueda = document.querySelector("#resultadoBusquedaLibro");
+  resultadosBusqueda.innerHTML = "";
+  var contadorErrores = 0;
+
+  if (!Util.validarEntero(isbnInput.value)) {
+    isbnInput.classList.add('is-invalid');
+    contadorErrores++;
+  } else {
+    isbnInput.classList.remove('is-invalid');
+  }
+
+  if (contadorErrores == 0) {
+    buscarLibro();
+  }
+}
+
+function buscarLibro() {
+  var isbnBuscar = document.querySelector("#buscadorLibro").value;
+  var resultadosBusqueda = document.querySelector("#resultadoBusquedaLibro");
+  var libroEncontrado = rinconLector.buscarLibroPorIsbn(isbnBuscar);
+
+  if (libroEncontrado != null) {
+    resultadosBusqueda.innerHTML = "\n            <p>\n                Libro encontrado: ".concat(libroEncontrado.titulo, " \n                <br>\n                ISBN: ").concat(libroEncontrado.isbn, " \n                <br>\n                Precio sin IVA: ").concat(libroEncontrado.precio, " \u20AC\n                <br>\n                <input type=\"number\" id=\"unidadesLibro\" min=\"1\" value=\"1\" class=\"form-control w-25 d-inline-block\"/>\n                <input type=\"button\" id=\"agregarLibro\" value=\"Agregar al pedido\" class=\"btn btn-primary\"/>\n            </p>\n        ");
+    var botonAgregar = document.querySelector("#agregarLibro");
+    botonAgregar.addEventListener("click", function () {
+      var unidades = parseInt(document.querySelector("#unidadesLibro").value);
+      agregarLibroAlPedido(libroEncontrado, unidades);
+      cargarTipoEnvios();
+      document.querySelector("#tipoEnvio").disabled = false;
+      document.getElementById('collapseEnvio').classList.add('show');
+    });
+  } else {
+    resultadosBusqueda.innerHTML = "\n            <p>No se ha encontrado ning\xFAn libro con ese ISBN.</p>\n        ";
+  }
+}
+
+function cargarTipoEnvios() {
+  var selectEnvio = document.querySelector("#tipoEnvio");
+  selectEnvio.innerHTML = '';
+  var defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.text = "Selecciona un tipo de envío";
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  selectEnvio.appendChild(defaultOption);
+  var tiposEnvios = rinconLector.tiposEnvios.tiposEnvios; //console.log(tiposEnvios);
+
+  var idPedidoActual = parseInt(document.querySelector("#idPedidoActual").value);
+  var pedidoActual = rinconLector.pedidos.buscarPedidoPorId(idPedidoActual);
+  var allEbook = true;
+  pedidoActual.librosPedido.forEach(function (unidades, libro) {
+    if (!(libro instanceof Ebook)) {
+      allEbook = false;
+    }
+  });
+  var tiposFiltrados = tiposEnvios;
+
+  if (allEbook) {
+    tiposFiltrados = tiposEnvios.filter(function (tipo) {
+      return tipo.precioPorEnvio == 0;
+    });
+  } else {
+    tiposFiltrados = tiposEnvios.filter(function (tipo) {
+      return tipo.precioPorEnvio > 0;
+    });
+  }
+
+  tiposFiltrados.forEach(function (tipoEnvio) {
+    var option = document.createElement("option");
+    option.id = tipoEnvio.nombre;
+    option.value = tipoEnvio.nombre;
+    option.text = "".concat(tipoEnvio.nombre, " (").concat(tipoEnvio.precioPorEnvio, " \u20AC)");
+    selectEnvio.appendChild(option);
+  });
+  selectEnvio.addEventListener("change", function () {
+    var idPedidoActual = parseInt(document.querySelector("#idPedidoActual").value);
+    var pedidoActual = rinconLector.pedidos.buscarPedidoPorId(idPedidoActual);
+    var tipoEnvioSeleccionado = rinconLector.tiposEnvios.buscarTiposPorNombre(selectEnvio.value);
+    pedidoActual.establecerTipoEnvio(tipoEnvioSeleccionado);
+    document.getElementById("btnPagarPedido").disabled = false;
+    actualizarDetallesPedido();
+  });
+}
+
+function actualizarDetallesPedido() {
+  var detallesPedido = document.querySelector("#detallesPedido");
+  var idPedidoActual = parseInt(document.querySelector("#idPedidoActual").value);
+  var pedidoActual = rinconLector.pedidos.buscarPedidoPorId(idPedidoActual);
+  var librosTexto = "";
+  pedidoActual.librosPedido.forEach(function (unidades, libro) {
+    librosTexto += "<p class=\"ps-5\"> - ".concat(libro.titulo, " (ISBN: ").concat(libro.isbn, "): ").concat(unidades, " unidades</p>");
+  });
+  var tipoEnvioTexto = pedidoActual.tipoEnvioPedido ? pedidoActual.tipoEnvioPedido.nombre : "No seleccionado";
+  pedidoActual.calcularTotal();
+  var precioTotal = pedidoActual.precioTotalConEnvioConIVA;
+  librosTexto += "<p class=\"ps-5\">Tipo de env\xEDo: ".concat(tipoEnvioTexto, "</p>");
+  librosTexto += "<p class=\"ps-5\">Precio total con IVA: ".concat(precioTotal, " \u20AC</p>");
+  detallesPedido.innerHTML = "\n        <h5>Detalles del pedido:</h5>\n        <p class=\"mb-1\">Libros pedidos: </p>\n        ".concat(librosTexto, "\n    ");
+}
+
+function agregarLibroAlPedido(libro, unidades) {
+  var idPedidoActual = parseInt(document.querySelector("#idPedidoActual").value);
+  var pedidoActual = rinconLector.pedidos.buscarPedidoPorId(idPedidoActual);
+  pedidoActual.insertarLibro(libro, unidades);
+  actualizarDetallesPedido();
+}
+
+function validarPedido() {
+  var idPedidoActual = parseInt(document.querySelector("#idPedidoActual").value);
+  var pedidoActual = rinconLector.pedidos.buscarPedidoPorId(idPedidoActual);
+  var errores = 0;
+
+  if (pedidoActual.librosPedido.size === 0) {
+    errores++;
+  }
+
+  if (pedidoActual.hayLibrosFisicos() && pedidoActual.tipoEnvioPedido == null) {
+    errores++;
+  }
+
+  if (pedidoActual.hayEbooks() && pedidoActual.tipoEnvioPedido.precioPorEnvio !== 0) {
+    errores++;
+  }
+
+  if (errores === 0) {
+    console.log("Pedido válido");
+    borrarTodo();
+  }
+}
+
+function borrarTodo() {
+  var selectEnvio = document.querySelector("#tipoEnvio");
+  selectEnvio.innerHTML = '';
+  var detallesPedido = document.querySelector("#detallesPedido");
+  detallesPedido.innerHTML = '';
+  document.getElementById('collapseEnvio').classList.remove('show');
+  Pedido.ultimoIdAsignado--;
+  deseleccionarCliente();
 }

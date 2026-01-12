@@ -63,14 +63,22 @@ class Pedido{
 
     hayLibrosFisicos(){
         // -hayLibrosFisicos(): Devuelve true o false si el pedido tiene libros de tipo LibroPapel. No recibe nada.
-        this.#librosPedido.forEach((libro) => {
-            if(libro.tipo === "LibroPapel"){
+        for (let [libro, unidades] of this.#librosPedido) {
+            if (libro instanceof LibroPapel) {
                 return true;
             }
-        });
-
+        }
         return false;
     }   
+
+    hayEbooks(){
+        for (let [libro, unidades] of this.#librosPedido) {
+            if (libro instanceof Ebook) {   
+                return true;
+            }
+        }
+        return false;
+    }
 
     mostrarDatosPedido(){
         // -mostrarDatosPedido(): Devuelve una cadena con toda la información de un pedido, detallando los libros (ebooks y en papel), el tipo de envío y los costes finales. No recibe nada.
@@ -91,11 +99,19 @@ class Pedido{
             this.tipoEnvioPedido = tipoEnvio;
             return true;
         } else {
+            if(tipoEnvio.precioPorEnvio === 0){
+                this.tipoEnvioPedido = tipoEnvio;
+                return true;
+            }   
             return false;
         }
     }
     // También se tiene que comprobar que el peso de los libros físicos es acorde al máximo de peso permitido en el tipo de envío.
     calcularTotal(){
+        // Reset totals
+        this.#precioTotalSinEnvioSinIVA = 0;
+        this.#precioTotalConEnvioSinIVA = 0;
+        this.#precioTotalConEnvioConIVA = 0;
         // -calcularTotal(): Calcula el precio total del pedido. Toma en cuenta:
         // Los libros de tipo Ebook no generan gastos de envío. Si el pedido contiene únicamente ebooks, el coste del envío será siempre 0.
         // Si el pedido incluye al menos un LibroPapel, el envío se calcula según el tipo de envío seleccionado.
