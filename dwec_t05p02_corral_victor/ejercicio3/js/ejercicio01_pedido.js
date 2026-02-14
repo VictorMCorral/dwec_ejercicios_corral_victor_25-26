@@ -31,11 +31,11 @@ class Pedido{
     }
     // Y un constructor que recibe el cliente y crea el mapa vacío y asigna su ID y la fecha de hoy.
     constructor(cliente){
-        this.id=this.obtenerSiguienteId();
-        this.cliente = cliente;
+        this.#id=this.obtenerSiguienteId();
+        this.#cliente = cliente;
         this.#librosPedido = new Map();
         this.#fecha = new Date();
-        this.tipoEnvioPedido = null;
+        this.#tipoEnvioPedido = null;
         this.#precioTotalSinEnvioSinIVA = 0;
         this.#precioTotalConEnvioSinIVA = 0;
         this.#precioTotalConEnvioConIVA = 0;
@@ -43,6 +43,22 @@ class Pedido{
         this.#abierto = true;
     }
     
+    get tipoEnvioPedido(){
+        return this.#tipoEnvioPedido;
+    }
+
+    set tipoEnvioPedido(tipoEnvio){
+        this.#tipoEnvioPedido = tipoEnvio;
+    }
+
+    get cliente(){
+        return this.#cliente;
+    }
+
+    get id(){
+        return this.#id;
+    }
+
     get fecha(){
         return this.#fecha;
     }
@@ -82,7 +98,6 @@ class Pedido{
 
     mostrarDatosPedido(){
         // -mostrarDatosPedido(): Devuelve una cadena con toda la información de un pedido, detallando los libros (ebooks y en papel), el tipo de envío y los costes finales. No recibe nada.
-        //TODO
     }
     insertarLibro(libro, unidades){
         // -insertarLibro(libro, unidades): Añade un libro y sus unidades al final del mapa librosPedido. Un libro Ebook solo es una unidad. Devuelve el número de unidades que ya tiene el pedido en total.
@@ -140,7 +155,6 @@ class Pedido{
     aplicarDescuent(porcentaje){
         // -aplicarDescuento(porcentaje): Aplica un descuento al total del pedido, reduciendo el coste de los libros en el porcentaje especificado. Devuelve true / false si se ha podido aplicar correctamente. El descuento debe ser aplicado únicamente a los libros, no al coste del envío.
         // Recuerda que además si el pedido se realiza en noviembre y diciembre, se aplica un descuento del 10% a cada libro individualmente, antes de calcular los gastos de envío. Esto se hace de forma automática. 
-        //TODO
         if(porcentaje >=0 && porcentaje <=100){
             let descuentoLibros = (this.#precioTotalSinEnvioSinIVA * porcentaje) / 100;
             this.#descuento = descuentoLibros;

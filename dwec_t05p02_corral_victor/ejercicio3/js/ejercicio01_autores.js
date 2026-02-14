@@ -41,7 +41,7 @@ class Autores{
         return this.autores.find(autor => autor.id === idAbuscar);
     }
     buscarAutoresPorNombre(nombreAbuscar){
-        return this.autores.filter(autor => autor.nombreCompleto.includes(nombreAbuscar));
+        return this.autores.find(autor => autor.nombreCompleto.includes(nombreAbuscar));
     }
     obtenerCadenaAutoresMenu(){
         //  - obtenerCadenaAutoresMenu(): Devuelve una cadena con el listado numerado de los

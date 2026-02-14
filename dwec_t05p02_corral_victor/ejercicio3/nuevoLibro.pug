@@ -13,8 +13,8 @@ block content
                     input(type="text" name="titulo" id="titulo" placeholder="Introduce el titulo del libro" required class="form-control")
                     .invalid-feedback El titulo no puede estar vacio.
                 .col
-                    label(for="genero").tamano-pred.form-label Genero: 
-                    input(type="text" name="genero" id="genero" placeholder="Introduce el genero del libro" required class="form-control")
+                    label(for="generos").tamano-pred.form-label Genero: 
+                    select(name="generos" id="generos" class="form-select" required)
                     .invalid-feedback El genero no puede estar vacio.
                 .col
                     label(for="precio").tamano-pred.form-label Precio: 

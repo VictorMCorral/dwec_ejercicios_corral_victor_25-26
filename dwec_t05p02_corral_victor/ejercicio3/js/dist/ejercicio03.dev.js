@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var tipoLibroSelect = document.querySelector("#tipo");
     cargarAutoresEnSelect(rinconLector.autores.autores);
+    cargarGeneros(Libro.GENEROS_LITERARIOS);
     tipoLibroSelect.addEventListener("change", function () {
       cargarTipoLibro();
     });
@@ -298,6 +299,24 @@ function cargarTipoLibro() {
   }
 }
 
+function cargarGeneros(generos) {
+  var selectGenero = document.querySelector("#generos");
+  selectGenero.innerHTML = '';
+  var defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.text = "Seleccione un género";
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  selectGenero.appendChild(defaultOption);
+  generos.forEach(function (valor) {
+    var option = document.createElement("option");
+    option.id = valor;
+    option.value = valor;
+    option.text = valor;
+    selectGenero.appendChild(option);
+  });
+}
+
 function cargarAutoresEnSelect(arrayAutores) {
   var selectAutor = document.querySelector("#autor");
   arrayAutores.forEach(function (autor) {
@@ -311,15 +330,17 @@ function cargarAutoresEnSelect(arrayAutores) {
 
 function validarDatosLibro() {
   var isbnInput = document.querySelector("#isbn");
+  var isbnInputDato = Util.validarYConvertirReal(isbnInput.value);
   var tituloInput = document.querySelector("#titulo");
   var autorInput = document.querySelector("#autor");
-  var generoInput = document.querySelector("#genero");
+  var generoInput = document.querySelector("#generos");
+  var generoDato = generoInput.value;
   var precioInput = document.querySelector("#precio");
   var tipoLibroInput = document.querySelector("#tipo").value;
   var pesoConvertido = null;
   var contadorErrores = 0;
 
-  if (!Util.validarEntero(isbnInput.value) || rinconLector.existeLibroPorIsbn(isbnInput.value)) {
+  if (!Util.validarEntero(isbnInputDato) || rinconLector.existeLibroPorIsbn(isbnInputDato)) {
     isbnInput.classList.add('is-invalid');
     contadorErrores++;
   } else {
@@ -340,7 +361,7 @@ function validarDatosLibro() {
     autorInput.classList.remove('is-invalid');
   }
 
-  if (!Util.validarGenero(generoInput.value, Libro.GENEROS_LITERARIOS)) {
+  if (!Util.validarGenero(generoDato, Libro.GENEROS_LITERARIOS)) {
     generoInput.classList.add('is-invalid');
     contadorErrores++;
   } else {
@@ -407,12 +428,36 @@ function validarDatosLibro() {
   }
 
   if (contadorErrores == 0) {
-    var autorEncontrado = rinconLector.autores.buscarAutoresPorNombre(autorInput.value);
+    var autores = [];
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = autorInput.selectedOptions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var option = _step.value;
+        var autorEncontrado = rinconLector.autores.buscarAutoresPorNombre(option.value);
+        autores.push(autorEncontrado);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
 
     if (tipoLibroInput === "Ebook") {
-      rinconLector.crearEbook(isbnInput.value, tituloInput.value, autorEncontrado, generoInput.value, parseFloat(precioInput.value), tamanoArchivo.value, formato.value);
+      rinconLector.crearEbook(isbnInput.value, tituloInput.value, autores, generoInput.value, parseFloat(precioInput.value), tamanoArchivo.value, formato.value);
     } else if (tipoLibroInput === "LibroPapel") {
-      rinconLector.crearLibroPapel(isbnInput.value, tituloInput.value, autorEncontrado, generoInput.value, parseFloat(precioInput.value), pesoConvertido, dimensiones.value, stock.value);
+      rinconLector.crearLibroPapel(isbnInput.value, tituloInput.value, autores, generoInput.value, parseFloat(precioInput.value), pesoConvertido, dimensiones.value, stock.value);
     }
   }
 
@@ -577,7 +622,8 @@ function actualizarDetallesPedido() {
 
 function agregarLibroAlPedido(libro, unidades) {
   var idPedidoActual = parseInt(document.querySelector("#idPedidoActual").value);
-  var pedidoActual = rinconLector.pedidos.buscarPedidoPorId(idPedidoActual);
+  var pedidoActual = rinconLector.pedidos.buscarPedidoPorId(idPedidoActual); //TODO Comprobar disponibilidad
+
   pedidoActual.insertarLibro(libro, unidades);
   actualizarDetallesPedido();
 }
@@ -601,6 +647,7 @@ function validarPedido() {
 
   if (errores === 0) {
     console.log("Pedido válido");
+    console.log(pedidoActual);
     borrarTodo();
   }
 }

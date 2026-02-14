@@ -37,7 +37,6 @@ class Clientes{
     }
     borrarClientePorDNI(dniAborrar){
         // borrarClientePorDNI (dniAborrar): devuelve true / false si puede o no borrar un cliente. Cuando se borra un cliente también se borran todos sus pedidos. Usa splice()
-        //TODO need Pedidos para comprobar
         if(this.existeClientePorDNI(dniAborrar)){
             let indiceABorrar = this.#clientes.findIndex(cliente => cliente.dni == dniAborrar);
             this.#clientes.splice(indiceABorrar, 1);

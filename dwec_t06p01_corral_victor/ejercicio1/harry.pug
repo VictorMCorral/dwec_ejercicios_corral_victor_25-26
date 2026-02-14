@@ -3,10 +3,11 @@ extends base
 block content
     .container-fluid.w-50(id="buscadorDiv")
         h3.center Buscador
-        form(action="/", method="get" id="formBuscador" name="formBuscador")
+        form(action="/", method="get" id="formBuscador" name="formBuscador" required).needs-validation
             .row
                 .col-8
                     input(type="search" id="buscador" name="buscador" placeholder="Busca por personaje").form-control
+                    .invalid-feedback Por favor no deje el campo vacio.
                 .col-4
                     input(type="submit" value="Buscar")
     .container-fluid.w-75 
@@ -19,12 +20,16 @@ block content
         .loader(id="loader")
             img(src="../img/spinner_2.gif" alt="Cargando..." width="500")
         .container-fluid.w-75(id="bienvenida")
-            <div class="row row-cols-1 row-cols-md-2 g-4" id="contenedor">
-            .row.row-cols-1.row-cols-md-2.g-4(id="contenedor")
+            .row.row-cols-1.row-cols-md-2.row-cols-lg-4.g-4(id="contenedor")
             </div>
+    //- hr
+    //- .container-fluid.w-75
+    //-     h3.center Favoritos
+    //-     .row.row-cols-1.row-cols-md-2.row-cols-lg-4.g-4(id="favoritos")
     hr
-    .container-fluid.w-75(id="favoritos")
-        h3.center Favoritos
+    .container-fluid.w-75
+        h3.center Favoritos group
+        .list-group(id="favoritosGroup")
 
     hr
     .container-fluid.w-75

@@ -329,7 +329,7 @@ class Tienda {
     }
 
     pedirYcrearPedido() {
-        //TODO need Pedidos
+
     }
 
     //la Tienda contará con métodos equivalentes para solicitar y crear autores y
@@ -422,13 +422,11 @@ class Tienda {
     mostrarPedidosAbiertoCliente() {
         //pide los datos necesarios y muestra un listado de los pedidos abiertos 
         //de un cliente determinado.
-        //TODO need Pedidos and clientes
 
     }
 
     borrarCliente() {
         //pide los datos necesarios y borra un cliente y sus pedidos
-        //TODO need Pedidos
         let dni = null;
         while (!Util.validarDni(dni)) {
             dni = this.#leerDatosPrompt.leerCadenaHasta("Introduce el dni:", 9, /^[0-9]{8}[A-Z]$/i);
@@ -439,12 +437,12 @@ class Tienda {
 
     hacerPedidoPorCliente() {
         //pide los datos necesarios y crea un nuevo pedido para el cliente indicado.
-        //TODO need Pedidos and Clientes
+
     }
 
     mostrarPedidoPorID() {
         //pide los datos necesarios y muestra el pedido en cuestión.
-        //TODO need Pedidos
+
     }
 
     existeClientePorDNI(dniAbuscar) {

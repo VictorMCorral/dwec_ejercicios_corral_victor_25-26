@@ -1,79 +1,117 @@
 "use strict";
 
 console.log("T06 - Ejercicio 01");
-var datos = null;
+var datos = [];
 var casas = ["Gryffindor", "Slytherin", "Hufflepuff", "Ravenclaw"];
-document.addEventListener("DOMContentLoaded", function () {
-  cargarDatos();
-  var buscador = document.getElementById("buscador");
-  buscador.addEventListener("input", function (event) {
-    var textoBuscar = document.querySelector("#buscador").value;
-    cargarTabla(textoBuscar);
-  });
-  var formulario = document.getElementById("formBuscador");
-  formulario.addEventListener("submit", function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    var textoBuscar = document.querySelector("#buscador").value;
-
-    if (textoBuscar != "") {
-      cargarTabla(textoBuscar);
-    }
-  });
-  mostrarCookies();
-  mostrarLoader();
-  geolocalizacionPrieto();
-  setTimeout(function _callee() {
-    return regeneratorRuntime.async(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return regeneratorRuntime.awrap(cargarPjCasas());
-
-          case 2:
-            ocultarLoader();
-
-          case 3:
-          case "end":
-            return _context.stop();
-        }
-      }
-    });
-  }, 2000);
-  var btnAceptar = document.querySelector("#btnAceptarCookies");
-  var btnRechazar = document.querySelector("#btnRechazarCookies");
-  var botonesCookies = [btnAceptar, btnRechazar];
-  botonesCookies.forEach(function (boton) {
-    boton.addEventListener("click", function (event) {
-      cookiesAceptar(event.target.textContent);
-    });
-  });
-});
-
-function cargarDatos() {
-  var response;
-  return regeneratorRuntime.async(function cargarDatos$(_context2) {
+var favoritos = null;
+document.addEventListener("DOMContentLoaded", function _callee2() {
+  var buscador, formulario, btnAceptar, btnRechazar, botonesCookies;
+  return regeneratorRuntime.async(function _callee2$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          _context2.next = 2;
-          return regeneratorRuntime.awrap(fetch('https://hp-api.onrender.com/api/characters'));
+          buscador = document.getElementById("buscador");
+          _context2.next = 3;
+          return regeneratorRuntime.awrap(cargarDatos('https://hp-api.onrender.com/api/characters/'));
 
-        case 2:
-          response = _context2.sent;
-          _context2.next = 5;
-          return regeneratorRuntime.awrap(response.json());
-
-        case 5:
+        case 3:
           datos = _context2.sent;
+          cargarFavoritos();
+          buscador.addEventListener("input", function (event) {
+            var textoBuscar = document.querySelector("#buscador").value;
+            cargarTabla(textoBuscar);
+          });
+          formulario = document.getElementById("formBuscador");
+          formulario.addEventListener("submit", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var textoBuscar = document.querySelector("#buscador").value;
 
-        case 6:
+            if (textoBuscar != "") {
+              document.getElementById('buscador').classList.remove('is-invalid');
+              cargarTabla(textoBuscar);
+              formulario.classList.add("was-validated");
+            } else {
+              document.getElementById('buscador').classList.add('is-invalid');
+            }
+          });
+          mostrarCookies();
+          mostrarLoader();
+          geolocalizacionPrieto();
+          setTimeout(function _callee() {
+            return regeneratorRuntime.async(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.next = 2;
+                    return regeneratorRuntime.awrap(cargarPjCasas());
+
+                  case 2:
+                    ocultarLoader();
+
+                  case 3:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            });
+          }, 2000);
+          btnAceptar = document.querySelector("#btnAceptarCookies");
+          btnRechazar = document.querySelector("#btnRechazarCookies");
+          botonesCookies = [btnAceptar, btnRechazar];
+          botonesCookies.forEach(function (boton) {
+            boton.addEventListener("click", function (event) {
+              cookiesAceptar(event.target.textContent);
+            });
+          });
+
+        case 16:
         case "end":
           return _context2.stop();
       }
     }
   });
+});
+
+function cargarDatos(url) {
+  var response;
+  return regeneratorRuntime.async(function cargarDatos$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.prev = 0;
+          _context3.next = 3;
+          return regeneratorRuntime.awrap(fetch(url));
+
+        case 3:
+          response = _context3.sent;
+
+          if (response.ok) {
+            _context3.next = 6;
+            break;
+          }
+
+          throw new Error("Error HTTP: ".concat(response.status));
+
+        case 6:
+          _context3.next = 8;
+          return regeneratorRuntime.awrap(response.json());
+
+        case 8:
+          return _context3.abrupt("return", _context3.sent);
+
+        case 11:
+          _context3.prev = 11;
+          _context3.t0 = _context3["catch"](0);
+          console.error('Error al obtener los datos:', _context3.t0);
+          return _context3.abrupt("return", []);
+
+        case 15:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, null, null, [[0, 11]]);
 }
 
 function cargarTabla(texto) {
@@ -108,86 +146,117 @@ function cargarTabla(texto) {
   var filtrado = datos.filter(function (personaje) {
     return personaje.name.toLowerCase().includes(texto);
   });
-  filtrado.forEach(function (personaje) {
-    fila = generarFila(personaje);
-    cuerpo.appendChild(fila);
-  });
+
+  if (filtrado.length > 0) {
+    filtrado.forEach(function (personaje) {
+      fila = generarFila(personaje);
+    });
+  } else {
+    fila = generarFila();
+  }
+
+  cuerpo.appendChild(fila);
 }
 
 function generarFila(datos) {
   var fila = document.createElement("tr");
-  var image = document.createElement("td");
-  image.innerHTML = "<img src=".concat(datos.image || "../img/logo.png", " alt=\"\" class=\"logo-header me-2\">");
-  image.className = "logo-header";
-  fila.appendChild(image);
-  var name = document.createElement("td");
-  name.textContent = datos.name;
-  fila.appendChild(name);
-  var house = document.createElement("td");
-  house.textContent = datos.house;
-  fila.appendChild(house);
-  var patronus = document.createElement("td");
-  patronus.textContent = datos.patronus;
-  fila.appendChild(patronus);
-  var species = document.createElement("td");
-  species.textContent = datos.species;
-  fila.appendChild(species);
-  var yearOfBirth = document.createElement("td");
-  yearOfBirth.textContent = datos.yearOfBirth;
-  fila.appendChild(yearOfBirth);
-  var favorito = document.createElement("td");
-  var boton = document.createElement("input");
-  boton.addEventListener("change", agregarFavorito);
-  boton.type = "checkbox";
-  boton.value = false;
-  favorito.appendChild(boton);
-  fila.appendChild(favorito);
+  ;
+
+  if (datos) {
+    var image = document.createElement("td");
+    image.innerHTML = "<img src=".concat(datos.image || "../img/logo.png", " alt=\"\" class=\"logo-header me-2\">");
+    image.className = "logo-header";
+    fila.appendChild(image);
+    var name = document.createElement("td");
+    name.textContent = datos.name;
+    fila.appendChild(name);
+    var house = document.createElement("td");
+    house.textContent = datos.house;
+    fila.appendChild(house);
+    var patronus = document.createElement("td");
+    patronus.textContent = datos.patronus;
+    fila.appendChild(patronus);
+    var species = document.createElement("td");
+    species.textContent = datos.species;
+    fila.appendChild(species);
+    var yearOfBirth = document.createElement("td");
+    yearOfBirth.textContent = datos.yearOfBirth;
+    fila.appendChild(yearOfBirth);
+    var favorito = document.createElement("td");
+    var boton = document.createElement("input");
+    boton.addEventListener("change", function (event) {
+      if (event.target.checked) {
+        agregarFavorito(event.target.id);
+      } else {
+        eliminarFavorito(event.target.id);
+      }
+    });
+    boton.id = datos.name;
+    boton.type = "checkbox";
+    var encontrado = false;
+    favoritos.forEach(function (personaje) {
+      if (personaje.name === datos.name) {
+        encontrado = true;
+      }
+    });
+    boton.checked = encontrado;
+    favorito.appendChild(boton);
+    fila.appendChild(favorito);
+  } else {
+    var columna = document.createElement("td");
+    columna.colSpan = "7";
+    columna.textContent = "No existen datos";
+    fila.appendChild(columna);
+  }
+
   return fila;
 }
 
 function generarCard(datos) {
-  var card = "\n        <div class=\"col\">\n            <div class=\"card\">\n                <img src=\"".concat(datos.image || '../img/logo.png', "\" class=\"card-img-top\" alt=\"...\">\n                <div class=\"card-body\">\n                    <h5 class=\"card-title\">").concat(datos.name, "</h5>\n                    <p class=\"card-text\">Casa: ").concat(datos.house, "</p>\n                    <p class=\"card-text\">Patronus: ").concat(datos.patronus, "</p>\n                    <p class=\"card-text\">Especie: ").concat(datos.species, "</p>\n                    <p class=\"card-text\">A\xF1o de nacimiento: ").concat(datos.yearOfBirth || 'Sin informacion', "</p>\n                </div>\n            </div>\n        </div>\n");
+  var card = "";
+
+  if (datos) {
+    card = "\n            <div class=\"col\">\n                <div class=\"card\">\n                    <img src=\"".concat(datos.image || '../img/logo.png', "\" class=\"card-img-top\" alt=\"...\">\n                    <div class=\"card-body\">\n                        <h5 class=\"card-title\">").concat(datos.name, "</h5>\n                        <p class=\"card-text\">Casa: ").concat(datos.house, "</p>\n                        <p class=\"card-text\">Patronus: ").concat(datos.patronus, "</p>\n                        <p class=\"card-text\">Especie: ").concat(datos.species, "</p>\n                        <p class=\"card-text\">A\xF1o de nacimiento: ").concat(datos.yearOfBirth || 'Sin informacion', "</p>\n                    </div>\n                </div>\n            </div>\n        ");
+  } else {
+    card = "\n        <div class=\"col\">\n            <div class=\"card\">\n                <img src=\"../img/logo.png\" class=\"card-img-top\" alt=\"...\">\n                    <div class=\"card-body\">\n                        <h5 class=\"card-title\">Sin Datos</h5>\n                        <p class=\"card-text\">No hay datos</p>\n                    </div>\n                </div>\n            </div>\n    ";
+  }
+
   return card;
 }
 
 function cargarPjCasas() {
   var personajesAleatorios, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step, contenedor;
 
-  return regeneratorRuntime.async(function cargarPjCasas$(_context4) {
+  return regeneratorRuntime.async(function cargarPjCasas$(_context5) {
     while (1) {
-      switch (_context4.prev = _context4.next) {
+      switch (_context5.prev = _context5.next) {
         case 0:
           personajesAleatorios = "";
           _iteratorNormalCompletion = true;
           _didIteratorError = false;
           _iteratorError = undefined;
-          _context4.prev = 4;
+          _context5.prev = 4;
 
           _loop = function _loop() {
-            var casa, response, data, aleatorios;
-            return regeneratorRuntime.async(function _loop$(_context3) {
+            var casa, data, aleatorios;
+            return regeneratorRuntime.async(function _loop$(_context4) {
               while (1) {
-                switch (_context3.prev = _context3.next) {
+                switch (_context4.prev = _context4.next) {
                   case 0:
                     casa = _step.value;
-                    _context3.next = 3;
-                    return regeneratorRuntime.awrap(fetch("https://hp-api.onrender.com/api/characters/house/".concat(casa)));
+                    _context4.next = 3;
+                    return regeneratorRuntime.awrap(cargarDatos("https://hp-api.onrender.com/api/characters/house/".concat(casa)));
 
                   case 3:
-                    response = _context3.sent;
-                    _context3.next = 6;
-                    return regeneratorRuntime.awrap(response.json());
-
-                  case 6:
-                    data = _context3.sent;
+                    data = _context4.sent;
                     aleatorios = generarAleatorio(0, data.length - 1);
                     aleatorios.forEach(function (personaje) {
                       personajesAleatorios += generarCard(data[personaje]);
                     });
 
-                  case 9:
+                  case 6:
                   case "end":
-                    return _context3.stop();
+                    return _context4.stop();
                 }
               }
             });
@@ -197,51 +266,51 @@ function cargarPjCasas() {
 
         case 7:
           if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-            _context4.next = 13;
+            _context5.next = 13;
             break;
           }
 
-          _context4.next = 10;
+          _context5.next = 10;
           return regeneratorRuntime.awrap(_loop());
 
         case 10:
           _iteratorNormalCompletion = true;
-          _context4.next = 7;
+          _context5.next = 7;
           break;
 
         case 13:
-          _context4.next = 19;
+          _context5.next = 19;
           break;
 
         case 15:
-          _context4.prev = 15;
-          _context4.t0 = _context4["catch"](4);
+          _context5.prev = 15;
+          _context5.t0 = _context5["catch"](4);
           _didIteratorError = true;
-          _iteratorError = _context4.t0;
+          _iteratorError = _context5.t0;
 
         case 19:
-          _context4.prev = 19;
-          _context4.prev = 20;
+          _context5.prev = 19;
+          _context5.prev = 20;
 
           if (!_iteratorNormalCompletion && _iterator["return"] != null) {
             _iterator["return"]();
           }
 
         case 22:
-          _context4.prev = 22;
+          _context5.prev = 22;
 
           if (!_didIteratorError) {
-            _context4.next = 25;
+            _context5.next = 25;
             break;
           }
 
           throw _iteratorError;
 
         case 25:
-          return _context4.finish(22);
+          return _context5.finish(22);
 
         case 26:
-          return _context4.finish(19);
+          return _context5.finish(19);
 
         case 27:
           contenedor = document.getElementById("contenedor");
@@ -249,7 +318,7 @@ function cargarPjCasas() {
 
         case 29:
         case "end":
-          return _context4.stop();
+          return _context5.stop();
       }
     }
   }, null, null, [[4, 15, 19, 27], [20,, 22, 26]]);
@@ -318,10 +387,60 @@ function geolocalizacionPrieto() {
   }
 }
 
-function agregarFavorito() {
-  //TODO
-  console.log("funciona");
+function agregarFavorito(name) {
+  console.log("Agregar Favorito");
+  var favorito = datos.find(function (personaje) {
+    return personaje.name === name;
+  });
+
+  if (favorito) {
+    favoritos.push(favorito);
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+    cargarFavoritos();
+  }
 }
 
-function eliminarFavorito() {//TODO
+function eliminarFavorito(name) {
+  console.log("Eliminar favorito");
+  var indice = favoritos.findIndex(function (personaje) {
+    return personaje.name === name;
+  });
+
+  if (indice !== -1) {
+    favoritos.splice(indice, 1);
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+    cargarFavoritos();
+  }
+}
+
+function cargarFavoritos() {
+  var favoritosList = document.getElementById("favoritosGroup");
+  favoritosList.innerHTML = "";
+  favoritos = JSON.parse(localStorage.getItem("favoritos")) || []; // let favoritosTexto = "";
+
+  favoritos.forEach(function (personaje) {
+    //favoritosTexto += generarCard(personaje);
+    favoritosList.appendChild(generarEnlaceFavorito(personaje));
+  }); //let favoritosContenedor = document.getElementById("favoritos");
+  //favoritosContenedor.innerHTML = favoritosTexto;
+  // console.log("Cargado favoritos");
+  // console.log(favoritos);
+}
+
+function generarEnlaceFavorito(datos) {
+  var enlace = document.createElement("a");
+  enlace.className = "list-group-item list-group-item-action flex-column align-items-start";
+  var div = document.createElement("div");
+  div.className = "d-flex w-100 justify-content-between";
+  var nombre = document.createElement("h5");
+  nombre.textContent = datos.name;
+  div.appendChild(nombre);
+  var casa = document.createElement("small");
+  casa.textContent = datos.house;
+  div.appendChild(casa);
+  enlace.appendChild(div);
+  var descripcion = document.createElement("p");
+  descripcion.textContent = "Casa: ".concat(datos.house || "Sin informacion", ", Patronus: ").concat(datos.patronus || "Sin informacion", ", Especie: ").concat(datos.species || "Sin informacion", ", A\xF1o de nacimiento: ").concat(datos.yearOfBirth || "Sin informacion");
+  enlace.appendChild(descripcion);
+  return enlace;
 }

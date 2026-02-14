@@ -30,10 +30,11 @@
     <main class="container-fluid flex-grow-1">
       <div class="container-fluid w-50" id="buscadorDiv">
         <h3 class="center">Buscador</h3>
-        <form action="/" method="get" id="formBuscador" name="formBuscador">
+        <form class="needs-validation" action="/" method="get" id="formBuscador" name="formBuscador" required="required">
           <div class="row">
             <div class="col-8">
               <input class="form-control" type="search" id="buscador" name="buscador" placeholder="Busca por personaje"/>
+              <div class="invalid-feedback">Por favor no deje el campo vacio.</div>
             </div>
             <div class="col-4">
               <input type="submit" value="Buscar"/>
@@ -51,13 +52,14 @@
       <div class="container-fluid w-100">
         <h3 class="center">Bienvenida</h3>
         <div class="loader" id="loader"><img src="../img/spinner_2.gif" alt="Cargando..." width="500"/></div>
-        <div class="container-fluid w-75" id="bienvenida"><div class="row row-cols-1 row-cols-md-2 g-4" id="contenedor">
-          <div class="row row-cols-1 row-cols-md-2 g-4" id="contenedor"></div></div>
+        <div class="container-fluid w-75" id="bienvenida">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="contenedor"></div></div>
         </div>
       </div>
       <hr/>
-      <div class="container-fluid w-75" id="favoritos">
-        <h3 class="center">Favoritos</h3>
+      <div class="container-fluid w-75">
+        <h3 class="center">Favoritos group</h3>
+        <div class="list-group" id="favoritosGroup"></div>
       </div>
       <hr/>
       <div class="container-fluid w-75">
